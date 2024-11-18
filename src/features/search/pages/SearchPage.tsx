@@ -26,14 +26,14 @@ const SearchPage = () => {
         <IconSearch className="size-12 fill-[#82a849]"/>
       </h1>
       <SearchBar />
-      <main className="mt-10 flex flex-row gap-5">
+      <main className="mt-20 flex flex-row gap-5">
         <div className="w-full">
           <SearchResultsSummary />
           {/* Results */}
         </div>
-        <aside className="flex flex-col gap-4 w-[400px]">
-          <GoToSearchEngine />
+        <aside className="flex flex-col gap-4 w-[340px]">
           <SidebarWikipedia />
+          <GoToSearchEngine />
         </aside>
       </main>
     </div>
