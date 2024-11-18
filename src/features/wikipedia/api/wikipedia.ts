@@ -1,3 +1,4 @@
+import { MANY_RESULTS_API_RESPONSE } from "@/features/wikipedia/api/constants";
 
 export type WikipediaResult = {
   title: string;
@@ -13,6 +14,9 @@ const fetchFromWikipedia = async (
   lang = "en",
   { isFirst = true } = {}
 ): Promise<null | WikipediaResult> => {
+  let responseToReturn = null;
+  let hasMany = false;
+
   try {
     // https://www.mediawiki.org/wiki/API:Page_info_in_search_results
     const response = await fetch(
@@ -31,19 +35,24 @@ const fetchFromWikipedia = async (
 
     if (hasResult) {
       const thumbnail = result?.thumbnail?.source;
-      const description = result?.terms?.description[0] || "";
+      const description = result?.terms?.description?.[0] || result?.terms?.alias?.[0] || "";
 
-      if (thumbnail || description) {
-        return {
-          title: result.title,
-          thumbnail: result?.thumbnail?.source, // .width nd .height are available
-          thumbnailStyle: {
-            aspectRatio: `${result?.thumbnail?.width || 1}/${
-              result?.thumbnail?.height || 1
-            }`,
-          },
-          description,
-        };
+  
+      hasMany = MANY_RESULTS_API_RESPONSE[lang].includes(description);
+
+      responseToReturn = {
+        title: result.title,
+        thumbnail,
+        thumbnailStyle: {
+          aspectRatio: `${result?.thumbnail?.width || 1}/${
+            result?.thumbnail?.height || 1
+          }`,
+        },
+        description,
+      };
+
+      if (!hasMany || !isFirst) {
+        return responseToReturn;
       }
     }
   } catch {}
@@ -61,18 +70,27 @@ const fetchFromWikipedia = async (
       );
       const rawData = await response.json();
 
-      const matchedPhrase =
+      let matchedPhrase =
         rawData.length > 1 && rawData[1].length > 0 ? rawData[1][0] : "";
 
-      if (matchedPhrase) {
-        const response = await getWikipediaResult(matchedPhrase, lang, { isFirst: false });
+      const shouldCheckAlternativePhrase = hasMany && matchedPhrase.toLowerCase() === searchPhrase.toLowerCase();
+      if (shouldCheckAlternativePhrase) {
+        if (rawData[1][1]?.trim()) {
+          matchedPhrase = rawData[1][1]?.trim();
+        }
+      }
 
-        return response;
+      if (matchedPhrase) {
+        const response = await fetchFromWikipedia(matchedPhrase, lang, { isFirst: false });
+
+        if (response) {
+          return response;
+        }
       }
     } catch {}
   }
 
-  return null;
+  return responseToReturn;
 };
 
 const cachedResults: {
@@ -84,9 +102,12 @@ const missingResults: string[] = [];
 export const getWikipediaResult = async (
   searchPhrase: string,
   lang = "en",
-  { isFirst = true } = {}
 ): Promise<null | WikipediaResult> => {
   if (!searchPhrase) {
+    return null;
+  }
+
+  if (searchPhrase.includes('site:')) {
     return null;
   }
 
@@ -98,7 +119,7 @@ export const getWikipediaResult = async (
     return null;
   }
 
-  const response = await fetchFromWikipedia(searchPhrase, lang, { isFirst });
+  const response = await fetchFromWikipedia(searchPhrase, lang, { isFirst: true });
 
   if (response) {
     cachedResults[searchPhrase] = response;

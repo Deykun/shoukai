@@ -1,56 +1,73 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
+import IconLoader from "@/components/Icons/IconLoader";
 import IconWikipedia from "@/components/Icons/IconWikipedia";
 
+import Image from "@/components/Image/Image";
+
 import useSearchStore from "@/features/search/stores/searchStore";
+import { MANY_RESULTS_API_RESPONSE } from "@/features/wikipedia/api/constants";
 import { getWikipediaResult } from "@/features/wikipedia/api/wikipedia";
 
-
-const MANY_RESULTS_API_RESPONSE: {
-  [lang: string]: string[];
-} = {
-  en: ["Wikimedia disambiguation page"],
-  pl: [
-    "strona ujednoznaczniająca w projekcie Wikimedia",
-    "strona ujednoznaczniająca",
-    "strona ujednoznaczniająca Wikipedii",
-  ],
-};
+import { useMemo } from "react";
 
 const SidebarWikipedia = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
   const { t, i18n } = useTranslation();
+
+  const wikipediSearchPhrase = useMemo(() => {
+    const normalizedPhrase = searchPhrase.split("site:")[0].trim();
+
+    if (normalizedPhrase.length < 4) {
+      return "";
+    }
+
+    return normalizedPhrase;
+  }, [searchPhrase]);
 
   const {
     isLoading,
     // error,
     data,
   } = useQuery({
-    queryFn: () => getWikipediaResult(searchPhrase, i18n.language),
-    queryKey: [searchPhrase, i18n.language],
+    queryFn: () => getWikipediaResult(wikipediSearchPhrase, i18n.language),
+    queryKey: [wikipediSearchPhrase, i18n.language],
   });
 
-  if (!searchPhrase) {
+  if (!wikipediSearchPhrase) {
     return null;
   }
 
   const wikipediaUrl = `https://${i18n.language}.wikipedia.org/wiki/${encodeURI(
-    searchPhrase
+    data?.title || wikipediSearchPhrase
   )}`;
 
   return (
     <section className="bg-[#f5f9ef] p-4 rounded-md flex flex-col gap-2">
-      <h3 className="text-[20px] mb-3">
+      <footer className="flex flex-row items-center">
         <a
           href={wikipediaUrl}
-          className="flex gap-2 items-center"
+          className="inline-flex gap-1 items-center text-sm font-[500] tracking-wide text-[#476814]"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {!isLoading && !data && <span className="text-[10px]">?</span>}
+          <IconWikipedia className="inline-bock size-6" />
+          <span>Wikipedia</span>
+        </a>
+        
+        {isLoading && <IconLoader className="size-3 ml-auto fill-[#476814]" />}
+      </footer>
+      <h3 className="text-[18px] font-[600]">
+        <a
+          href={wikipediaUrl}
+          className="flex gap-2 items-center hover:text-[#476814] duration-300 leading-6"
           title="Wikipedia"
           target="_blank"
           rel="noreferrer noopener"
         >
-          <IconWikipedia className="size-8 p-1 bg-white rounded-[4px]" />
-          <span>{data?.title || searchPhrase}</span>
+          {data?.title || wikipediSearchPhrase}
         </a>
       </h3>
       {data?.description && (
@@ -60,19 +77,8 @@ const SidebarWikipedia = () => {
             : data?.description}
         </p>
       )}
-      <footer className="text-right">
-        {!isLoading && !data && "?"}{" "}
-        <a
-          href={wikipediaUrl}
-          className="text-sm underline tracking-wide"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          Wikipedia
-        </a>
-      </footer>
       {data?.thumbnail && (
-        <img
+        <Image
           src={data?.thumbnail}
           style={data?.thumbnailStyle}
           className="rounded-md w-full bg-[#d1d7cd]"

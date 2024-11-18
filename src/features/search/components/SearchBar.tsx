@@ -54,11 +54,11 @@ const SearchBar = () => {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value || '')}
         className={clsx(
-          'block w-full  rounded-[20px] py-4 px-6 shadow-md',
+          'block w-full  rounded-[24px] py-4 px-6 shadow-md',
           'border-[#f5f9ef] border',
           'caret-[#82a849] max-w-[400px] mx-auto tracking-wide font-[500] text-[18px]',
           'outline-none hover:bordedr-[#f5f9ef] hover:shadow-lg',
-          'duration-300',
+          'duration-500',
         )}
         placeholder={t('search.inputPlaceholder')}
       />
