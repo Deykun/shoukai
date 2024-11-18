@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import useEffectChange from '@/hooks/useEffectChange';
 
 import useSearchStore, { setSearchPhrase } from '@/features/search/stores/searchStore';
-import { getSearchParamsFromData }from '@/features/search/utils/url';
+import { getSearchParamsFromData } from '@/features/search/utils/url';
 
 
 const SearchBar = () => {
@@ -53,7 +53,13 @@ const SearchBar = () => {
       <input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value || '')}
-        className={clsx('block w-full caret-marker rounded-full py-4 px-6 shadow-md max-w-[400px] mx-auto tracking-wide border-primary-contrast')}
+        className={clsx(
+          'block w-full  rounded-[20px] py-4 px-6 shadow-md',
+          'border-[#f5f9ef] border',
+          'caret-[#82a849] max-w-[400px] mx-auto tracking-wide font-[500] text-[18px]',
+          'outline-none hover:bordedr-[#f5f9ef] hover:shadow-lg',
+          'duration-300',
+        )}
         placeholder={t('search.inputPlaceholder')}
       />
     </section>

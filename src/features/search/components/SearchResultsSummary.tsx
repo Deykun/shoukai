@@ -15,7 +15,7 @@ const SearchResultsSummary = () => {
 
   return (
     <p className="text-sm">
-      “<span className="tracking-wide font-[500]">{searchPhrase}</span>” - {t('search.resultsFound', { postProcess: 'interval', count: searchPhrase.length })}
+      “ <span className="tracking-wide font-[600] text-black">{searchPhrase}</span> ” - {t('search.resultsFound', { postProcess: 'interval', count: searchPhrase.length })}
     </p>
   )
 }
