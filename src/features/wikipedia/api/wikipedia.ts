@@ -15,7 +15,7 @@ const fetchFromWikipedia = async (
   { isFirst = true } = {}
 ): Promise<null | WikipediaResult> => {
   let responseToReturn = null;
-  let hasMany = false;
+  let shouldCheckAlternative = false;
 
   try {
     // https://www.mediawiki.org/wiki/API:Page_info_in_search_results
@@ -37,8 +37,10 @@ const fetchFromWikipedia = async (
       const thumbnail = result?.thumbnail?.source;
       const description = result?.terms?.description?.[0] || result?.terms?.alias?.[0] || "";
 
-  
-      hasMany = MANY_RESULTS_API_RESPONSE[lang].includes(description);
+      const hasMany = MANY_RESULTS_API_RESPONSE[lang].includes(description);
+      const hasContent = thumbnail || (description && description !== searchPhrase)
+
+      shouldCheckAlternative = hasMany || !hasContent;
 
       responseToReturn = {
         title: result.title,
@@ -51,7 +53,7 @@ const fetchFromWikipedia = async (
         description,
       };
 
-      if (!hasMany || !isFirst) {
+      if (!shouldCheckAlternative || !isFirst) {
         return responseToReturn;
       }
     }
@@ -73,14 +75,14 @@ const fetchFromWikipedia = async (
       let matchedPhrase =
         rawData.length > 1 && rawData[1].length > 0 ? rawData[1][0] : "";
 
-      const shouldCheckAlternativePhrase = hasMany && matchedPhrase.toLowerCase() === searchPhrase.toLowerCase();
+      const shouldCheckAlternativePhrase = shouldCheckAlternative && matchedPhrase.toLowerCase() === searchPhrase.toLowerCase();
       if (shouldCheckAlternativePhrase) {
         if (rawData[1][1]?.trim()) {
           matchedPhrase = rawData[1][1]?.trim();
         }
       }
 
-      if (matchedPhrase) {
+      if (matchedPhrase !== searchPhrase) {
         const response = await fetchFromWikipedia(matchedPhrase, lang, { isFirst: false });
 
         if (response) {
@@ -111,20 +113,22 @@ export const getWikipediaResult = async (
     return null;
   }
 
-  if (cachedResults[searchPhrase]) {
-    return cachedResults[searchPhrase];
+  const cacheKey = `${lang} ${searchPhrase}`;
+
+  if (cachedResults[cacheKey]) {
+    return cachedResults[cacheKey];
   }
 
-  if (missingResults.includes(searchPhrase)) {
+  if (missingResults.includes(cacheKey)) {
     return null;
   }
 
   const response = await fetchFromWikipedia(searchPhrase, lang, { isFirst: true });
 
   if (response) {
-    cachedResults[searchPhrase] = response;
+    cachedResults[cacheKey] = response;
   } else {
-    missingResults.push(searchPhrase);
+    missingResults.push(cacheKey);
   }
 
   return response;

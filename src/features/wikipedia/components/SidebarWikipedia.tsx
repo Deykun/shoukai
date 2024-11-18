@@ -56,7 +56,7 @@ const SidebarWikipedia = () => {
           <IconWikipedia className="inline-bock size-6" />
           <span>Wikipedia</span>
         </a>
-        
+
         {isLoading && <IconLoader className="size-3 ml-auto fill-[#476814]" />}
       </footer>
       <h3 className="text-[18px] font-[600]">
@@ -71,18 +71,26 @@ const SidebarWikipedia = () => {
         </a>
       </h3>
       {data?.description && (
-        <p className="text-sm">
+        <p className="text-sm line-clamp-6">
           {MANY_RESULTS_API_RESPONSE[i18n.language].includes(data?.description)
             ? t("wikipedia.manyResults")
             : data?.description}
         </p>
       )}
       {data?.thumbnail && (
-        <Image
-          src={data?.thumbnail}
-          style={data?.thumbnailStyle}
-          className="rounded-md w-full bg-[#d1d7cd]"
-        />
+        <a
+          href={wikipediaUrl}
+          className="block"
+          title="Wikipedia"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <Image
+            src={data?.thumbnail}
+            style={data?.thumbnailStyle}
+            className="rounded-md w-full bg-[#d1d7cd] contrast-100 saturate-100 hover:contrast-[1.1] hover:saturate-[1.1] duration-300"
+          />
+        </a>
       )}
     </section>
   );
