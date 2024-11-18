@@ -5,6 +5,7 @@ import { LOCAL_STORAGE } from '@/constants';
 import { SUPPORTED_LANGS } from '@/i18n';
 
 import IconFlag from '@/components/Icons/IconFlag';
+import IconGithub from '@/components/Icons/IconGithub';
 
 import Panel from '@/components/UI/Panel';
 import ButtonIcon from '@/components/UI/ButtonIcon';
@@ -35,6 +36,16 @@ const PreferencesSidebar = () => {
           <IconFlag className="navigation-pane-flag" code={lang} />
           {/* {i18n.language === lang && <span className="ui-button-icon-marker ui-button-icon-marker--on-soft"><IconCheck className="h-[10px]" /></span>} */}
         </ButtonIcon>)}
+        <span className="border-t" />
+        <ButtonIcon
+          className="hover:!bg-black"
+          href="https://github.com/Deykun/spes"
+          target="_blank"
+          label="Page repository"
+          labelPosition="left"
+        >
+          <IconGithub />
+        </ButtonIcon>
       </Panel>
     </section>
   )
