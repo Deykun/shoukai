@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import useEffectChange from '@/hooks/useEffectChange';
 
 import useSearchStore, { setSearchPhrase } from '@/features/search/stores/searchStore';
+import { getSearchParamsFromData }from '@/features/search/utils/url';
+
 
 const SearchBar = () => {
   const searchPhrase = useSearchStore(state => state.searchPhrase);
@@ -22,6 +24,12 @@ const SearchBar = () => {
     if (searchPhrase !== inputValue) {
       updateFilterTimeoutRef.current = setTimeout(() => {
         setSearchPhrase(inputValue);
+
+        const searchParams = getSearchParamsFromData({
+          searchPhrase: inputValue,
+        })
+
+        window.history.replaceState(undefined, '', `${location.pathname}${searchParams}`);
 
         if (updateFilterTimeoutRef.current) {
           clearTimeout(updateFilterTimeoutRef.current);
