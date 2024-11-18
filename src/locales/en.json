@@ -1,0 +1,9 @@
+{
+  "main.currentLanguage": "English",
+  "search.inputPlaceholder": "Search...",
+  "search.resultsFound_zero": "{{count}} result found",
+  "search.resultsFound_one": "{{count}} result found",
+  "search.resultsFound_few": "{{count}} results found",
+  "search.resultsFound_many": "{{count}} results found",
+  "search.resultsFound_other": "{{count}} results found"
+}
