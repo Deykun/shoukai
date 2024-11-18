@@ -1,5 +1,6 @@
 .ui-panel {
-  @apply bg-ui text-ui-contrast p-2 flex flex-col gap-1;
+  // @apply bg-ui text-ui-contrast p-2 flex flex-col gap-1;
+  @apply p-2 flex flex-col gap-1;
 
   &.ui-panel--rounded-l {
     @apply rounded-l-[12px];
@@ -27,7 +28,7 @@
 .ui-panel > .border-l,
 .border-l--panel {
   border-style: dashed;
-  border-color: #7b6767;
+  border-color: #cadec0;
 }
 
 .ui-panel > .border-t,

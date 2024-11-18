@@ -1,5 +1,6 @@
 .image {
   opacity: 0.1;
+  object-fit: cover;
   animation: imageBlink 1s linear infinite;
 
   &.image--is-loaded {
