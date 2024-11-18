@@ -86,7 +86,7 @@ const SidebarWikipedia = () => {
   return (
     <section className="bg-[#f5f9ef] p-4 rounded-md flex flex-col gap-2">
       <h3 className="text-[20px]">
-        <a href={wikipediaUrl} className="flex gap-2 items-center" title="Wikipedia">
+        <a href={wikipediaUrl} className="flex gap-2 items-center" title="Wikipedia" target="_blank" rel="noreferrer noopener">
           <IconWikipedia className="size-5" />
           <span>
             {data?.title || searchPhrase}
@@ -97,7 +97,7 @@ const SidebarWikipedia = () => {
         {data?.description}
       </p>}
       <footer className="text-right">
-        <a href={wikipediaUrl} className="text-sm underline tracking-wide">Wikipedia</a>
+        <a href={wikipediaUrl} className="text-sm underline tracking-wide" target="_blank" rel="noreferrer noopener">Wikipedia</a>
       </footer>
       {data?.thumbnail && <img src={data?.thumbnail} style={data?.thumbnailStyle} className="rounded-md w-full bg-primary" />}
     </section>

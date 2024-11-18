@@ -3,6 +3,8 @@ import { devtools } from 'zustand/middleware'
 
 import { SearchResult } from '@/types';
 
+import { getInitDataFromSearchParams } from '@/features/search/utils/url';
+
 
 type SearchStoreState = {
   searchPhrase: string,
@@ -12,7 +14,7 @@ type SearchStoreState = {
 export const useSearchStore = create<SearchStoreState>()(
   devtools(
     () => ({
-      searchPhrase: '',
+      searchPhrase: getInitDataFromSearchParams().searchPhrase,
       results: [],
     } as SearchStoreState),
     { name: 'searchStore' },
