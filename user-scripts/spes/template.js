@@ -62,8 +62,21 @@ const initSpes = async () => {
     /* import @/icons.js */
     /* import @/interface.js */
 
+    /* import @/parse.js */
 
-    // parse();
+    const parse = () => {
+      if (location.href.includes('google.com')) {
+        /* import @/parse-google.js */
+        parseGoogle();
+      }
+
+      if (location.href.includes('yandex.com')) {
+        /* import @/parse-yandex.js */
+        parseYandex();
+      }
+    };
+
+    parse();
 
     /* import @/render-app-copy.js */
     /* import @/render-app.js */

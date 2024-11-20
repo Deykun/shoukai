@@ -42,3 +42,10 @@ export const getSafeText = (text) => {
 
   return text.replace(/\n|\r/g, ' ').replaceAll(`'`, `"`).replaceAll(`'`, '"').replace(/\s\s+/g, ' ');
 }
+
+export const addClass = (el, className) => el.classList.add(className);
+export const removeClass = (el, className) => el.classList.remove(className);
+
+const truncateString = (text, maxLength) => {
+  return typeof text === 'string' && text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};

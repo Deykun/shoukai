@@ -58,3 +58,16 @@ const nestedSelectors = (selectors, subcontents) => {
     }`;
   }).join(' ');
 };
+
+const addPositionRelativeIfNeeded = (el) => {
+  if (!el) {
+      return;
+  }
+
+  const styles = getComputedStyle(el);
+
+  const shouldAddRelative = !styles.position || styles.position === 'static';
+  if (shouldAddRelative) {
+      el.style.position = 'relative';
+  }
+};
