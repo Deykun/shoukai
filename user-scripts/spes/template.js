@@ -7,7 +7,13 @@
 // @include         *://*duckduckgo.com*
 // @include         *://*yandex.com*
 // @include         *://localhost:3001/spes*
-// @grant           none
+// @include         *://deykun.github.io/spes*
+// @grant           GM_setValue
+// @grant           GM_getValue
+// @grant           unsafeWindow
+// @grant           window.close
+// @grant           window.focus
+// @grant           window.onurlchange
 // @run-at          document-start
 // ==/UserScript==
 
@@ -46,6 +52,13 @@ const domReady = (fn) => {
 };
 
 const initSpes = async () => {
+  const searchParams = new URL(location.href).searchParams;
+  const searchKey = searchParams.get('spesKey');
+
+  if (!searchKey) {
+    return;
+  }
+
   // TODO: check if needed
   // if (window.WikiParser.cache.inited) {
   //   return;
@@ -80,6 +93,11 @@ const initSpes = async () => {
 
     /* import @/render-app-copy.js */
     /* import @/render-app.js */
+    
+    if (location.href.includes('localhost') || location.href.includes('deykun.github.io')) {
+      /* import @/render-search.js */
+      renderSearch();
+    }
 
     renderApp();
 

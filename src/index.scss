@@ -6,6 +6,8 @@
 @tailwind utilities;
 
 body {
+  @apply tracking-wide;
+
   background-color: white;
   color: #424242;
   font-family: "Manrope", sans-serif;

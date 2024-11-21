@@ -1,3 +1,3 @@
-export const replaceTagWithFile =({ tag, path, name }) => {
+export const replaceTagWithFile = ({ tag, path, name }) => {
   
 }

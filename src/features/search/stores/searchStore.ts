@@ -35,4 +35,12 @@ export const setResults = (results: SearchResult[]) => {
   }));
 }
 
+declare global {
+  interface Window {
+    setResults: (results: SearchResult[]) => void,
+  }
+}
+
+window.setResults = setResults;
+
 export default useSearchStore;

@@ -32,7 +32,16 @@ const parseGoogle = () => {
     resultsParsed.forEach(({ el, url, title, description }, index) => {
       addIndexedMarker(el, { index, url, title, description });
     });
-  
-    console.log(resultsParsed);
+
+    if (searchKey && resultsParsed.length > 0) {
+      const results = resultsParsed.map(({ url, title, description }) => ({ url, title, description }));
+
+      const googleResultsByKey = GM_getValue('googleResultsByPhrase') || {};
+
+      GM_setValue('googleResultsByPhrase', { 
+        ...googleResultsByKey,
+        [searchKey]: results,
+      });
+    }
   }
 }

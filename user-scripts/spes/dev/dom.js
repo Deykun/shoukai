@@ -59,7 +59,7 @@ const nestedSelectors = (selectors, subcontents) => {
   }).join(' ');
 };
 
-const addPositionRelativeIfNeeded = (el) => {
+export const addPositionRelativeIfNeeded = (el) => {
   if (!el) {
       return;
   }

@@ -7,7 +7,13 @@
 // @include         *://*duckduckgo.com*
 // @include         *://*yandex.com*
 // @include         *://localhost:3001/spes*
-// @grant           none
+// @include         *://deykun.github.io/spes*
+// @grant           GM_setValue
+// @grant           GM_getValue
+// @grant           unsafeWindow
+// @grant           window.close
+// @grant           window.focus
+// @grant           window.onurlchange
 // @run-at          document-start
 // @updateURL       http://localhost:1234/server.user-script.js
 // @downloadURL     http://localhost:1234/server.user-script.js

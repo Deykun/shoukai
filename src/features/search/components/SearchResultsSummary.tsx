@@ -6,8 +6,7 @@ const SearchResultsSummary = () => {
   const { t } = useTranslation();
 
   const searchPhrase = useSearchStore(state => state.searchPhrase);
-  // TODO: use for count
-  const results = useSearchStore(state => state.searchPhrase);
+  const results = useSearchStore(state => state.results);
 
   if (!searchPhrase) {
     return null;
@@ -15,7 +14,7 @@ const SearchResultsSummary = () => {
 
   return (
     <p className="text-sm">
-      “ <span className="tracking-wide font-[600] text-black">{searchPhrase}</span> ” - {t('search.resultsFound', { postProcess: 'interval', count: searchPhrase.length })}
+      “ <span className="tracking-wider font-[600] text-black">{searchPhrase}</span> ” - {t('search.resultsFound', { postProcess: 'interval', count: results.length })}
     </p>
   )
 }
