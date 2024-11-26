@@ -36,12 +36,14 @@ const parseGoogle = () => {
     if (searchKey && resultsParsed.length > 0) {
       const results = resultsParsed.map(({ url, title, description }) => ({ url, title, description }));
 
-      const googleResultsByKey = GM_getValue('googleResultsByPhrase') || {};
+      const googleResultsByKey = GM_getValue('resultsByKey') || {};
 
-      GM_setValue('googleResultsByPhrase', { 
+      GM_setValue('resultsByKey', { 
         ...googleResultsByKey,
         [searchKey]: results,
       });
+
+      window.location.href = `http://localhost:3001/shoukai/reindex?searchKey=${searchKey}`;
     }
   }
 }

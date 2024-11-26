@@ -41,6 +41,7 @@ declare global {
   }
 }
 
+// TODO: Remove
 window.setResults = setResults;
 
 export default useSearchStore;

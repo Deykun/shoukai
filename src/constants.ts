@@ -9,5 +9,6 @@ export const PATHS_DATA: {
 ] as const;
 
 export const LOCAL_STORAGE = {
-  'SPES_USER_LANG': 'SPES_USER_LANG',
+  'SHOUKAI_UPDATE': 'SHOUKAI_UPDATE',
+  'SHOUKAI_USER_LANG': 'SHOUKAI_USER_LANG',
 } as const;

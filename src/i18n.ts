@@ -14,7 +14,7 @@ if (SUPPORTED_LANGS.includes(document?.documentElement?.lang)) {
   defaultLanguage = document?.documentElement?.lang;
 }
 
-const langFromLocalStorage = localStorage.getItem(LOCAL_STORAGE.SPES_USER_LANG) || '';
+const langFromLocalStorage = localStorage.getItem(LOCAL_STORAGE.SHOUKAI_USER_LANG) || '';
 
 if (SUPPORTED_LANGS.includes(langFromLocalStorage)) {
   defaultLanguage = langFromLocalStorage;

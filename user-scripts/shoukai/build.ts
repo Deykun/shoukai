@@ -5,14 +5,14 @@ console.log()
 console.log(chalk.green("Building..."));
 console.log()
 
-let template = fs.readFileSync(`./user-scripts/spes/template.js`, 'utf-8')
-const partPaths = fs.readdirSync('./user-scripts/spes/dev');
+let template = fs.readFileSync(`./user-scripts/shoukai/template.js`, 'utf-8')
+const partPaths = fs.readdirSync('./user-scripts/shoukai/dev');
 
 partPaths.forEach((path) => {
   const partImportInTemplate = `/* import @/${path} */`
       
   if (template.includes(partImportInTemplate)) {
-    let content = fs.readFileSync(`./user-scripts/spes/dev/${path}`, 'utf8');
+    let content = fs.readFileSync(`./user-scripts/shoukai/dev/${path}`, 'utf8');
 
     // Export are removed from user-script
     content = content.replace(/export const/g, 'const');
@@ -37,4 +37,4 @@ console.log()
 console.log(chalk.green("Saving..."));
 console.log()
 
-fs.writeFileSync('./dist-us/spes.user.js', template);
+fs.writeFileSync('./dist-us/shoukai.user.js', template);

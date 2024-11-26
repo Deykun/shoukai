@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name            Spes - personalized search
+// @name            Shoukai - personalized search
 // @namespace       deykun
 // @author          deykun
 // @version         SCRIPT_VERSION
 // @include         *://*google.com*
 // @include         *://*duckduckgo.com*
 // @include         *://*yandex.com*
-// @include         *://localhost:3001/spes*
-// @include         *://deykun.github.io/spes*
+// @include         *://localhost:3001/shoukai*
+// @include         *://deykun.github.io/shoukai*
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @grant           unsafeWindow
@@ -27,9 +27,9 @@ const userScriptLogger = (params) => {
 
     if (isCritical) {
       // eslint-disable-next-line no-console
-      console.error('A Spes error (from Tampermonkey) has occurred.');
+      console.error('A Shoukai error (from Tampermonkey) has occurred.');
       // eslint-disable-next-line no-console
-      console.error(`Spes error: ${message}`);
+      console.error(`Shoukai error: ${message}`);
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -51,11 +51,15 @@ const domReady = (fn) => {
   document.addEventListener('DOMContentLoaded', fn);
 };
 
-const initSpes = async () => {
+const initShoukai = async () => {
   const searchParams = new URL(location.href).searchParams;
-  const searchKey = searchParams.get('spesKey');
+  const searchKey = searchParams.get('shoukaiKey');
 
   if (!searchKey) {
+    if (location.href.includes('localhost') || location.href.includes('deykun.github.io')) {
+      /* import @/render-search.js */
+    }
+
     return;
   }
 
@@ -93,11 +97,6 @@ const initSpes = async () => {
 
     /* import @/render-app-copy.js */
     /* import @/render-app.js */
-    
-    if (location.href.includes('localhost') || location.href.includes('deykun.github.io')) {
-      /* import @/render-search.js */
-      renderSearch();
-    }
 
     renderApp();
 
@@ -120,11 +119,11 @@ const initSpes = async () => {
     observer.observe(document.body, config);
   } catch (error) {
     userScriptLogger({
-      isError: true, isCritical: true, message: 'initSpes() failed', error,
+      isError: true, isCritical: true, message: 'initShoukai() failed', error,
     });
 
     throw error;
   }
 };
 
-domReady(initSpes);
+domReady(initShoukai);

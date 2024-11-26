@@ -6,5 +6,6 @@
   "search.resultsFound_few": "{{count}} results found",
   "search.resultsFound_many": "{{count}} results found",
   "search.resultsFound_other": "{{count}} results found",
+  "search.updatingResults": "Updating results...",
   "wikipedia.manyResults": "There are many results for the given phrase."
 }

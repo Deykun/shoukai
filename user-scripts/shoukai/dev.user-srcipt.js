@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name            Dev - Spes
+// @name            Dev - Shoukai
 // @namespace       deykun
 // @author          deykun
 // @version         2.0
 // @include         *://*google.com*
 // @include         *://*duckduckgo.com*
 // @include         *://*yandex.com*
-// @include         *://localhost:3001/spes*
-// @include         *://deykun.github.io/spes*
+// @include         *://localhost:3001/shoukai*
+// @include         *://deykun.github.io/shoukai*
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @grant           unsafeWindow

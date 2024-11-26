@@ -12,7 +12,7 @@ console.log(' - http://localhost:1234/server.user-script.js');
 console.log('');
 
 userScriptApp.get('/server.user-script.js', (req, res) => {
-    const devScript = fs.readFileSync('user-scripts/spes/dev.user-srcipt.js', 'utf-8');
+    const devScript = fs.readFileSync('user-scripts/shoukai/dev.user-srcipt.js', 'utf-8');
 
     const version = `2.${Math.floor((new Date()).getTime() / 1000)}`;
 
@@ -26,7 +26,7 @@ userScriptApp.get('/dev.user-script.js', (req, res) => {
     console.log(chalk.green('Real script code has been served!'));
     console.log('');
 
-    const devScript = fs.readFileSync('dist-us/spes.user.js', 'utf-8')
+    const devScript = fs.readFileSync('dist-us/shoukai.user.js', 'utf-8')
 
     res.send(devScript);
 });

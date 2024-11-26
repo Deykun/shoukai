@@ -9,15 +9,15 @@ appendCSS(`
 `, { sourceName: 'parse' });
 
 appendCSS(`
-  .spes-index-marker,
-  .spes-index-marker-tooltip {
+  .shoukai-index-marker,
+  .shoukai-index-marker-tooltip {
     padding: 4px 8px;
     background-color: #f5f9ef;
     color: #476814;
     border-radius: 4px;
   }
 
-  .spes-index-marker {
+  .shoukai-index-marker {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -36,7 +36,7 @@ appendCSS(`
     }
   }
 
-  .spes-index-marker-tooltip {
+  .shoukai-index-marker-tooltip {
     width: 300px;
     position: absolute;
     left: 0;
@@ -61,24 +61,24 @@ appendCSS(`
     }
   }
 
-  .spes-index-marker:hover {
+  .shoukai-index-marker:hover {
     z-index: 50;
   }
 
-  .spes-index-marker:hover .spes-index-marker-tooltip {
+  .shoukai-index-marker:hover .shoukai-index-marker-tooltip {
     opacity: 1;
   }
 `, { sourceName: 'parse-markers' });
 
 const addIndexedMarker = (el, { index, title, url, description }) => {
-  if (!el.querySelector('.spes-index-marker')) {
+  if (!el.querySelector('.shoukai-index-marker')) {
     // addPositionRelativeIfNeeded(el);
-    addClass(el, 'spes-index-marker-wrapper');
+    addClass(el, 'shoukai-index-marker-wrapper');
 
     const markerEl = document.createElement('span');
-    markerEl.setAttribute('class', 'spes-index-marker');
+    markerEl.setAttribute('class', 'shoukai-index-marker');
     markerEl.innerHTML = `${IconSearch} <span>${index + 1}.</span>
-      <div class="spes-index-marker-tooltip">
+      <div class="shoukai-index-marker-tooltip">
         <strong>${title}</strong>
         <i>${url}</i>
         <p>${description}</p>
