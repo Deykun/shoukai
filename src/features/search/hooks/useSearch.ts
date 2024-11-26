@@ -7,7 +7,11 @@ import useSearchStore, { setResults } from '@/features/search/stores/searchStore
 
 const recipes: SearchRecipe[] = [{
   name: 'Filmweb',
-  options: [{
+  options: [ {
+    name: 'filmweb.pl',
+    domain: 'https://www.duckduckgo.com/',
+    getSearchUrl: (phrase, key) => `https://duckduckgo.com/?q=${encodeURI(`${phrase} site:filmweb.pl`)}&shoukaiKey=${key}`,
+  }, {
     name: 'filmweb.pl',
     domain: 'https://www.google.com/',
     getSearchUrl: (phrase, key) => `https://www.google.com/search?q=${encodeURI(`${phrase} site:filmweb.pl`)}&shoukaiKey=${key}`,
@@ -34,7 +38,7 @@ const performSearch = (searchPhrase: string) => {
   }
 
   const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
-  const searchKey = getSearchKey(searchPhrase);
+  const searchKey = getSearchKey(searchPhrase, recipes[0].options[0].domain);
 
   if (resultsByKey[searchKey]) {
     const results = resultsByKey[searchKey] as SearchResult[];
