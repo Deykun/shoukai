@@ -10,16 +10,12 @@ import IconGithub from '@/components/Icons/IconGithub';
 import Panel from '@/components/UI/Panel';
 import ButtonIcon from '@/components/UI/ButtonIcon';
 
-import useSearchStore from '@/features/search/stores/searchStore';
-
-const linkParams = { className: 'bg-[#f7f7f7] text-[#6f6f6f] hover:bg-[#f5f9ef] hover:text-[#476814] p-2 rounded-md duration-300', target: '_blank', rel: 'noreferrer noopener' };
-
 const PreferencesSidebar = () => {
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
-    localStorage.setItem(LOCAL_STORAGE.SPES_USER_LANG, lang);
+    localStorage.setItem(LOCAL_STORAGE.SHOUKAI_USER_LANG, lang);
   }
 
   return (
@@ -39,7 +35,7 @@ const PreferencesSidebar = () => {
         <span className="border-t" />
         <ButtonIcon
           className="hover:!bg-black"
-          href="https://github.com/Deykun/spes"
+          href="https://github.com/Deykun/shoukai"
           target="_blank"
           label="Page repository"
           labelPosition="left"

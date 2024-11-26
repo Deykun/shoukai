@@ -14,8 +14,7 @@ export const getInitDataFromSearchParams = () => {
   }
 
   return init;
-}
-
+};
 
 export const getSearchParamsFromData = ({ searchPhrase }: SupportedParams) => {
   const searchParts = [];
@@ -25,4 +24,4 @@ export const getSearchParamsFromData = ({ searchPhrase }: SupportedParams) => {
   }
 
   return `?${searchParts.join('&')}`;
-}
+};

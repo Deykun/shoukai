@@ -1,5 +1,5 @@
 {
-  "name": "spes",
+  "name": "shoukai",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,9 +11,9 @@
     "i18n": "tsx scripts/i18n/app.ts",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "build-us": "tsx user-scripts/spes/build.ts",
-    "dev-us": "nodemon --watch user-scripts/spes --exec npm run build-us",
-    "dev-us-server": "tsx user-scripts/spes/dev-script.ts"
+    "build-us": "tsx user-scripts/shoukai/build.ts",
+    "dev-us": "nodemon --watch user-scripts/shoukai --exec npm run build-us",
+    "dev-us-server": "tsx user-scripts/shoukai/dev-script.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.52.1",

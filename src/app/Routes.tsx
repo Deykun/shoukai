@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PATHS_DATA } from '../constants';
 
 import Home from '@/pages/Home';
+import Reindex from '@/pages/Reindex';
 
 import { useEffect, useMemo } from "react";
 
@@ -19,14 +20,14 @@ const Routes = () => {
   }, [i18n.language]);
 
   const title = useMemo(() => {
-    const pathToCompare = path.replace('/spes/', '');
+    const pathToCompare = path.replace('/shoukai/', '');
     const pathData = PATHS_DATA.find(({ path: itemPath }) => pathToCompare === itemPath);
     
     if (pathData) {
       return pathData.title;
     }
 
-    return 'Spes - personalized search';
+    return 'Shoukai - personalized search';
   }, [path]);
 
   return (
@@ -35,7 +36,8 @@ const Routes = () => {
           <title>{title}</title>
       </Helmet>
       <Switch >
-        <Route path="/spes" component={Home} />
+        <Route path="/shoukai" component={Home} />
+        <Route path="/shoukai/reindex" component={Reindex} />
       </Switch>
     </>
   )
