@@ -4,6 +4,11 @@ export const getResultsByKey = () => {
   return resultsByKey;
 };
 
+export const resetResults = () => {
+ GM_setValue('resultsByKey', {});
+};
+
 unsafeWindow.shoukaiGetResultsByKey = getResultsByKey;
+unsafeWindow.shoukaiReset = resetResults;
 
 

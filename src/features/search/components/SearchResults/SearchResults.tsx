@@ -9,11 +9,8 @@ const SearchResults = () => {
 
   useSearch();
 
-  // TODO: replace
   if (!results.length) {
-    return <p>
-      <button onClick={window.shoukaiRenderSearch || undefined}>Retry</button>
-    </p>;
+    return null;
   }
 
   return (

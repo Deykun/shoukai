@@ -12,7 +12,19 @@ const recipes: SearchRecipe[] = [{
     domain: 'https://www.google.com/',
     getSearchUrl: (phrase, key) => `https://www.google.com/search?q=${encodeURI(`${phrase} site:filmweb.pl`)}&shoukaiKey=${key}`,
   }],
-}]
+}];
+
+declare global {
+  interface Window {
+    shoukaiGetResultsByKey?: () => {
+      [key: string]: SearchResult[],
+    },
+  }
+}
+
+let openedTabs: {
+  [url: string]: true,
+} = {};
 
 const performSearch = (searchPhrase: string) => {
   if (!searchPhrase) {
@@ -21,12 +33,8 @@ const performSearch = (searchPhrase: string) => {
     return;
   }
 
-  const resultsByKey = window?.shoukaiGetResultsByKey() || {};
+  const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
   const searchKey = getSearchKey(searchPhrase);
-
-  console.log('resultsByKey', resultsByKey); 
-  console.log('searchKey', searchKey);
-  console.log('searchPhrase', searchPhrase);
 
   if (resultsByKey[searchKey]) {
     const results = resultsByKey[searchKey] as SearchResult[];
@@ -35,10 +43,15 @@ const performSearch = (searchPhrase: string) => {
 
     return;
   }
-  
-
 
   const domainWithSearch = recipes[0].options[0].getSearchUrl(searchPhrase, searchKey);
+
+  if (openedTabs[domainWithSearch]) {
+    return;
+  }
+
+  openedTabs[domainWithSearch] = true;
+
   openInNewTab(domainWithSearch);
 };
 
@@ -46,6 +59,8 @@ export default function useSearch() {
   const searchPhrase = useSearchStore(state => state.searchPhrase);
 
   useEffect(() => {
+    setResults([]);
+
     if (searchPhrase) {
       performSearch(searchPhrase);
     }
@@ -53,7 +68,7 @@ export default function useSearch() {
 
   const handleStorageUpdate = useCallback((event: StorageEvent) => {
     if (event) {
-      setTimeout(() => performSearch(searchPhrase), 1000);
+      setTimeout(() => performSearch(searchPhrase), 10);
     }
   }, [searchPhrase]);
 
