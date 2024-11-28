@@ -34,7 +34,7 @@ const PreferencesSidebar = () => {
         </ButtonIcon>)}
         <span className="border-t" />
         <ButtonIcon
-          className="hover:!bg-black"
+          className="hover:!bg-black hover:!text-white"
           href="https://github.com/Deykun/shoukai"
           target="_blank"
           label="Page repository"

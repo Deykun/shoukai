@@ -36,9 +36,11 @@ const performSearch = (searchPhrase: string) => {
   
     return;
   }
+  
+  const lowerCasedSearchPhrase = searchPhrase.toLowerCase();
 
   const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
-  const searchKey = getSearchKey(searchPhrase, recipes[0].options[0].domain);
+  const searchKey = getSearchKey(lowerCasedSearchPhrase, recipes[0].options[0].domain);
 
   if (resultsByKey[searchKey]) {
     const results = resultsByKey[searchKey] as SearchResult[];
@@ -48,7 +50,7 @@ const performSearch = (searchPhrase: string) => {
     return;
   }
 
-  const domainWithSearch = recipes[0].options[0].getSearchUrl(searchPhrase, searchKey);
+  const domainWithSearch = recipes[0].options[0].getSearchUrl(lowerCasedSearchPhrase, searchKey);
 
   if (openedTabs[domainWithSearch]) {
     return;

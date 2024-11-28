@@ -5,7 +5,7 @@
   > button {
     @apply inline-flex justify-center items-center gap-3 p-2 px-3;
 
-    color: #ffdada;
+    color: #476814;
     background-color: transparent;
     border-radius: 6px;
     transition: 0.3s ease-in-out;
@@ -15,12 +15,17 @@
     }
     
     @include hoverOnDesktopActiveOnMobile {
-      color: #fff;
-      background: #c6a0a08a;
+      color: black;
+      background: #a6c89a8a;
 
       .ui-button-icon-marker--on-soft {
         background: white;
       }
+    }
+
+    &:active {
+      color: black;
+      background: #a6c89a8a;
     }
 
     > img,
@@ -60,7 +65,8 @@
 .ui-button-text--active {
   > a,
   > button {
-    color: #fff;
+    color: #000000;
+    background: #a6c89a8a;
 
     > svg {
       fill: #ff8080;

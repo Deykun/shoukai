@@ -107,7 +107,7 @@
   > a,
   > button {
     @include hoverOnDesktopActiveOnMobile {
-      color: #fff;
+      color: black;
       background: #a6c89a8a;
 
       .ui-button-icon-marker--on-soft {
@@ -116,7 +116,7 @@
     }
 
     &:active {
-      color: #fff;
+      color: black;
       background: #a6c89a8a;
     }
   }
@@ -165,7 +165,7 @@
   > a,
   > button,
   > span {
-    color: #fff;
+    color: #000000;
     background: #a6c89a8a;
   }
 }

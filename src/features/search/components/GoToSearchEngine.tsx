@@ -1,26 +1,59 @@
-import IconDuckDuckGo from '@/components/Icons/IconDuckDuckGo';
-import IconGoogle from '@/components/Icons/IconGoogle';
-import IconYandex from '@/components/Icons/IconYandex';
+import { useTranslation } from "react-i18next";
 
-import useSearchStore from '@/features/search/stores/searchStore';
+import ButtonIcon from "@/components/UI/ButtonIcon";
 
-const linkParams = { className: 'bg-[#f7f7f7] text-[#6f6f6f] hover:bg-[#f5f9ef] hover:text-[#476814] p-2 rounded-md duration-300', target: '_blank', rel: 'noreferrer noopener' };
+import IconDuckDuckGo from "@/components/Icons/IconDuckDuckGo";
+import IconGoogle from "@/components/Icons/IconGoogle";
+import IconYandex from "@/components/Icons/IconYandex";
+
+import useSearchStore from "@/features/search/stores/searchStore";
+
+const linkParams = {
+  target: "_blank",
+  rel: "noreferrer noopener",
+};
 
 const GoToSearchEngine = () => {
-  const searchPhrase = useSearchStore(state => state.searchPhrase);
+  const searchPhrase = useSearchStore((state) => state.searchPhrase);
+
+  const { t } = useTranslation();
 
   if (!searchPhrase) {
     return null;
   }
 
   return (
-    <section className="flex flex-row justify-end gap-4">
-      <span className="text-sm opacity-50">Direct:</span>
-      <a href={`https://www.google.com/search?q=${encodeURI(searchPhrase)}`} {...linkParams} title="Google"> <IconGoogle className="size-7" /></a>
-      <a href={`https://duckduckgo.com/?q=${encodeURI(searchPhrase)}`} {...linkParams} title="DuckDuckGo"> <IconDuckDuckGo className="size-7" /></a>
-      <a href={`https://yandex.com/search/?text=${encodeURI(searchPhrase)}`} {...linkParams} title="Yandex"> <IconYandex className="size-7" /></a>
+    <section className="flex flex-row justify-end items-center gap-4">
+      <span className="text-xs opacity-50">{t('search.openWith')}</span>
+      <ButtonIcon
+        href={`https://www.google.com/search?q=${encodeURI(searchPhrase)}`}
+        {...linkParams}
+        label="Google"
+        labelPosition="bottom"
+      >
+        {" "}
+        <IconGoogle />
+      </ButtonIcon>
+      <ButtonIcon
+        href={`https://duckduckgo.com/?q=${encodeURI(searchPhrase)}`}
+        {...linkParams}
+        label="DuckDuckGo"
+        labelPosition="bottom"
+      >
+        {" "}
+        <IconDuckDuckGo />
+      </ButtonIcon>
+      <ButtonIcon
+        href={`https://yandex.com/search/?text=${encodeURI(searchPhrase)}`}
+        {...linkParams}
+        label="Yandex"
+        labelPosition="bottom"
+      >
+        {" "}
+        <IconYandex />
+      </ButtonIcon>
     </section>
-  )
-}
+  );
+};
 
 export default GoToSearchEngine;

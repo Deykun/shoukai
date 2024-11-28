@@ -10,13 +10,14 @@ type Props = {
   onClick?: () => void,
   href?: string,
   target?: string,
+  rel?: string,
   isDisabled?: boolean,
   isActive?: boolean,
   isOnLight?: boolean,
   title?: string,
 }
 
-const ButtonText = ({ className, size, wrapperClassName, children, onClick, href, target, isDisabled = false, isActive = false, isOnLight = false, title }: Props) => {
+const ButtonText = ({ className, size, wrapperClassName, children, onClick, href, target, rel, isDisabled = false, isActive = false, isOnLight = false, title }: Props) => {
   const TagName = href ? 'a' : 'button';
 
   return (
@@ -26,7 +27,7 @@ const ButtonText = ({ className, size, wrapperClassName, children, onClick, href
       'ui-button-text--on-light': isOnLight,
       [`ui-button-text--${size}`]: size,
     })}>
-      <TagName onClick={onClick} disabled={isDisabled} className={className} title={title} href={href} target={target}>
+      <TagName onClick={onClick} disabled={isDisabled} className={className} title={title} href={href} target={target} rel={rel}>
         {children}
       </TagName>
     </span>
