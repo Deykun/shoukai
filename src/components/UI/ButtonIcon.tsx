@@ -12,6 +12,7 @@ type Props = {
   onClick?: () => void,
   href?: string,
   target?: string,
+  rel?: string,
   isDisabled?: boolean,
   isActive?: boolean,
   title?: string,
@@ -28,6 +29,7 @@ const ButtonIcon = ({
   onClick,
   href,
   target,
+  rel,
   isDisabled = false,
   isActive = false,
   title,
@@ -53,6 +55,7 @@ const ButtonIcon = ({
         title={title}
         href={href}
         target={target}
+        rel={rel}
       >
         {children}
         {label && <span

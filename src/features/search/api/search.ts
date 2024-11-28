@@ -4,6 +4,6 @@ const getSimpleHashFromString = (text: string) => {
   return Math.abs(intHash).toString(16);
 }
 
-export const getSearchKey = (phrase: string) => {
-  return getSimpleHashFromString(phrase);
+export const getSearchKey = (phrase: string, domain: string) => {
+  return getSimpleHashFromString(`${phrase} ${domain}`);
 };

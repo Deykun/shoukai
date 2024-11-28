@@ -63,15 +63,6 @@ const initShoukai = async () => {
     return;
   }
 
-  // TODO: check if needed
-  // if (window.WikiParser.cache.inited) {
-  //   return;
-  // }
-
-  // window.WikiParser.cache.inited = true;
-
-  console.log('TEST');
-
   try {
     /* import @/db.js */
     /* import @/dom.js */
@@ -80,8 +71,13 @@ const initShoukai = async () => {
     /* import @/interface.js */
 
     /* import @/parse.js */
-
+    
     const parse = () => {
+      if (location.href.includes('duckduckgo.com')) {
+        /* import @/parse-duckduckgo.js */
+        parseDuckDuckGo();
+      }
+
       if (location.href.includes('google.com')) {
         /* import @/parse-google.js */
         parseGoogle();
@@ -103,10 +99,10 @@ const initShoukai = async () => {
     /* import @/subscribers.js */
 
     const debouncedRefresh = debounce(() => {
+      parse();
+
       const didLocationChange = location.href !== window.WikiParser.cache.location;
       if (didLocationChange) {
-        window.WikiParser.cache.location = location.href;
-
         renderApp();
       }
     }, 500);

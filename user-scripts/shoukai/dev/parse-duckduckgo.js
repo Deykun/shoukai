@@ -1,5 +1,5 @@
-const parseGoogle = () => {
-  const searchPhrase = document.querySelector('form[action="/search"] textarea').value;
+const parseDuckDuckGo = () => {
+  const searchPhrase = document.getElementById('search_form_input').value;
   if (searchPhrase) {
     const keysWords = searchPhrase.split(' ');
 
@@ -7,22 +7,23 @@ const parseGoogle = () => {
   
     const resultsParsed = Array.from(document.querySelectorAll((`[href*="${limitByDomain}"]`))).slice(0, 50).map((el) => {
       const url = el.href;
-      const elTitle = Array.from(el.querySelectorAll('h2, h3')).find((elToCheck) => elToCheck?.innerText);
+
+      const elTitle = el.closest('h2');
       const title = elTitle?.innerText?.replace(/\n|\r/g, '')?.trim() || '';
 
       if (!title) {
         return undefined;
       }
   
-      const elTitleWrapper = elTitle?.parentNode?.parentNode?.parentNode;
-      const elDescription = el?.parentNode?.parentNode?.parentNode?.parentNode?.parentNode?.parentNode;
-      const cardHeaderText = elTitleWrapper?.innerText?.replace(/\n|\r/g, '')?.trim() || '';
+      const elDescription = elTitle?.parentNode?.nextElementSibling;
       const cardText = elDescription?.innerText?.replace(/\n|\r/g, '')?.trim() || '';
 
-      const description = truncateString(cardText.replace(cardHeaderText, '').trim(), 120);
+      const description = truncateString(cardText, 120);
   
       return {
         el,
+        elTitle,
+        elDescription,
         url,
         title,
         description,
@@ -34,7 +35,7 @@ const parseGoogle = () => {
     });
 
     if (searchKey && resultsParsed.length > 0) {
-      const results = resultsParsed.map(({ url, title, description }) => ({ source: 'google', url, title, description }));
+      const results = resultsParsed.map(({ url, title, description }) => ({ source: 'duckduckgo', url, title, description }));
 
       const resultsByKey = GM_getValue('resultsByKey') || {};
 

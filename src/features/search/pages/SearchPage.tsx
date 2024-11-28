@@ -7,6 +7,7 @@ import useSearchStore from "@/features/search/stores/searchStore";
 import PreferencesSidebar from "@/features/preferences/components/PreferencesSidebar";
 import SearchBar from "@/features/search/components/SearchBar";
 import SearchResultsSummary from "@/features/search/components/SearchResultsSummary";
+import SearchNoText from "@/features/search/components/SearchNoText/SearchNoText";
 import SearchLogic from "@/features/search/components/SearchLogic/SearchLogic";
 import SearchResults from "@/features/search/components/SearchResults/SearchResults";
 import GoToSearchEngine from "@/features/search/components/GoToSearchEngine";
@@ -25,8 +26,11 @@ const SearchPage = () => {
       <PreferencesSidebar />
       <Logo />
       <SearchBar />
-      <main className="mt-10">      
-        <SearchResultsSummary />
+      <main className="mt-10">
+        <div className="flex justify-between items-center">
+          <SearchResultsSummary />
+          <SearchNoText />
+        </div>
         <div className="mt-5 grid grid-cols-3 gap-5">  
           <div className="col-span-2">
             <SearchResults />

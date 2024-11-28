@@ -1,11 +1,16 @@
 {
   "main.currentLanguage": "English",
+  "main.readMore": "Read more",
   "search.inputPlaceholder": "Search...",
+  "search.typeImage": "Image",
+  "search.typeMap": "Map",
   "search.resultsFound_zero": "{{count}} result found",
   "search.resultsFound_one": "{{count}} result found",
   "search.resultsFound_few": "{{count}} results found",
   "search.resultsFound_many": "{{count}} results found",
   "search.resultsFound_other": "{{count}} results found",
   "search.updatingResults": "Updating results...",
+  "search.source": "Source",
+  "search.openWith": "Open with:",
   "wikipedia.manyResults": "There are many results for the given phrase."
 }

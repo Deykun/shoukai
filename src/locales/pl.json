@@ -1,10 +1,16 @@
 {
   "main.currentLanguage": "Polski",
+  "main.readMore": "Czytaj więcej",
   "search.inputPlaceholder": "Search...",
+  "search.typeImage": "Obrazek",
+  "search.typeMap": "Mapa",
   "search.resultsFound_zero": "Znaleziono {{count}} wynik",
   "search.resultsFound_one": "Znaleziono {{count}} wynik",
   "search.resultsFound_few": "Znaleziono {{count}} wyniki",
   "search.resultsFound_many": "Znaleziono {{count}} wyników",
   "search.resultsFound_other": "Znaleziono {{count}} wyników",
+  "search.updatingResults": "Aktualizowanie wyników...",
+  "search.source": "Źródło",
+  "search.openWith": "Otwórz w:",
   "wikipedia.manyResults": "Wiele wyników dla podanej frazy."
 }
