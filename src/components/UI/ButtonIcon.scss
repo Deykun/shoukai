@@ -6,7 +6,7 @@
   > span {
     @apply flex justify-center items-center size-8;
 
-    color: #476814;
+    color: #497506;
     font-size: 20px;
     font-weight: 800;
     background-color: transparent;
@@ -108,7 +108,7 @@
   > button {
     @include hoverOnDesktopActiveOnMobile {
       color: black;
-      background: #a6c89a8a;
+      background: #69df401f;
 
       .ui-button-icon-marker--on-soft {
         background: white;
@@ -117,7 +117,7 @@
 
     &:active {
       color: black;
-      background: #a6c89a8a;
+      background: #69df401f;
     }
   }
 
@@ -166,7 +166,7 @@
   > button,
   > span {
     color: #000000;
-    background: #a6c89a8a;
+    background: #69df401f;
   }
 }
 

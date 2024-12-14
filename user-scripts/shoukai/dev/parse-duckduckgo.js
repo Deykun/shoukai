@@ -37,14 +37,7 @@ const parseDuckDuckGo = () => {
     if (searchKey && resultsParsed.length > 0) {
       const results = resultsParsed.map(({ url, title, description }) => ({ source: 'duckduckgo', url, title, description }));
 
-      const resultsByKey = GM_getValue('resultsByKey') || {};
-
-      GM_setValue('resultsByKey', { 
-        ...resultsByKey,
-        [searchKey]: results,
-      });
-
-      window.location.href = `http://localhost:3001/shoukai/reindex?searchKey=${searchKey}`;
+      saveResults(searchKey, results);
     }
   }
 }

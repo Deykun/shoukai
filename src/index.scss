@@ -50,6 +50,10 @@ svg {
   text-shadow: none;
 }
 
+body.has-user-script .show-for-no-script {
+  display: none;
+}
+
 .ui-tooltip {
   --color: #f5f9ef;
   --background: #170505;

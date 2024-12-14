@@ -13,7 +13,7 @@ appendCSS(`
   .shoukai-index-marker-tooltip {
     padding: 4px 8px;
     background-color: #f5f9ef;
-    color: #476814;
+    color: #497506;
     border-radius: 4px;
   }
 

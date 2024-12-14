@@ -16,7 +16,7 @@ export default {
       // 'default-body': '#3b4f52',
       'primary': '#bef49a',
       // 'primary-contrast': '#1e3445',
-      'primary-contrast': '#114f80',
+      'primary-contrast': '#005b46',
       // 'text': '#8ca88e',
       'white': '#fff',
       'black': '#000',

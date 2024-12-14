@@ -48,7 +48,7 @@ const SidebarWikipedia = () => {
       <footer className="flex flex-row items-center">
         <a
           href={wikipediaUrl}
-          className="inline-flex gap-1 items-center text-sm font-[500] text-[#476814]"
+          className="inline-flex gap-1 items-center text-sm font-[500] text-[#497506]"
           target="_blank"
           rel="noreferrer noopener"
         >
@@ -56,7 +56,7 @@ const SidebarWikipedia = () => {
           <IconWikipedia className="inline-bock size-6" />
           <span>Wikipedia</span>
         </a>
-        {isLoading && <IconLoader className="size-3 ml-auto fill-[#476814]" />}
+        {isLoading && <IconLoader className="size-3 ml-auto fill-[#497506]" />}
       </footer>
       <h3 className="text-[18px] font-[600]">
         <a

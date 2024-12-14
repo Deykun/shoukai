@@ -1,26 +1,24 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware'
 
-type PaneType = '' | 'preferences';
-
 type AppStoreState = {
-  pane: PaneType,
+  areSettingsOpen: boolean,
 }
 
 export const useAppStore = create<AppStoreState>()(
   devtools(
     () => ({
-      pane: '',
+      areSettingsOpen: false,
     } as AppStoreState),
     { name: 'appStore' },
   )
 );
 
-export const setPane = (pane: PaneType = '') => {
+export const toggleSettings = () => {
   useAppStore.setState((state) => ({
     ...state,
-    pane,
+    areSettingsOpen: !state.areSettingsOpen,
   }));
-}
+};
 
 export default useAppStore;

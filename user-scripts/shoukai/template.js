@@ -3,6 +3,7 @@
 // @namespace       deykun
 // @author          deykun
 // @version         SCRIPT_VERSION
+// @include         *://*filmweb.pl*
 // @include         *://*google.com*
 // @include         *://*duckduckgo.com*
 // @include         *://*yandex.com*
@@ -55,24 +56,30 @@ const initShoukai = async () => {
   const searchParams = new URL(location.href).searchParams;
   const searchKey = searchParams.get('shoukaiKey');
 
+  /* import @/db.js */
+  /* import @/dom.js */
+  /* import @/helpers.js */
+  /* import @/icons.js */
+  /* import @/interface.js */
+
   if (!searchKey) {
     if (location.href.includes('localhost') || location.href.includes('deykun.github.io')) {
       /* import @/render-search.js */
+      addClass(document.body, 'has-user-script');
     }
 
     return;
   }
 
   try {
-    /* import @/db.js */
-    /* import @/dom.js */
-    /* import @/helpers.js */
-    /* import @/icons.js */
-    /* import @/interface.js */
-
     /* import @/parse.js */
     
     const parse = () => {
+      if (location.href.includes('filmweb.pl')) {
+        /* import @/parse-filmweb.js */
+        parseFilmweb();
+      }
+
       if (location.href.includes('duckduckgo.com')) {
         /* import @/parse-duckduckgo.js */
         parseDuckDuckGo();

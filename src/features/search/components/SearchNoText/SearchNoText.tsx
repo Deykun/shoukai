@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import ButtonText from "@/components/UI/ButtonText";
 
-import IconSearchImage from "@/components/Icons/IconSearchImage";
+import IconSearchCamera from "@/components/Icons/IconSearchCamera";
 import IconSearchMap from "@/components/Icons/IconSearchMap";
 
 import useSearchStore from "@/features/search/stores/searchStore";
@@ -26,7 +26,7 @@ const SearchNoText = () => {
         rel="noreferrer noopener"
         title="Google Image"
       >
-        <IconSearchImage className="size-6" />
+        <IconSearchCamera />
         <span>{t("search.typeImage")}</span>
       </ButtonText>
       <ButtonText
@@ -35,7 +35,7 @@ const SearchNoText = () => {
         rel="noreferrer noopener"
         title="Google Maps"
       >
-        <IconSearchMap className="size-6" />
+        <IconSearchMap />
         <span>{t("search.typeMap")}</span>
       </ButtonText>
     </section>

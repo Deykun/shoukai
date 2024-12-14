@@ -12,5 +12,7 @@
   "search.updatingResults": "Updating results...",
   "search.source": "Source",
   "search.openWith": "Open with:",
-  "wikipedia.manyResults": "There are many results for the given phrase."
+  "search.settings": "Settings",
+  "wikipedia.manyResults": "There are many results for the given phrase.",
+  "about.description": "To make this site work, you need to install the Tampermonkey browser extension and a user script, which will open different search engines and select the best match for you."
 }

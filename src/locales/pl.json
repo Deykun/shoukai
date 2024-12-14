@@ -1,7 +1,7 @@
 {
   "main.currentLanguage": "Polski",
   "main.readMore": "Czytaj więcej",
-  "search.inputPlaceholder": "Search...",
+  "search.inputPlaceholder": "Szukaj...",
   "search.typeImage": "Obrazek",
   "search.typeMap": "Mapa",
   "search.resultsFound_zero": "Znaleziono {{count}} wynik",
@@ -12,5 +12,7 @@
   "search.updatingResults": "Aktualizowanie wyników...",
   "search.source": "Źródło",
   "search.openWith": "Otwórz w:",
-  "wikipedia.manyResults": "Wiele wyników dla podanej frazy."
+  "search.settings": "Ustawienia",
+  "wikipedia.manyResults": "Wiele wyników dla podanej frazy.",
+  "about.description": "Aby ta strona działała, musisz zainstalować rozszerzenie przeglądarki Tampermonkey oraz skrypt użytkownika, który otworzy różne wyszukiwarki i wybierze dla Ciebie najlepsze dopasowanie."
 }
