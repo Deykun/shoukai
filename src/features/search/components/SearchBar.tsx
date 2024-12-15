@@ -77,7 +77,7 @@ const SearchBar = () => {
             "flex-shrink-0 group"
           )}
         >
-          <IconSearch className="fill-[#82a849] group-hover:fill-[#497506] duration-300 size-5" />
+          <IconSearch className="fill-[#82a849] group-hover:fill-[#075525] duration-300 size-5" />
         </button>
       </form>
       <ButtonIcon

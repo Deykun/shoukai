@@ -6,7 +6,7 @@
   > span {
     @apply flex justify-center items-center size-8;
 
-    color: #497506;
+    color: #075525;
     font-size: 20px;
     font-weight: 800;
     background-color: transparent;
@@ -60,7 +60,7 @@
       align-items: center;
       padding: 0 4px;
       background-color: #ff8080;
-      color: #170505;
+      color: #005b46;
       font-size: 10px;
       min-width: 15px;
       height: 15px;
@@ -107,8 +107,8 @@
   > a,
   > button {
     @include hoverOnDesktopActiveOnMobile {
-      color: black;
-      background: #69df401f;
+      color: #518601;
+      background: #3cea0014;
 
       .ui-button-icon-marker--on-soft {
         background: white;
@@ -116,8 +116,8 @@
     }
 
     &:active {
-      color: black;
-      background: #69df401f;
+      color: #518601;
+      background: #3cea0014;
     }
   }
 
@@ -165,8 +165,8 @@
   > a,
   > button,
   > span {
-    color: #000000;
-    background: #69df401f;
+    color: #518601;
+    background: #3cea0014;
   }
 }
 

@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { SearchResult } from '@/types'
-import { recipes } from '@/constants';
-import { openInNewTab } from '@/utils/url'
-import { getSearchKey } from '@/features/search/api/search';
+import { userRecipes } from '@/constants';
+
+import { getRecipiesForPhrase, performSearch, indexResults } from '@/features/search/utils/actions';
 import useSearchStore, { setResults } from '@/features/search/stores/searchStore';
 
 declare global {
@@ -17,57 +17,61 @@ declare global {
   }
 }
 
-let openedTabs: {
-  [url: string]: true,
-} = {};
-
-const performSearch = (searchPhrase: string) => {
-  if (!searchPhrase) {
-    setResults([]);
-  
-    return;
-  }
-  
-  const lowerCasedSearchPhrase = searchPhrase.toLowerCase();
-
-  const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
-  const searchKey = getSearchKey(lowerCasedSearchPhrase, recipes[0].options[0].domain);
-
-  if (resultsByKey[searchKey]?.results) {
-    const results = resultsByKey[searchKey].results as SearchResult[];
-
-    setResults(results);
-
-    return;
-  }
-
-  const domainWithSearch = recipes[0].options[0].getSearchUrl(lowerCasedSearchPhrase, searchKey);
-
-  if (openedTabs[domainWithSearch]) {
-    return;
-  }
-
-  openedTabs[domainWithSearch] = true;
-
-  openInNewTab(domainWithSearch);
-};
-
 export default function useSearch() {
   const searchPhrase = useSearchStore(state => state.searchPhrase);
+  const [searchConfig, setSearchConfig] = useState({
+    phrase: searchPhrase || '',
+    recipes: getRecipiesForPhrase(searchPhrase, userRecipes),
+  });
+
 
   useEffect(() => {
     setResults([]);
 
-    if (searchPhrase) {
-      performSearch(searchPhrase);
+    if (searchPhrase !== searchConfig.phrase) {
+      if (searchPhrase) {
+        // TODO move to other useEffect
+        // performSearch(searchPhrase);
+  
+        setSearchConfig({
+          phrase: searchPhrase,
+          recipes: getRecipiesForPhrase(searchPhrase, userRecipes),
+        });
+        
+        console.log(JSON.stringify(searchConfig));
+      } else {
+        setSearchConfig({
+          phrase: '',
+          recipes: [],
+        });
+      }
     }
   }, [searchPhrase]);
 
+
+
+  useEffect(() => {
+    if (searchConfig.phrase && searchConfig.recipes.length > 0) {
+      performSearch(searchPhrase, searchConfig.recipes);
+    }
+  }, [searchConfig]);
+
+
+  const cachedIndexResults = useCallback(() => {
+    if (searchConfig.phrase && searchConfig.recipes.length > 0) {
+      indexResults(searchPhrase, searchConfig.recipes);
+    }
+  }, [searchConfig]);
+
+  useEffect(() => {
+    cachedIndexResults();
+  }, [cachedIndexResults]);
+
   const handleStorageUpdate = useCallback((event: StorageEvent) => {
     if (event) {
-      setTimeout(() => performSearch(searchPhrase), 10);
+      setTimeout(cachedIndexResults, 10);
     }
-  }, [searchPhrase]);
+  }, [searchConfig]);
 
   useEffect(() => {
     window.addEventListener('storage', handleStorageUpdate);

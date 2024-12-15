@@ -23,7 +23,7 @@ const SearchResultsItem = ({ result }: Props) => {
   return (
     <li className="flex flex-col gap-1 bg-[#f5f9ef] p-4 rounded-md relative">
       <h3 className="text-lg font-[600] text-black pr-6 line-clamp-2"><a href={url} target="_blank">{title}</a></h3>
-      <a className="text-xs text-[#497506] truncate text-ellipsis" href={url} target="_blank">{url}</a>
+      <a className="text-xs text-[#075525] truncate text-ellipsis" href={url} target="_blank">{url}</a>
       <p className="text-sm">{description}</p>
       <ButtonIcon
         size="small"

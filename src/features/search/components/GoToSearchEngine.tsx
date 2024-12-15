@@ -23,7 +23,7 @@ const GoToSearchEngine = () => {
   }
 
   return (
-    <section className="flex flex-row justify-end items-center gap-4">
+    <section className="flex flex-row justify-end items-center gap-1">
       <span className="text-xs opacity-50">{t('search.openWith')}</span>
       <ButtonIcon
         href={`https://www.google.com/search?q=${encodeURI(searchPhrase)}`}
