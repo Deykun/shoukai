@@ -2,7 +2,7 @@
 import { SearchRecipe } from '@/types'
 
 // TODO: replace with cached state
-export const recipes: SearchRecipe[] = [{
+export const userRecipes: SearchRecipe[] = [{
   name: 'Filmweb',
   options: [ {
     name: 'filmweb.pl',

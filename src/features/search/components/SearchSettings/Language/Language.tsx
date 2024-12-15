@@ -19,7 +19,7 @@ const Language = () => {
   return (
     <section>
       <h3 className="sr-only">Language</h3>
-      <div className="flex">
+      <div className="flex gap-1">
         {SUPPORTED_LANGS.map((lang) => <ButtonIcon
           key={lang}
           onClick={() => changeLanguage(lang)}

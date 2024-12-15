@@ -22,7 +22,7 @@ const SearchResultsItemFooter = ({ isOpen, result }: Props) => {
         '-mt-2 max-h-0 opacity-0': !isOpen,
       },
     )}>
-      {t('search.source')}: <span className="text-[#497506]">{source}</span>
+      {t('search.source')}: <span className="text-[#075525]">{source}</span>
     </footer>
   );
 }
