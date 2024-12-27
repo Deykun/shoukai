@@ -1,11 +1,4 @@
-import { MANY_RESULTS_API_RESPONSE } from "@/features/wikipedia/api/constants";
-
-export type WikipediaResult = {
-  title: string;
-  thumbnail?: string;
-  description?: string;
-  thumbnailStyle?: React.CSSProperties;
-};
+import { MANY_RESULTS_API_RESPONSE, WikipediaResult } from "@/features/wikipedia/api/constants";
 
 const commonParams = `&limit=2&namespace=0&origin=*&format=json&formatversion=2`;
 

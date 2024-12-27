@@ -1,3 +1,10 @@
+export type WikipediaResult = {
+  title: string;
+  thumbnail?: string;
+  description?: string;
+  thumbnailStyle?: React.CSSProperties;
+};
+
 export const MANY_RESULTS_API_RESPONSE: {
   [lang: string]: string[];
 } = {

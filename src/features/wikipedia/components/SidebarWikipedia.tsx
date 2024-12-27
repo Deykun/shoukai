@@ -6,11 +6,12 @@ import IconWikipedia from "@/components/Icons/IconWikipedia";
 
 import Image from "@/components/Image/Image";
 
-import useSearchStore from "@/features/search/stores/searchStore";
+import useSearchStore, { setMetaForResults } from "@/features/search/stores/searchStore";
 import { MANY_RESULTS_API_RESPONSE } from "@/features/wikipedia/api/constants";
 import { getWikipediaResult } from "@/features/wikipedia/api/wikipedia";
+import { getMetaFromWikipediaResult } from "@/features/wikipedia/utils/meta";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const SidebarWikipedia = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
@@ -34,6 +35,16 @@ const SidebarWikipedia = () => {
     queryFn: () => getWikipediaResult(wikipediSearchPhrase, i18n.language),
     queryKey: [wikipediSearchPhrase, i18n.language],
   });
+
+  useEffect(() => {
+    if (data) {
+      const meta = getMetaFromWikipediaResult(data, i18n.language);
+
+      if (meta.length > 0) {
+        setMetaForResults(searchPhrase, meta);
+      }
+    }
+  }, [data]);
 
   if (!wikipediSearchPhrase) {
     return null;
