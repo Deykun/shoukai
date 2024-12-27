@@ -1,12 +1,29 @@
+export type GetResultScoreParams = { phrase: string, title: string };
+
+export type GetResultScore = (params: GetResultScoreParams) => number;
+
 export type SearchShortcut = {
   name: string,
   domain: string,
   getSearchUrl: (searchPhrase: string, searchKey: string) => string,
+  getResultScore?: GetResultScore,
 };
 
 export type SearchRecipe = {
   name: string,
+  description?: string,
+  svgIcon?: string,
+  byLang?: {
+    [lang: string]: {
+      name: string,
+      description: string,
+    }
+  },
   options: SearchShortcut[],
+  // For example, Amazon.com will have the word "Amazon" in its title, and it should be ignored.
+  wordsToIgnore?: string[],
+  getResultScore?: GetResultScore,
+  minimumScore: number,
 };
 
 export type SearchResult = {
@@ -15,3 +32,7 @@ export type SearchResult = {
   title: string,
   description?: string,
 };
+
+export type SearchResultEvaluated = SearchResult & {
+  score: number,
+}

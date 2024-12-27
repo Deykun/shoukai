@@ -12,7 +12,7 @@ With Shoukai, my goal is to get results from sources like DuckDuckGo whenever po
 
 ## How does Shoukai work? [not yet]
 
-he user installs the user script and selects their recipes, for example: Stack Overflow, Filmweb.pl, Genius.com, Spotify.com, and Google Maps. Each user can choose their own recipe, and in an ideal world, where this is not just a simple proof of concept, we would have a marker for recipes. These recipes would also be based on searches from sources like Stack Overflow and Filmweb directly—unfortunately, those local search engines are not the best at the moment and we often will need to realy on the few popular crawlers.
+The user installs the user script and selects their recipes, for example: Stack Overflow, Filmweb.pl, Genius.com, Spotify.com, and Google Maps. Each user can choose their own recipe, and in an ideal world, where this is not just a simple proof of concept, we would have a marker for recipes. These recipes would also be based on searches from sources like Stack Overflow and Filmweb directly—unfortunately, those local search engines are not the best at the moment and we often will need to realy on the few popular crawlers.
 
 The only thing Shoukai will try to do is determine which search engines to run in new tabs, parse only the first few results, and show them on the Shoukai page.
 

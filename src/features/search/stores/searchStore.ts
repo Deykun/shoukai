@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware'
 
-import { SearchResult } from '@/types';
+import { SearchResultEvaluated } from '@/types';
 
 import { getInitDataFromSearchParams } from '@/features/search/utils/url';
 
 
 type SearchStoreState = {
   searchPhrase: string,
-  results: SearchResult[],
+  results: SearchResultEvaluated[],
 }
 
 export const useSearchStore = create<SearchStoreState>()(
@@ -28,7 +28,7 @@ export const setSearchPhrase = (value: string) => {
   }));
 };
 
-export const setResults = (results: SearchResult[]) => {
+export const setResults = (results: SearchResultEvaluated[]) => {
   useSearchStore.setState((state) => ({
       ...state,
       results,
