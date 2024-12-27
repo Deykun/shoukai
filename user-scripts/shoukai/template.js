@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            Shoukai - personalized search
+// @name            shoukai - personalized search
 // @namespace       deykun
 // @author          deykun
 // @version         SCRIPT_VERSION
@@ -28,9 +28,9 @@ const userScriptLogger = (params) => {
 
     if (isCritical) {
       // eslint-disable-next-line no-console
-      console.error('A Shoukai error (from Tampermonkey) has occurred.');
+      console.error('A shoukai error (from Tampermonkey) has occurred.');
       // eslint-disable-next-line no-console
-      console.error(`Shoukai error: ${message}`);
+      console.error(`shoukai error: ${message}`);
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -52,7 +52,7 @@ const domReady = (fn) => {
   document.addEventListener('DOMContentLoaded', fn);
 };
 
-const initShoukai = async () => {
+const initshoukai = async () => {
   const searchParams = new URL(location.href).searchParams;
   const searchKey = searchParams.get('shoukaiKey');
 
@@ -122,11 +122,11 @@ const initShoukai = async () => {
     observer.observe(document.body, config);
   } catch (error) {
     userScriptLogger({
-      isError: true, isCritical: true, message: 'initShoukai() failed', error,
+      isError: true, isCritical: true, message: 'initshoukai() failed', error,
     });
 
     throw error;
   }
 };
 
-domReady(initShoukai);
+domReady(initshoukai);

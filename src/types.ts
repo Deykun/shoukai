@@ -3,7 +3,6 @@ export type GetResultScoreParams = { phrase: string, title: string };
 export type GetResultScore = (params: GetResultScoreParams) => number;
 
 export type SearchShortcut = {
-  name: string,
   domain: string,
   getSearchUrl: (searchPhrase: string, searchKey: string) => string,
   getResultScore?: GetResultScore,
