@@ -94,3 +94,14 @@
     }
   }
 }
+
+
+.ui-button-text--promoted {
+  > a:not(:hover),
+  > button:not(:hover) {
+    color: black;
+    background-color: #3cea0003;
+    box-shadow: 0px 5px 7px -4px #08562645;
+  }
+}
+

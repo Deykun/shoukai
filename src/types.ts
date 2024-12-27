@@ -19,6 +19,7 @@ export type SearchRecipe = {
     }
   },
   options: SearchShortcut[],
+  wordsToPromote?: string[],
   // For example, Amazon.com will have the word "Amazon" in its title, and it should be ignored.
   wordsToIgnore?: string[],
   getResultScore?: GetResultScore,

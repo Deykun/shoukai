@@ -1,0 +1,37 @@
+import { SearchRecipe } from "@/types";
+
+const wordsToPromote = [
+  "film",
+  "movie",
+];
+
+export const recipe: SearchRecipe =  {
+  name: "Movies",
+  description: "Movie search engine.",
+  svgIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M4 15h2a2 2 0 0 1 2 2v2h1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2h1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2h1v3H1v-3h1v-2a2 2 0 0 1 2-2m7-8 4 3-4 3zM4 2h16a2 2 0 0 1 2 2v9.54a3.9 3.9 0 0 0-2-.54V4H4v9c-.73 0-1.41.19-2 .54V4a2 2 0 0 1 2-2"/></svg>`,
+  byLang: {
+    pl: {
+      name: "Filmy",
+      description: "Wyszukiwarka filmów.",
+    },
+  },
+  wordsToPromote,
+  wordsToIgnore: ["filmweb"],
+  options: [
+    {
+      domain: "https://www.duckduckgo.com/",
+      getSearchUrl: (phrase, key) =>
+        `https://duckduckgo.com/?q=${encodeURI(
+          `${phrase} site:filmweb.pl`
+        )}&shoukaiKey=${key}`,
+    },
+    {
+      domain: "https://www.google.com/",
+      getSearchUrl: (phrase, key) =>
+        `https://www.google.com/search?q=${encodeURI(
+          `${phrase} site:filmweb.pl`
+        )}&shoukaiKey=${key}`,
+    },
+  ],
+  minimumScore: 0.75,
+};
