@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchResult } from '@/types';
+import { SearchRecipe, SearchResult, SearchResultEvaluated } from '@/types';
 
 import { openInNewTab } from '@/utils/url';
 
@@ -23,23 +23,25 @@ export const performSearch = (searchPhrase: string, recipes: SearchRecipe[]) => 
     return;
   }
 
-  const {
-    searchKey,
-    domainWithSearch
-  } = getSearchKeyAndDomainURL(searchPhrase, recipes[0]);
+  for (const recipe of recipes) {
+    const {
+      searchKey,
+      domainWithSearch
+    } = getSearchKeyAndDomainURL(searchPhrase, recipe);
+  
+    const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
+  
+    const hasResults = resultsByKey[searchKey]?.results;
+    const wasTabOpenAlread = openedTabs[domainWithSearch];
 
-  const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
-
-  const hasResults = resultsByKey[searchKey]?.results;
-  const wasTabOpenAlread = openedTabs[domainWithSearch];
-
-  if (hasResults || wasTabOpenAlread) {
-    return;
+    const shouldSearch = !hasResults && !wasTabOpenAlread;
+  
+    if (shouldSearch) {
+      openedTabs[domainWithSearch] = true;
+  
+      openInNewTab(domainWithSearch);
+    }
   }
-
-  openedTabs[domainWithSearch] = true;
-
-  openInNewTab(domainWithSearch);
 };
 
 export const indexResults = (searchPhrase: string, recipes: SearchRecipe[]) => {
@@ -49,37 +51,42 @@ export const indexResults = (searchPhrase: string, recipes: SearchRecipe[]) => {
     return;
   }
 
-  const {
-    searchKey,
-    domainWithSearch,
-  } = getSearchKeyAndDomainURL(searchPhrase, recipes[0]);
+  let allValidResults: SearchResultEvaluated[] = [];
 
-  const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
+  for (const recipe of recipes) {
+    const {
+      searchKey,
+    } = getSearchKeyAndDomainURL(searchPhrase, recipe);
 
-  console.log({
-    searchKey,
-    domainWithSearch,
-  })
-  
-  if (resultsByKey[searchKey]?.results) {
-    const results = resultsByKey[searchKey].results as SearchResult[];
-
-    const getResultScore = recipes?.[0]?.getResultScore || recipes?.[0]?.options?.[0]?.getResultScore || getResultScoreDefault;
+    const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
     
-    const phrase = searchPhrase.toLowerCase();
-    const wordsToIgnore = recipes[0].wordsToIgnore || [];
-    const minimumScore = recipes[0].minimumScore || 0.2;
+    if (resultsByKey[searchKey]?.results) {
+      const results = resultsByKey[searchKey].results as SearchResult[];
 
-    const scoredResults = results.map((result) => {
-      const title = result.title.toLowerCase().replace(/[\)|\-|\(|0-9]/g, ' ').split(' ').filter((word) => word && !wordsToIgnore.includes(word)).join(' ');
+      const getResultScore = recipe?.getResultScore || recipe?.options?.[0]?.getResultScore || getResultScoreDefault;
+      
+      const phrase = searchPhrase.toLowerCase();
+      const wordsToIgnore = recipe.wordsToIgnore || [];
+      const minimumScore = recipe.minimumScore ?? 0.2;
 
-      return { ...result, score: getResultScore({ phrase, title }) }
-    });
+      const scoredResults = results.map((result) => {
+        const title = result.title.toLowerCase().replace(/[\)|\-|\(|0-9]/g, ' ').split(' ').filter((word) => word && !wordsToIgnore.includes(word)).join(' ');
 
-    const validResults = scoredResults.filter(({ score }) => score >= minimumScore);
+        return { ...result, score: getResultScore({ phrase, title }) }
+      });
 
-    const sortedResults = validResults.sort((a, b) => b.score - a.score);
+      const validResults = scoredResults.filter(({ score }) => score >= minimumScore);
 
-    setResults(sortedResults);
+      console.log({
+        validResults,
+        name: recipe.name,
+      });
+
+      allValidResults = [...allValidResults, ...validResults];
+    }
   }
+
+  const sortedResults = allValidResults.sort((a, b) => b.score - a.score);
+
+  setResults(sortedResults);
 };

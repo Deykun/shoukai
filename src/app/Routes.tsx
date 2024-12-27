@@ -27,7 +27,7 @@ const Routes = () => {
       return pathData.title;
     }
 
-    return 'Shoukai - personalized search';
+    return 'shoukai - personalized search';
   }, [path]);
 
   return (

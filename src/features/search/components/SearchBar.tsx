@@ -17,7 +17,7 @@ import useSearchStore, {
 } from "@/features/search/stores/searchStore";
 import { getSearchParamsFromData } from "@/features/search/utils/url";
 
-const searchTitle = "Shoukai - personalized search";
+const searchTitle = "shoukai - personalized search";
 
 const SearchBar = () => {
   const areSettingsOpen = useAppStore((state) => state.areSettingsOpen);

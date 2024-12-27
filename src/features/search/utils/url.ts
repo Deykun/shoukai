@@ -32,7 +32,7 @@ export const getSearchParamsFromData = ({ searchPhrase }: SupportedParams) => {
 
 export const getSearchKeyAndDomainURL = (searchPhrase: string, recipe: SearchRecipe) => {
   const lowerCasedSearchPhrase = searchPhrase.toLowerCase();
-  const searchKey = getSearchKey(lowerCasedSearchPhrase, recipe.options[0].domain);
+  const searchKey = getSearchKey(lowerCasedSearchPhrase, recipe.options[0].getSearchUrl(searchPhrase, 'seed'));
   const domainWithSearch = recipe.options[0].getSearchUrl(lowerCasedSearchPhrase, searchKey);
 
   return {

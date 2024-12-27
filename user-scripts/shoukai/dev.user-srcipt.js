@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            Dev - Shoukai
+// @name            Dev - shoukai
 // @namespace       deykun
 // @author          deykun
 // @version         2.0

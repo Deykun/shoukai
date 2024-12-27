@@ -30,15 +30,10 @@ export default function useSearch() {
 
     if (searchPhrase !== searchConfig.phrase) {
       if (searchPhrase) {
-        // TODO move to other useEffect
-        // performSearch(searchPhrase);
-  
         setSearchConfig({
           phrase: searchPhrase,
           recipes: getRecipiesForPhrase(searchPhrase, userRecipes),
         });
-        
-        console.log(JSON.stringify(searchConfig));
       } else {
         setSearchConfig({
           phrase: '',
@@ -47,8 +42,6 @@ export default function useSearch() {
       }
     }
   }, [searchPhrase]);
-
-
 
   useEffect(() => {
     if (searchConfig.phrase && searchConfig.recipes.length > 0) {
