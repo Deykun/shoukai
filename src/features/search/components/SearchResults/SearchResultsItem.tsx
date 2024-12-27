@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from "react-i18next";
 
-import { SearchResult } from '@/types';
+import { SearchResultEvaluated } from '@/types';
 
 import IconAdjustAlt from '@/components/Icons/IconAdjustAlt';
 
@@ -10,7 +10,7 @@ import ButtonIcon from '@/components/UI/ButtonIcon';
 import SearchResultsItemFooter from './SearchResultsItemFooter';
 
 type Props = {
-  result: SearchResult,
+  result: SearchResultEvaluated,
 }
 
 const SearchResultsItem = ({ result }: Props) => {

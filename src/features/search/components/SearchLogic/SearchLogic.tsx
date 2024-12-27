@@ -10,7 +10,7 @@ const SearchResults = () => {
 
   return (
     <section className="mt-10 text-sm">
-      <h3>Shoukain search logic of "{searchPhrase}"</h3>
+      <h3>Shoukai search logic of "{searchPhrase}"</h3>
       <strong>[todo]</strong>
       <p>Choosing the best recipes for the phrase</p>
       <p>Fetching the best matches</p>
