@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useEffect } from "react";
 
 import Logo from "@/components/Logo/Logo";
 
@@ -12,29 +13,31 @@ import SearchResults from "@/features/search/components/SearchResults/SearchResu
 import GoToSearchEngine from "@/features/search/components/GoToSearchEngine";
 import SearchSettings from "@/features/search/components/SearchSettings/SearchSettings";
 import SidebarWikipedia from "@/features/wikipedia/components/SidebarWikipedia";
-import { useEffect } from "react";
 
 const SearchPage = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
 
   useEffect(() => {
-    const defaultTitle = 'shoukai - personalized search';
+    const defaultTitle = "shoukai - personalized search";
 
     if (searchPhrase) {
-      document.title = `“${searchPhrase}” - ${defaultTitle}`
+      document.title = `“${searchPhrase}” - ${defaultTitle}`;
     } else {
       document.title = defaultTitle;
     }
-  }, [searchPhrase])
+  }, [searchPhrase]);
 
   return (
     <>
       <SearchSettings />
       <div
-        className={clsx("max-w-screen-md mx-auto p-4 duration-300 ease-in-out", {
-          "mt-[200px]": searchPhrase.length === 0,
-          "mt-[50px]": searchPhrase.length > 1,
-        })}
+        className={clsx(
+          "max-w-screen-md mx-auto p-4 duration-300 ease-in-out",
+          {
+            "mt-[200px]": searchPhrase.length === 0,
+            "mt-[50px]": searchPhrase.length > 1,
+          }
+        )}
       >
         <Logo />
         <SearchBar />

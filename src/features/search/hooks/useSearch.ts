@@ -19,9 +19,10 @@ declare global {
 
 export default function useSearch() {
   const searchPhrase = useSearchStore(state => state.searchPhrase);
+  const tags = useSearchStore(state => [...state.meta.phrase, ...state.meta.results]);
   const [searchConfig, setSearchConfig] = useState({
     phrase: searchPhrase || '',
-    recipes: getRecipiesForPhrase(searchPhrase, userRecipes),
+    recipes: getRecipiesForPhrase(searchPhrase, userRecipes, tags),
   });
 
 
@@ -32,7 +33,7 @@ export default function useSearch() {
       if (searchPhrase) {
         setSearchConfig({
           phrase: searchPhrase,
-          recipes: getRecipiesForPhrase(searchPhrase, userRecipes),
+          recipes: getRecipiesForPhrase(searchPhrase, userRecipes, tags),
         });
       } else {
         setSearchConfig({

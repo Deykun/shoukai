@@ -19,6 +19,8 @@ export type SearchRecipe = {
     }
   },
   options: SearchShortcut[],
+  promoteForTags: string[],
+  skipForTags: string[],
   wordsToPromote?: string[],
   // For example, Amazon.com will have the word "Amazon" in its title, and it should be ignored.
   wordsToIgnore?: string[],
@@ -35,4 +37,7 @@ export type SearchResult = {
 
 export type SearchResultEvaluated = SearchResult & {
   score: number,
+  recipe: {
+    svgIcon?: string,
+  }
 }

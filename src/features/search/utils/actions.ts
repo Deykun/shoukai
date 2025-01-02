@@ -2,14 +2,32 @@ import { SearchRecipe, SearchResult, SearchResultEvaluated } from '@/types';
 
 import { openInNewTab } from '@/utils/url';
 
-import { getSearchKey } from '@/features/search/api/search';
 import { getSearchKeyAndDomainURL } from '@/features/search/utils/url';
 import { setResults } from '@/features/search/stores/searchStore';
 
 import { getResultScoreDefault } from './default';
 
-export const getRecipiesForPhrase = (searchPhrase: string, recipes: SearchRecipe[]) => {
-  return recipes;
+export const getRecipiesForPhrase = (searchPhrase: string, recipes: SearchRecipe[], tags: string[]) => {
+  if (tags.length === 0) {
+    return recipes;
+  }
+
+  return recipes.filter(
+    ({ promoteForTags, skipForTags }) => {
+      if (tags.some((tag) => promoteForTags.includes(tag))) {
+        // Has promoted tag
+        return true;
+      }
+
+      if (tags.some((tag) => skipForTags.includes(tag))) {
+        // Has tag to skip
+        return false;
+      }
+
+      // Let's try
+      return true;
+    }
+  );
 };
 
 let openedTabs: {
@@ -72,7 +90,7 @@ export const indexResults = (searchPhrase: string, recipes: SearchRecipe[]) => {
       const scoredResults = results.map((result) => {
         const title = result.title.toLowerCase().replace(/[\)|\-|\(|0-9]/g, ' ').split(' ').filter((word) => word && !wordsToIgnore.includes(word)).join(' ');
 
-        return { ...result, score: getResultScore({ phrase, title }) }
+        return { ...result, score: getResultScore({ phrase, title }), recipe: { svgIcon: recipe.svgIcon } }
       });
 
       const validResults = scoredResults.filter(({ score }) => score >= minimumScore);
