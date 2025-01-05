@@ -23,12 +23,12 @@ const GoToSearchEngine = () => {
   }
 
   return (
-    <section className="flex flex-row justify-end items-center gap-1">
+    <section className="sticky top-0 flex flex-row justify-end items-center gap-1">
       <span className="text-xs opacity-50">{t('search.openWith')}</span>
       <ButtonIcon
         href={`https://www.google.com/search?q=${encodeURI(searchPhrase)}`}
         {...linkParams}
-        label="Google"
+        label={t('search.google')}
         labelPosition="bottom"
       >
         {" "}
@@ -37,7 +37,7 @@ const GoToSearchEngine = () => {
       <ButtonIcon
         href={`https://duckduckgo.com/?q=${encodeURI(searchPhrase)}`}
         {...linkParams}
-        label="DuckDuckGo"
+        label={t('search.duckduckgo')}
         labelPosition="bottom"
       >
         {" "}
@@ -46,7 +46,7 @@ const GoToSearchEngine = () => {
       <ButtonIcon
         href={`https://yandex.com/search/?text=${encodeURI(searchPhrase)}`}
         {...linkParams}
-        label="Yandex"
+        label={t('search.yandex')}
         labelPosition="bottom"
       >
         {" "}

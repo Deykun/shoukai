@@ -1,10 +1,5 @@
 import { SearchRecipe } from "@/types";
 
-const wordsToPromote = [
-  "film",
-  "movie",
-];
-
 export const recipe: SearchRecipe =  {
   name: "Movies",
   description: "Movie search engine.",
@@ -15,7 +10,8 @@ export const recipe: SearchRecipe =  {
       description: "Wyszukiwarka filmów.",
     },
   },
-  wordsToPromote,
+  promoteForTags: ['movie'],
+  skipForTags: ['dev', 'location'],
   wordsToIgnore: ["filmweb"],
   options: [
     {

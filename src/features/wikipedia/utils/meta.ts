@@ -9,12 +9,16 @@ const words: {
 } = {
   movieOrBook: {
     en: ['movie', 'series', 'book', 'actor', 'actress', 'director', 'writer'],
-    pl: ['film', 'seria', 'książka', 'aktor', 'aktorka', 'reżyser', 'pisarz', 'pisarka'],
+    pl: ['film', 'seria', 'serial', 'książka', 'aktor', 'aktorka', 'reżyser', 'pisarz', 'pisarka'],
   },
   location: {
     en: ['country', 'capital', 'city', 'town'],
     pl: ['kraj', 'stolica', 'miasto', 'miejscowość'],
-  }
+  },
+  city: {
+    en: ['capital', 'city', 'town'],
+    pl: ['stolica', 'miasto', 'miejscowość'],
+  },
 }
 
 export const getMetaFromWikipediaResult = (data: WikipediaResult, lang: string) => {
@@ -32,6 +36,7 @@ export const getMetaFromWikipediaResult = (data: WikipediaResult, lang: string) 
 
   const movieOrBookWords = words?.movieOrBook?.[lang] || [];
   const locationWords = words?.location?.[lang] || [];
+  const cityWords = words?.city?.[lang] || [];
 
   if (descriptionWords.some((descriptionWord) => getIsMetaWordMatching(descriptionWord, movieOrBookWords, []))) {
     tags.push('movie');
@@ -40,6 +45,10 @@ export const getMetaFromWikipediaResult = (data: WikipediaResult, lang: string) 
 
   if (descriptionWords.some((descriptionWord) => getIsMetaWordMatching(descriptionWord, locationWords, []))) {
     tags.push('location');
+
+    if (descriptionWords.some((descriptionWord) => getIsMetaWordMatching(descriptionWord, cityWords, []))) {
+      tags.push('city');
+    }
   }
 
   return tags;

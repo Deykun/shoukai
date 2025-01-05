@@ -9,6 +9,7 @@ export type SearchShortcut = {
 };
 
 export type SearchRecipe = {
+  id: string,
   name: string,
   description?: string,
   svgIcon?: string,
@@ -19,11 +20,15 @@ export type SearchRecipe = {
     }
   },
   options: SearchShortcut[],
+  promoteForTags: string[],
+  skipForTags: string[],
   wordsToPromote?: string[],
   // For example, Amazon.com will have the word "Amazon" in its title, and it should be ignored.
   wordsToIgnore?: string[],
   getResultScore?: GetResultScore,
   minimumScore: number,
+  // Used at the beginning or end of a query, it will simply jump there
+  shortcut?: string,
 };
 
 export type SearchResult = {
@@ -35,4 +40,5 @@ export type SearchResult = {
 
 export type SearchResultEvaluated = SearchResult & {
   score: number,
+  recipeId: string,
 }

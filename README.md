@@ -4,6 +4,8 @@ shoukai is not a search engine. It’s **a proof of concept** for an alternative
 
 I created shoukai because I think there is room for improvement that could outperform what's currently available on the market.
 
+![Result for Chicago](./preview.png)
+
 ## The idea behind personlized search
 
 The unfortunate reality of today's internet is that we rely on just a few websites every day. For quick learning, you turn to Wikipedia. For movie information, IMDb is usually your go-to. And if you're a programmer, you're likely searching on Stack Overflow.
@@ -18,3 +20,6 @@ The only thing shoukai will try to do is determine which search engines to run i
 
 ## What do I want to achieve with this project?
 Honestly, having better search tools that work for me is fine, but I can actually see how this idea could work as a viable future for the Internet search, you can steal it. ;)
+
+## Current state
+User scripts perform searches and update results for hardcoded recipes, of which only a few have been implemented.
