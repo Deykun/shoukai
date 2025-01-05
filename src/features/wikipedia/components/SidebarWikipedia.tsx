@@ -68,7 +68,7 @@ const SidebarWikipedia = () => {
   )}`;
 
   return (
-    <section className="bg-[#f5f9ef] p-4 rounded-md flex flex-col gap-2">
+    <section className="bg-[#f5f9ef] p-4 py-2 rounded-md flex flex-col gap-2">
       {wikipediSearchPhrase && (
         <>
           <h3 className="text-[18px] font-[600]">

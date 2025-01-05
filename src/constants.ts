@@ -1,13 +1,23 @@
 import { SearchRecipe } from "@/types";
 
-import { recipe as moviesProgramming } from '@/recipies/movies';
-import { recipe as programmingRecipe } from '@/recipies/programming';
+import { recipe as moviesProgramming } from "@/recipies/movies";
+import { recipe as programmingRecipe } from "@/recipies/programming";
 
 // TODO: replace with cached state
-export const userRecipes: SearchRecipe[] = [
-  moviesProgramming,
-  programmingRecipe,
-];
+export const userRecipeByKey: {
+  [id: string]: SearchRecipe;
+} = {
+  movies: {
+    ...moviesProgramming,
+    id: "movies",
+  },
+  programming: {
+    ...programmingRecipe,
+    id: "programming",
+  },
+};
+
+export const userRecipes = Object.values(userRecipeByKey);
 
 export const PATHS_DATA: {
   type?: string;

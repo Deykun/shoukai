@@ -90,7 +90,7 @@ export const indexResults = (searchPhrase: string, recipes: SearchRecipe[]) => {
       const scoredResults = results.map((result) => {
         const title = result.title.toLowerCase().replace(/[\)|\-|\(|0-9]/g, ' ').split(' ').filter((word) => word && !wordsToIgnore.includes(word)).join(' ');
 
-        return { ...result, score: getResultScore({ phrase, title }), recipe: { svgIcon: recipe.svgIcon } }
+        return { ...result, score: getResultScore({ phrase, title }), recipeId: recipe.id }
       });
 
       const validResults = scoredResults.filter(({ score }) => score >= minimumScore);

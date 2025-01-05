@@ -16,7 +16,7 @@ const Map = () => {
 
   // https://www.maps.ie/create-google-map/
   return (
-    <section className="bg-[#f5f9ef] overflow-hidden rounded-md p-1">
+    <section className="bg-[#f5f9ef] overflow-hidden rounded-md p-[2px]">
       <iframe
         className="rounded-[4px] map-iframe"
         width="100%"

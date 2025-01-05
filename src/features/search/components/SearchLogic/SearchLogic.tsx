@@ -8,6 +8,8 @@ const SearchResults = () => {
     return null;
   }
 
+  return null;
+
   return (
     <section className="mt-10 text-sm">
       <h3>Shoukai search logic of "{searchPhrase}"</h3>

@@ -9,6 +9,7 @@ export type SearchShortcut = {
 };
 
 export type SearchRecipe = {
+  id: string,
   name: string,
   description?: string,
   svgIcon?: string,
@@ -26,6 +27,8 @@ export type SearchRecipe = {
   wordsToIgnore?: string[],
   getResultScore?: GetResultScore,
   minimumScore: number,
+  // Used at the beginning or end of a query, it will simply jump there
+  shortcut?: string,
 };
 
 export type SearchResult = {
@@ -37,7 +40,5 @@ export type SearchResult = {
 
 export type SearchResultEvaluated = SearchResult & {
   score: number,
-  recipe: {
-    svgIcon?: string,
-  }
+  recipeId: string,
 }
