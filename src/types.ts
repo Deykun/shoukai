@@ -42,3 +42,8 @@ export type SearchResultEvaluated = SearchResult & {
   score: number,
   recipeId: string,
 }
+
+export type SearchDirectShortcut = {
+  magicWords: string[],
+  getSearchUrl: (phrase: string) => string,
+}

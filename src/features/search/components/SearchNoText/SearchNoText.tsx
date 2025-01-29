@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
 
+import { getGoogleImagesSearchUrl, getGoogleMapsSearchUrl } from '@/features/search/utils/search';
+
 import ButtonText from "@/components/UI/ButtonText";
 
 import IconSearchCamera from "@/components/Icons/IconSearchCamera";
@@ -21,9 +23,7 @@ const SearchNoText = () => {
   return (
     <section className="flex flex-row justify-end gap-2">
       <ButtonText
-        href={`https://www.google.com/search?q=${encodeURI(
-          searchPhrase
-        )}&tbm=isch`}
+        href={getGoogleImagesSearchUrl(searchPhrase)}
         target="_blank"
         rel="noreferrer noopener"
         title="Google Image"
@@ -33,7 +33,7 @@ const SearchNoText = () => {
         <span>{t("search.typeImage")}</span>
       </ButtonText>
       <ButtonText
-        href={`https://www.google.com/maps/search/${encodeURI(searchPhrase)}`}
+        href={getGoogleMapsSearchUrl(searchPhrase)}
         target="_blank"
         rel="noreferrer noopener"
         title="Google Maps"

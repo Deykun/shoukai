@@ -1,7 +1,22 @@
-import { SearchRecipe } from "@/types";
+import { SearchRecipe, SearchDirectShortcut } from "@/types";
+
+import { getDuckDuckGoSearchUrl, getGoogleSearchUrl } from '@/features/search/utils/search';
 
 import { recipe as moviesProgramming } from "@/recipies/movies";
 import { recipe as programmingRecipe } from "@/recipies/programming";
+
+export const directShortcutByKey: {
+  [id: string]: SearchDirectShortcut;
+} = {
+  d: {
+    magicWords: ['d'],
+    getSearchUrl: (phrase: string) => getDuckDuckGoSearchUrl(phrase),
+  },
+  g: {
+    magicWords: ['g'],
+    getSearchUrl: (phrase: string) => getGoogleSearchUrl(phrase),
+  }
+};
 
 // TODO: replace with cached state
 export const userRecipeByKey: {
