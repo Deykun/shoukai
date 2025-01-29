@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchResult, SearchResultEvaluated } from '@/types';
+import { SearchRecipe, SearchResult, SearchResultEvaluated, SearchDirectShortcut } from '@/types';
 
 import { openInNewTab } from '@/utils/url';
 
@@ -6,6 +6,35 @@ import { getSearchKeyAndDomainURL } from '@/features/search/utils/url';
 import { setResults } from '@/features/search/stores/searchStore';
 
 import { getResultScoreDefault } from './default';
+
+export const getDirectShortcutIfPresent = (searchPhrase: string, shortcuts: SearchDirectShortcut[]) => {
+  const words = searchPhrase.split(' ');
+
+  if (words.length < 2) {
+    return undefined;
+  }
+  
+  const firstWord = words.at(0);
+  const lastWord = words.at(-1);
+  const wordsInTheMiddle = words.slice(1, -1);
+
+  const shortcutForFirstOrLastWord = shortcuts.find(({ magicWord }) => magicWord === firstWord || magicWord === lastWord);
+
+  if (shortcutForFirstOrLastWord) {
+    return {
+      phrase: `${
+        firstWord !== shortcutForFirstOrLastWord.magicWord ? `${firstWord} ` : ''
+      }${
+        wordsInTheMiddle.join(' ')
+      }${
+        lastWord !== shortcutForFirstOrLastWord.magicWord ? ` ${lastWord}` : ''
+      }`.trim(),
+      shortcut: shortcutForFirstOrLastWord,
+    };
+  }
+
+  return undefined;
+};
 
 export const getRecipiesForPhrase = (searchPhrase: string, recipes: SearchRecipe[], tags: string[]) => {
   if (tags.length === 0) {

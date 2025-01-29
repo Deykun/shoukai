@@ -1,6 +1,11 @@
 import { SearchRecipe, SearchDirectShortcut } from "@/types";
 
-import { getDuckDuckGoSearchUrl, getGoogleSearchUrl } from '@/features/search/utils/search';
+import {
+  getDuckDuckGoSearchUrl,
+  getGoogleSearchUrl,
+  getGoogleImagesSearchUrl,
+  getGoogleMapsSearchUrl,
+} from '@/features/search/utils/search';
 
 import { recipe as moviesProgramming } from "@/recipies/movies";
 import { recipe as programmingRecipe } from "@/recipies/programming";
@@ -9,14 +14,24 @@ export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
 } = {
   d: {
-    magicWords: ['d'],
+    magicWord: 'd',
     getSearchUrl: (phrase: string) => getDuckDuckGoSearchUrl(phrase),
   },
   g: {
-    magicWords: ['g'],
+    magicWord: 'g',
     getSearchUrl: (phrase: string) => getGoogleSearchUrl(phrase),
-  }
+  },
+  img: {
+    magicWord: 'img',
+    getSearchUrl: (phrase: string) => getGoogleImagesSearchUrl(phrase),
+  },
+  gm: {
+    magicWord: 'gm',
+    getSearchUrl: (phrase: string) => getGoogleMapsSearchUrl(phrase),
+  },
 };
+
+export const directShortcuts = Object.values(directShortcutByKey);
 
 // TODO: replace with cached state
 export const userRecipeByKey: {

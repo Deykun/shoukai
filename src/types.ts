@@ -44,6 +44,6 @@ export type SearchResultEvaluated = SearchResult & {
 }
 
 export type SearchDirectShortcut = {
-  magicWords: string[],
+  magicWord: string,
   getSearchUrl: (phrase: string) => string,
 }

@@ -1,3 +1,8 @@
+export const getBingSearchUrl = (phrase: string, key?: string) =>
+  `https://www.bing.com/search?q=${encodeURI(
+    `${phrase}`
+  )}${key ? `&shoukaiKey=${key}` : ''}`;
+
 export const getDuckDuckGoSearchUrl = (phrase: string, key?: string) =>
   `https://duckduckgo.com/?q=${encodeURI(
     `${phrase}`
@@ -18,3 +23,7 @@ export const getGoogleMapsSearchUrl = (locationName: string, key?: string) =>
     `${locationName}`
   )}${key ? `&shoukaiKey=${key}` : ''}`;
 
+export const getYandexSearchUrl = (phrase: string, key?: string) =>
+  `https://yandex.com/search/?text=${encodeURI(
+    `${phrase}`
+  )}${key ? `&shoukaiKey=${key}` : ''}`;
