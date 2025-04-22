@@ -62,7 +62,7 @@ const SearchSettings = () => {
         <p className="text-justify show-for-no-script">
           {t("about.description")}
           <br />
-          <a href="https://deykun.github.io/shoukai/user-script/shoukai.user-script.js" target="_blank" className="underline">shoukai/user-script/shoukai.user-script.js</a>
+          <a href="https://deykun.github.io/shoukai/user-script/shoukai.user.js" target="_blank" className="underline">shoukai/user-script/shoukai.user.js</a>
         </p>
         <ul>
           {userRecipes.map(({ name, svgIcon, byLang }) => (

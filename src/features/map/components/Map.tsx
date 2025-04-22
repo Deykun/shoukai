@@ -23,8 +23,8 @@ const Map = () => {
         height="200"
         frameBorder="0"
         scrolling="no"
-        marginheight="0"
-        marginwidth="0"
+        marginHeight={0}
+        marginWidth={0}
         src={`https://maps.google.com/maps?width=100%25&height=200&hl=en&q=${encodeURI(searchPhrase)}&t=&z=11&ie=UTF8&iwloc=B&output=embed&lang=${i18n.language}`}
       />
     </section>
