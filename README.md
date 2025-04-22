@@ -22,4 +22,4 @@ The only thing shoukai will try to do is determine which search engines to run i
 Honestly, having better search tools that work for me is fine, but I can actually see how this idea could work as a viable future for the Internet search, you can steal it. ;)
 
 ## Current state
-User scripts perform searches and update results for hardcoded recipes, of which only a few have been implemented.
+User scripts perform searches and update results for hardcoded recipes, of which only a few have been implemented. The application is public because I'm trying to use it to motivate myself to finish it."
