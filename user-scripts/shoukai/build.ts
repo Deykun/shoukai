@@ -41,4 +41,4 @@ if (!existsSync('./public/user-script')){
   mkdirSync('./public/user-script');
 }
 
-fs.writeFileSync('./public/user-script/shoukai.user-script.js', template);
+fs.writeFileSync('./public/user-script/shoukai.user.js', template);
