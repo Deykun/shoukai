@@ -37,8 +37,8 @@ console.log();
 console.log(chalk.green("Saving..."));
 console.log();
 
-if (!existsSync('./dist-us')){
-  mkdirSync('./dist-us');
+if (!existsSync('./public/user-script')){
+  mkdirSync('./public/user-script');
 }
 
-fs.writeFileSync('./dist-us/shoukai.user.js', template);
+fs.writeFileSync('./public/user-script/shoukai.user-script.js', template);
