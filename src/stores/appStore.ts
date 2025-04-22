@@ -1,22 +1,21 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware'
+import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 type AppStoreState = {
-  areSettingsOpen: boolean,
-}
+  areSettingsOpen: boolean;
+};
 
 export const useAppStore = create<AppStoreState>()(
   devtools(
-    () => ({
+    (_get, _set) => ({
       areSettingsOpen: false,
-    } as AppStoreState),
-    { name: 'appStore' },
+    }),
+    { name: "appStore" }
   )
 );
 
 export const toggleSettings = () => {
   useAppStore.setState((state) => ({
-    ...state,
     areSettingsOpen: !state.areSettingsOpen,
   }));
 };

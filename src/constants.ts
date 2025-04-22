@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchDirectShortcut } from "@/types";
+import { SearchRecipe, SearchDirectShortcut, UserSearchRecipie } from "@/types";
 
 import {
   getDuckDuckGoSearchUrl,
@@ -33,8 +33,7 @@ export const directShortcutByKey: {
 
 export const directShortcuts = Object.values(directShortcutByKey);
 
-// TODO: replace with cached state
-export const userRecipeByKey: {
+export const recipeByKey: {
   [id: string]: SearchRecipe;
 } = {
   movies: {
@@ -47,7 +46,8 @@ export const userRecipeByKey: {
   },
 };
 
-export const userRecipes = Object.values(userRecipeByKey);
+// 
+export const initRecepies: UserSearchRecipie[] = Object.values(recipeByKey).map(({ id }) => ({ id, isActive: true }));
 
 export const PATHS_DATA: {
   type?: string;
