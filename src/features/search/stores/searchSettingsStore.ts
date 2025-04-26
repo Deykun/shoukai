@@ -20,4 +20,10 @@ export const useSearchSettingsStore = create<AppStoreState>()(
   )
 );
 
+export const toggleActiveForRecipie = (id: string) => {
+  useSearchSettingsStore.setState((state) => ({
+    recipies: state.recipies.map((recipe) => ({ ...recipe, isActive: id === recipe.id ? !recipe.isActive : recipe.isActive })),
+  }))
+}
+
 export default useSearchSettingsStore;

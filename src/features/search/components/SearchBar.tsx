@@ -10,7 +10,7 @@ import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 import useEffectChange from "@/hooks/useEffectChange";
 
 import useAppStore, {
-  toggleSettings,
+  toggleSettingsPane,
 } from "@/stores/appStore";
 import useSearchStore, {
   setSearchPhrase,
@@ -85,7 +85,7 @@ const SearchBar = () => {
         label={t('search.settings')}
         labelPosition="right"
         isActive={areSettingsOpen}
-        onClick={toggleSettings}
+        onClick={toggleSettingsPane}
       >
         <IconSearchSettings />
       </ButtonIcon>

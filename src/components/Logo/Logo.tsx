@@ -2,9 +2,7 @@ import clsx from "clsx";
 
 import IconSearch from "@/components/Icons/IconSearch";
 
-
 const Logo = () => {
-
   return (
     <h1
       className={clsx(

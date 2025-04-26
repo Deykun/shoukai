@@ -7,13 +7,13 @@ import ButtonText from "@/components/UI/ButtonText";
 import IconClose from "@/components/Icons/IconClose";
 import IconGithub from "@/components/Icons/IconGithub";
 
-import useAppStore, { toggleSettings } from "@/stores/appStore";
+import useAppStore, { toggleSettingsPane } from "@/stores/appStore";
 
 import Language from "./Language/Language";
 import Recipies from "./Recipies/Recipies";
 
 const SearchSettings = () => {
-  const areSettingsOpen = useAppStore((state) => state.areSettingsOpen);
+  const areSettingsOpen = useAppStore((state) => state.topPane === 'settings');
   const { t } = useTranslation();
 
   return (
@@ -53,7 +53,7 @@ const SearchSettings = () => {
           <ButtonIcon
             label={t("main.close")}
             labelPosition="bottom"
-            onClick={toggleSettings}
+            onClick={toggleSettingsPane}
           >
             <IconClose />
           </ButtonIcon>
@@ -70,7 +70,6 @@ const SearchSettings = () => {
           </a>
         </p>
         <Recipies />
-        <h3>Google</h3>
       </div>
     </div>
   );
