@@ -15,17 +15,13 @@ const RecipesItemModal = () => {
   const modal = useAppStore((state) => state.modal);
   const { t, i18n } = useTranslation();
 
-  // searchEngine
-
-  console.log("modal", modal);
-
   if (modal.type !== "recipe") {
     return null;
   }
 
   const recipe = recipeById[modal.data.recipeId];
 
-  const { name, description, svgIcon, byLang } = recipe;
+  const { name, byLang } = recipe;
 
   console.log(recipe);
 
