@@ -1,21 +1,20 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
-import { userRecipes } from "@/constants";
-
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import ButtonText from "@/components/UI/ButtonText";
 
 import IconClose from "@/components/Icons/IconClose";
 import IconGithub from "@/components/Icons/IconGithub";
 
-import useAppStore, { toggleSettings } from "@/stores/appStore";
+import useAppStore, { toggleSettingsPane } from "@/stores/appStore";
 
 import Language from "./Language/Language";
+import Recipes from "./Recipes/Recipes";
 
 const SearchSettings = () => {
-  const areSettingsOpen = useAppStore((state) => state.areSettingsOpen);
-  const { t, i18n } = useTranslation();
+  const areSettingsOpen = useAppStore((state) => state.topPane === 'settings');
+  const { t } = useTranslation();
 
   return (
     <div
@@ -54,7 +53,7 @@ const SearchSettings = () => {
           <ButtonIcon
             label={t("main.close")}
             labelPosition="bottom"
-            onClick={toggleSettings}
+            onClick={toggleSettingsPane}
           >
             <IconClose />
           </ButtonIcon>
@@ -62,21 +61,15 @@ const SearchSettings = () => {
         <p className="text-justify show-for-no-script">
           {t("about.description")}
           <br />
-          <a href="https://deykun.github.io/shoukai/user-script/shoukai.user.js" target="_blank" className="underline">shoukai/user-script/shoukai.user.js</a>
+          <a
+            href="https://deykun.github.io/shoukai/user-script/shoukai.user.js"
+            target="_blank"
+            className="underline"
+          >
+            shoukai/user-script/shoukai.user.js
+          </a>
         </p>
-        <ul>
-          {userRecipes.map(({ name, svgIcon, byLang }) => (
-            <li key={name} className="flex gap-3">
-              {svgIcon && (
-                <span
-                  className="[&>svg]:size-4 text-[#075525] inline-flex items-center"
-                  dangerouslySetInnerHTML={{ __html: svgIcon }}
-                />
-              )}
-              <span>{byLang?.[i18n.language]?.name || name}</span>
-            </li>
-          ))}
-        </ul>
+        <Recipes />
       </div>
     </div>
   );
