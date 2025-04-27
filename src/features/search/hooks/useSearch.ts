@@ -5,7 +5,7 @@ import { directShortcuts } from '@/constants';
 
 import { getRecipesForPhrase, getDirectShortcutIfPresent, performSearch, indexResults } from '@/features/search/utils/actions';
 import useSearchStore, { setResults } from '@/features/search/stores/searchStore';
-import useSearchSettingsStore from "@/features/search/stores/searchSettingsStore";
+import useSearchSettingsStore, { selectUserRecipes } from "@/features/search/stores/searchSettingsStore";
 
 declare global {
   interface Window {
@@ -19,13 +19,13 @@ declare global {
 }
 
 export default function useSearch() {
-  const Recipes = useSearchSettingsStore(state => state.Recipes);
+  const recipes = useSearchSettingsStore(selectUserRecipes);
   const searchPhrase = useSearchStore(state => state.searchPhrase);
   const tags = useSearchStore(state => [...state.meta.phrase, ...state.meta.results]);
   const directShortcut = getDirectShortcutIfPresent(searchPhrase, directShortcuts);
   const [searchConfig, setSearchConfig] = useState({
     phrase: searchPhrase || '',
-    recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, Recipes, tags),
+    recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, recipes, tags),
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function useSearch() {
       if (searchPhrase) {
         setSearchConfig({
           phrase: searchPhrase,
-          recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, Recipes, tags),
+          recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, recipes, tags),
         });
       } else {
         setSearchConfig({

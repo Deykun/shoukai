@@ -9,9 +9,7 @@ import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 
 import useEffectChange from "@/hooks/useEffectChange";
 
-import useAppStore, {
-  toggleSettingsPane,
-} from "@/stores/appStore";
+import useAppStore, { toggleSettingsPane } from "@/stores/appStore";
 import useSearchStore, {
   setSearchPhrase,
 } from "@/features/search/stores/searchStore";
@@ -20,7 +18,7 @@ import { getSearchParamsFromData } from "@/features/search/utils/url";
 const searchTitle = "shoukai - personalized search";
 
 const SearchBar = () => {
-  const areSettingsOpen = useAppStore((state) => state.areSettingsOpen);
+  const areSettingsOpen = useAppStore((state) => state.topPane === "settings");
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
   const [inputValue, setInputValue] = useState(searchPhrase);
 
@@ -52,7 +50,7 @@ const SearchBar = () => {
         className={clsx(
           "relative",
           "flex items-center w-full",
-          " rounded-[24px] shadow-md",
+          "rounded-[24px] shadow-md",
           "border-[#f5f9ef] border",
           "mx-auto font-[500] text-[18px]",
           "hover:border-[#f5f9ef] hover:shadow-lg",
@@ -82,7 +80,7 @@ const SearchBar = () => {
       </form>
       <ButtonIcon
         wrapperClassName="absolute top-1/2 -right-[50px] -translate-y-1/2"
-        label={t('search.settings')}
+        label={t("search.settings")}
         labelPosition="right"
         isActive={areSettingsOpen}
         onClick={toggleSettingsPane}

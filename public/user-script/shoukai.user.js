@@ -20,6 +20,8 @@
 
 'use strict';
 
+const shoukaiUrl = 'https://deykun.github.io/shoukai/';
+
 const getFromLocalStorage = (key, defaultValues = {}) => (localStorage.getItem(key)
   ? { ...defaultValues, ...JSON.parse(localStorage.getItem(key)) }
   : { ...defaultValues });
@@ -98,7 +100,7 @@ const initshoukai = async () => {
     },
   });
 
-  window.location.href = `http://localhost:3001/shoukai/reindex?searchKey=${searchKey}`;
+  window.location.href = `${shoukaiUrl}reindex?searchKey=${searchKey}`;
 }
   const appendCSS = (styles, { sourceName = '' } = {}) => {
   const appendOnceSelector = sourceName ? `g-wp-css-${sourceName}`.trim() : undefined;

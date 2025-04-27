@@ -31,5 +31,8 @@ export const recipe: SearchRecipe = {
         getGoogleSearchUrl(`${phrase} site:filmweb.pl`, key),
     },
   ],
+  searchOptions: {
+    default: `[phrase] site:filmweb.pl`,
+  },
   minimumScore: 0.75,
 };

@@ -19,7 +19,7 @@ const ModalAsContentWrapper = ({ children }: Props) => {
       <div
         className={clsx("col-start-1 row-start-1", "duration-500", {
           "opacity-100": !isModalOpen,
-          "opacity-0 pointer-events-none": isModalOpen,
+          "opacity-0 translate-y-6 pointer-events-none": isModalOpen,
         })}
       >
         {children}

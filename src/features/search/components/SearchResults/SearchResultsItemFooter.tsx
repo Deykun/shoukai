@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { recipeById } from "@/constants";
 import { SearchResultEvaluated } from "@/types";
+import { toggleRecipeModal } from "@/stores/appStore";
 
 import IconLogo from "@/components/Icons/IconLogo";
 
 import ButtonIcon from "@/components/UI/ButtonIcon";
+import ButtonText from "@/components/UI/ButtonText";
 
 type Props = {
   isOpen: boolean;
@@ -45,7 +47,7 @@ const SearchResultsItemFooter = ({ isOpen, result }: Props) => {
         <IconLogo id={source} />
       </ButtonIcon>
       <span>{(100 * (score / 1)).toFixed(1)}%</span>
-      <span className="inline-flex items-center gap-2">
+      <ButtonText onClick={() => toggleRecipeModal(recipeId)} size="small">
         {recipeById[recipeId]?.svgIcon && (
           <span
             className="[&>svg]:size-4 text-[#075525] inline-flex items-center"
@@ -54,8 +56,8 @@ const SearchResultsItemFooter = ({ isOpen, result }: Props) => {
             }}
           />
         )}
-        <span className="text-xs">{recipeName}</span>
-      </span>
+        <span>{t(recipeName)}</span>
+      </ButtonText>
     </footer>
   );
 };

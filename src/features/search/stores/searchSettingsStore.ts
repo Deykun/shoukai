@@ -1,18 +1,20 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import { initRecipes } from "@/constants";
-import { UserSearchRecipe } from "@/types";
+import { initRecipes, recipeById } from "@/constants";
+import { SearchRecipe, UserSearchRecipe } from "@/types";
 
 type AppStoreState = {
-  Recipes: UserSearchRecipe[],
+  recipesById: {
+    [id: string]: UserSearchRecipe;
+  };
 };
 
 export const useSearchSettingsStore = create<AppStoreState>()(
   persist(
     devtools(
       (_get, _set) => ({
-        Recipes: initRecipes,
+        recipesById: initRecipes,
       }),
       { name: "searchSettingsStore" }
     ),
@@ -22,8 +24,32 @@ export const useSearchSettingsStore = create<AppStoreState>()(
 
 export const toggleActiveForRecipe = (id: string) => {
   useSearchSettingsStore.setState((state) => ({
-    Recipes: state.Recipes.map((recipe) => ({ ...recipe, isActive: id === recipe.id ? !recipe.isActive : recipe.isActive })),
-  }))
-}
+    recipesById: {
+      ...state.recipesById,
+
+      [id]: {
+        ...state.recipesById[id],
+        isActive: !state.recipesById[id].isActive,
+      },
+    },
+  }));
+};
+
+export const selectUserRecipes = (state: AppStoreState): SearchRecipe[] => {
+  const activeUserRecipes = Object.values(state.recipesById).filter(
+    ({ isActive }) => isActive
+  );
+
+  const recipes = activeUserRecipes.reduce(
+    (stack: SearchRecipe[], userRecipe) => {
+      stack.push(recipeById[userRecipe.id]);
+
+      return stack;
+    },
+    []
+  );
+
+  return recipes;
+};
 
 export default useSearchSettingsStore;

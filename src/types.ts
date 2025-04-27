@@ -1,3 +1,5 @@
+import { SupportedSearchEngine } from "./constants";
+
 export type GetResultScoreParams = { phrase: string, title: string };
 
 export type GetResultScore = (params: GetResultScoreParams) => number;
@@ -20,6 +22,13 @@ export type SearchRecipe = {
     }
   },
   options: SearchShortcut[],
+  searchOptions: {
+    default: string,
+    bing?: string,
+    duckduckgo?: string,
+    google?: string,
+    yandex?: string,
+  },
   promoteForTags: string[],
   skipForTags: string[],
   wordsToPromote?: string[],
@@ -34,7 +43,7 @@ export type SearchRecipe = {
 export type UserSearchRecipe = {
   id: string,
   isActive: boolean,
-  searchEngine?: string,
+  searchEngine?: SupportedSearchEngine,
 }
 
 export type SearchResult = {

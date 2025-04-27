@@ -17,8 +17,6 @@ type ModalRecipe = {
 
 type Modal = ModalEmpty | ModalRecipe;
 
-// type Modal = ;
-
 type AppStoreState = {
   topPane: TopPane;
   modal: Modal;

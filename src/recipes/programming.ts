@@ -26,5 +26,8 @@ export const recipe: SearchRecipe = {
       getSearchUrl: (phrase, key) => getGoogleSearchUrl(`${phrase} site:stackoverflow.com`, key),
     },
   ],
+  searchOptions: {
+    default: `[phrase] site:stackoverflow.com`,
+  },
   minimumScore: 0,
 };
