@@ -4,13 +4,24 @@ import Input from "@/components/UI/Input";
 
 type Props = {
   label: string;
+  labelDescription?: string;
   children?: React.ReactNode;
   value?: string;
+  valueDescription?: string;
   isDisabled?: boolean;
 };
 
-const RecipesItemModalField = ({ label, children, value, isDisabled }: Props) => {
+const RecipesItemModalField = ({
+  label,
+  labelDescription = "",
+  children,
+  value,
+  valueDescription = "",
+  isDisabled,
+}: Props) => {
   const { t } = useTranslation();
+
+  const hasDescription = Boolean(labelDescription || valueDescription);
 
   return (
     <>
@@ -23,6 +34,12 @@ const RecipesItemModalField = ({ label, children, value, isDisabled }: Props) =>
           defaultValue={value}
           isDisabled={isDisabled}
         />
+      )}
+      {hasDescription && (
+        <>
+          <span>{labelDescription}</span>
+          <p className="col-span-3 opacity-50 text-xs text-justify hyphens-auto">{valueDescription}</p>
+        </>
       )}
     </>
   );
