@@ -66,9 +66,7 @@ const RecipesItemModal = () => {
           />
           <RecipesItemModalHeader
             title="1. Before searching"
-            description="Rules deciding whether the recipe will actually be called. For
-            example, if phrases identified as related to programming appear,
-            there is no need to call a recipe related to movies."
+            description="Rules that determine whether a recipe will be called. For instance, if phrases related to programming are identified, there's no need to call a recipe associated with movies."
           />
           <RecipesItemModalField
             label="Promote for tags"
@@ -129,7 +127,7 @@ const RecipesItemModal = () => {
             isDisabled
           />
         </div>
-        <div className="flex mt-6 justify-end">
+        <div className="flex mt-10 justify-end">
           <ButtonText isActive size="large" isDisabled>
             <IconSend />
             <span>Update recipe</span>
