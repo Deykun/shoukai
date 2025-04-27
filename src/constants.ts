@@ -70,13 +70,24 @@ export const initRecipes = Object.values(recipeById).reduce(
 );
 
 export const PATHS_DATA: {
-  type?: string;
-  pathNameLink: string;
   path: string;
   title: string;
   social: string;
   lang: string;
-}[] = [] as const;
+}[] = [
+  {
+    path: "404",
+    title: "404 - shoukai - personalized search",
+    social: "",
+    lang: "en",
+  },
+  {
+    path: "reindex",
+    title: "indexing... - shoukai - personalized search",
+    social: "",
+    lang: "en",
+  },
+] as const;
 
 export const LOCAL_STORAGE = {
   SHOUKAI_UPDATE: "SHOUKAI_UPDATE",
