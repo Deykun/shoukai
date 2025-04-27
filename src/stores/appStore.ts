@@ -11,7 +11,7 @@ type ModalEmpty = {
 type ModalRecipe = {
   type: "recipe";
   data: {
-    recipeKey: string;
+    recipeId: string;
   };
 };
 
@@ -42,13 +42,43 @@ export const toggleSettingsPane = () => {
   useAppStore.setState((state) => {
     if (state.topPane === "settings") {
       return {
-        topPane: '',
-        ...MODAL_EMPTY,
+        topPane: "",
+        modal: MODAL_EMPTY,
       };
     }
 
     return {
       topPane: "settings",
+    };
+  });
+};
+
+export const closeModal = () => {
+  useAppStore.setState(() => {
+    return {
+      modal: MODAL_EMPTY,
+    };
+  });
+};
+
+export const toggleRecipeModal = (recipeId: string) => {
+  useAppStore.setState((state) => {
+    const isOpenAlready =
+      state.modal.type === "recipe" && state.modal.data.recipeId === recipeId;
+
+    if (isOpenAlready) {
+      return {
+        modal: MODAL_EMPTY,
+      };
+    }
+
+    return {
+      modal: {
+        type: "recipe",
+        data: {
+          recipeId,
+        },
+      },
     };
   });
 };

@@ -10,7 +10,7 @@ import IconGithub from "@/components/Icons/IconGithub";
 import useAppStore, { toggleSettingsPane } from "@/stores/appStore";
 
 import Language from "./Language/Language";
-import Recipies from "./Recipies/Recipies";
+import Recipes from "./Recipes/Recipes";
 
 const SearchSettings = () => {
   const areSettingsOpen = useAppStore((state) => state.topPane === 'settings');
@@ -69,7 +69,7 @@ const SearchSettings = () => {
             shoukai/user-script/shoukai.user.js
           </a>
         </p>
-        <Recipies />
+        <Recipes />
       </div>
     </div>
   );

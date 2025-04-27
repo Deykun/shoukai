@@ -1,18 +1,18 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import { initRecepies } from "@/constants";
-import { UserSearchRecipie } from "@/types";
+import { initRecipes } from "@/constants";
+import { UserSearchRecipe } from "@/types";
 
 type AppStoreState = {
-  recipies: UserSearchRecipie[],
+  Recipes: UserSearchRecipe[],
 };
 
 export const useSearchSettingsStore = create<AppStoreState>()(
   persist(
     devtools(
       (_get, _set) => ({
-        recipies: initRecepies,
+        Recipes: initRecipes,
       }),
       { name: "searchSettingsStore" }
     ),
@@ -20,9 +20,9 @@ export const useSearchSettingsStore = create<AppStoreState>()(
   )
 );
 
-export const toggleActiveForRecipie = (id: string) => {
+export const toggleActiveForRecipe = (id: string) => {
   useSearchSettingsStore.setState((state) => ({
-    recipies: state.recipies.map((recipe) => ({ ...recipe, isActive: id === recipe.id ? !recipe.isActive : recipe.isActive })),
+    Recipes: state.Recipes.map((recipe) => ({ ...recipe, isActive: id === recipe.id ? !recipe.isActive : recipe.isActive })),
   }))
 }
 

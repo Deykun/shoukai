@@ -31,7 +31,7 @@ export type SearchRecipe = {
   shortcut?: string,
 };
 
-export type UserSearchRecipie = {
+export type UserSearchRecipe = {
   id: string,
   isActive: boolean,
   searchEngine?: string,

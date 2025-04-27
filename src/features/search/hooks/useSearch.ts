@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { SearchResult } from '@/types'
 import { directShortcuts } from '@/constants';
 
-import { getRecipiesForPhrase, getDirectShortcutIfPresent, performSearch, indexResults } from '@/features/search/utils/actions';
+import { getRecipesForPhrase, getDirectShortcutIfPresent, performSearch, indexResults } from '@/features/search/utils/actions';
 import useSearchStore, { setResults } from '@/features/search/stores/searchStore';
 import useSearchSettingsStore from "@/features/search/stores/searchSettingsStore";
 
@@ -19,13 +19,13 @@ declare global {
 }
 
 export default function useSearch() {
-  const recipies = useSearchSettingsStore(state => state.recipies);
+  const Recipes = useSearchSettingsStore(state => state.Recipes);
   const searchPhrase = useSearchStore(state => state.searchPhrase);
   const tags = useSearchStore(state => [...state.meta.phrase, ...state.meta.results]);
   const directShortcut = getDirectShortcutIfPresent(searchPhrase, directShortcuts);
   const [searchConfig, setSearchConfig] = useState({
     phrase: searchPhrase || '',
-    recipes: directShortcut ? [] : getRecipiesForPhrase(searchPhrase, recipies, tags),
+    recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, Recipes, tags),
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function useSearch() {
       if (searchPhrase) {
         setSearchConfig({
           phrase: searchPhrase,
-          recipes: directShortcut ? [] : getRecipiesForPhrase(searchPhrase, recipies, tags),
+          recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, Recipes, tags),
         });
       } else {
         setSearchConfig({

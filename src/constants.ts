@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchDirectShortcut, UserSearchRecipie } from "@/types";
+import { SearchRecipe, SearchDirectShortcut, UserSearchRecipe } from "@/types";
 
 import {
   getDuckDuckGoSearchUrl,
@@ -7,8 +7,8 @@ import {
   getGoogleMapsSearchUrl,
 } from '@/features/search/utils/search';
 
-import { recipe as moviesProgramming } from "@/recipies/movies";
-import { recipe as programmingRecipe } from "@/recipies/programming";
+import { recipe as moviesProgramming } from "@/recipes/movies";
+import { recipe as programmingRecipe } from "@/recipes/programming";
 
 export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
@@ -33,7 +33,7 @@ export const directShortcutByKey: {
 
 export const directShortcuts = Object.values(directShortcutByKey);
 
-export const recipeByKey: {
+export const recipeById: {
   [id: string]: SearchRecipe;
 } = {
   movies: {
@@ -47,7 +47,7 @@ export const recipeByKey: {
 };
 
 // 
-export const initRecepies: UserSearchRecipie[] = Object.values(recipeByKey).map(({ id }) => ({ id, isActive: true }));
+export const initRecipes: UserSearchRecipe[] = Object.values(recipeById).map(({ id }) => ({ id, isActive: true }));
 
 export const PATHS_DATA: {
   type?: string;

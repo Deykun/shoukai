@@ -1,10 +1,12 @@
 @import "@/scss/mixins.scss";
 
 .ui-button-icon {
+  @apply inline-block;
+
   > a,
   > button,
   > span {
-    @apply flex justify-center items-center size-8;
+    @apply inline-flex justify-center items-center size-8;
 
     color: #075525;
     font-size: 20px;
