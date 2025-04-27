@@ -1,3 +1,5 @@
+const shoukaiUrl = 'https://deykun.github.io/shoukai/';
+
 const getFromLocalStorage = (key, defaultValues = {}) => (localStorage.getItem(key)
   ? { ...defaultValues, ...JSON.parse(localStorage.getItem(key)) }
   : { ...defaultValues });

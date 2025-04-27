@@ -10,5 +10,5 @@ const saveResults = (searchKey, results) => {
     },
   });
 
-  window.location.href = `http://localhost:3001/shoukai/reindex?searchKey=${searchKey}`;
+  window.location.href = `${shoukaiUrl}reindex?searchKey=${searchKey}`;
 }

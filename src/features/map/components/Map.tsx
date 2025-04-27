@@ -9,7 +9,6 @@ const Map = () => {
   const metaResults = useSearchStore((state) => state.meta.results);
   const { i18n } = useTranslation();
 
-
   if (!metaResults.includes("city")) {
     return null;
   }

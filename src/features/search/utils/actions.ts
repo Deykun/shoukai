@@ -36,7 +36,7 @@ export const getDirectShortcutIfPresent = (searchPhrase: string, shortcuts: Sear
   return undefined;
 };
 
-export const getRecipiesForPhrase = (searchPhrase: string, recipes: SearchRecipe[], tags: string[]) => {
+export const getRecipesForPhrase = (searchPhrase: string, recipes: SearchRecipe[], tags: string[]) => {
   if (tags.length === 0) {
     return recipes;
   }

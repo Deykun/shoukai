@@ -5,7 +5,7 @@ import {
   getDuckDuckGoSearchUrl,
   getYandexSearchUrl,
   getBingSearchUrl,
-} from '@/features/search/utils/search';
+} from "@/features/search/utils/search";
 
 import ButtonIcon from "@/components/UI/ButtonIcon";
 
@@ -32,41 +32,41 @@ const GoToSearchEngine = () => {
 
   return (
     <section className="sticky top-0 flex flex-row justify-end items-center gap-1">
-      <span className="text-xs opacity-50">{t('search.openWith')}</span>
+      <span className="text-xs opacity-50">{t("search.openWith")}</span>
       <ButtonIcon
-        href={getGoogleSearchUrl(searchPhrase)}
+        href={getBingSearchUrl(searchPhrase)}
         {...linkParams}
-        label={t('search.google')}
+        label={t("search.bing")}
         labelPosition="bottom"
       >
         {" "}
-        <IconGoogle />
+        <IconBing />
       </ButtonIcon>
       <ButtonIcon
         href={getDuckDuckGoSearchUrl(searchPhrase)}
         {...linkParams}
-        label={t('search.duckduckgo')}
+        label={t("search.duckduckgo")}
         labelPosition="bottom"
       >
         {" "}
         <IconDuckDuckGo />
       </ButtonIcon>
       <ButtonIcon
+        href={getGoogleSearchUrl(searchPhrase)}
+        {...linkParams}
+        label={t("search.google")}
+        labelPosition="bottom"
+      >
+        {" "}
+        <IconGoogle />
+      </ButtonIcon>
+      <ButtonIcon
         href={getYandexSearchUrl(searchPhrase)}
-        label={t('search.yandex')}
+        label={t("search.yandex")}
         labelPosition="bottom"
       >
         {" "}
         <IconYandex />
-      </ButtonIcon>
-      <ButtonIcon
-        href={getBingSearchUrl(searchPhrase)}
-        {...linkParams}
-        label={t('search.bing')}
-        labelPosition="bottom"
-      >
-        {" "}
-        <IconBing />
       </ButtonIcon>
     </section>
   );

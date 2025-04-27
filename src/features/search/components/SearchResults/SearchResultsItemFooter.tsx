@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
-import { userRecipeByKey } from "@/constants";
+import { recipeById } from "@/constants";
 import { SearchResultEvaluated } from "@/types";
+import { toggleRecipeModal } from "@/stores/appStore";
 
 import IconLogo from "@/components/Icons/IconLogo";
 
 import ButtonIcon from "@/components/UI/ButtonIcon";
+import ButtonText from "@/components/UI/ButtonText";
 
 type Props = {
   isOpen: boolean;
@@ -19,8 +21,8 @@ const SearchResultsItemFooter = ({ isOpen, result }: Props) => {
   const { t, i18n } = useTranslation();
 
   const recipeName =
-    userRecipeByKey[recipeId]?.byLang?.[i18n.language]?.name ||
-    userRecipeByKey[recipeId].name ||
+    recipeById[recipeId]?.byLang?.[i18n.language]?.name ||
+    recipeById[recipeId].name ||
     "";
 
   return (
@@ -45,17 +47,17 @@ const SearchResultsItemFooter = ({ isOpen, result }: Props) => {
         <IconLogo id={source} />
       </ButtonIcon>
       <span>{(100 * (score / 1)).toFixed(1)}%</span>
-      <span className="inline-flex items-center gap-2">
-        {userRecipeByKey[recipeId]?.svgIcon && (
+      <ButtonText onClick={() => toggleRecipeModal(recipeId)} size="small">
+        {recipeById[recipeId]?.svgIcon && (
           <span
             className="[&>svg]:size-4 text-[#075525] inline-flex items-center"
             dangerouslySetInnerHTML={{
-              __html: userRecipeByKey[recipeId].svgIcon || "",
+              __html: recipeById[recipeId].svgIcon || "",
             }}
           />
         )}
-        <span className="text-xs">{recipeName}</span>
-      </span>
+        <span>{t(recipeName)}</span>
+      </ButtonText>
     </footer>
   );
 };

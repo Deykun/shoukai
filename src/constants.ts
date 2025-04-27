@@ -1,40 +1,48 @@
-import { SearchRecipe, SearchDirectShortcut } from "@/types";
+import { SearchRecipe, SearchDirectShortcut, UserSearchRecipe } from "@/types";
 
 import {
   getDuckDuckGoSearchUrl,
   getGoogleSearchUrl,
   getGoogleImagesSearchUrl,
   getGoogleMapsSearchUrl,
-} from '@/features/search/utils/search';
+} from "@/features/search/utils/search";
 
-import { recipe as moviesProgramming } from "@/recipies/movies";
-import { recipe as programmingRecipe } from "@/recipies/programming";
+import { recipe as moviesProgramming } from "@/recipes/movies";
+import { recipe as programmingRecipe } from "@/recipes/programming";
+
+export type SupportedSearchEngine = "bing" | "duckduckgo" | "google" | "yandex";
+
+export const supportedSearchEngines: SupportedSearchEngine[] = [
+  "bing",
+  "duckduckgo",
+  "google",
+  "yandex",
+];
 
 export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
 } = {
   d: {
-    magicWord: 'd',
+    magicWord: "d",
     getSearchUrl: (phrase: string) => getDuckDuckGoSearchUrl(phrase),
   },
   g: {
-    magicWord: 'g',
+    magicWord: "g",
     getSearchUrl: (phrase: string) => getGoogleSearchUrl(phrase),
   },
   img: {
-    magicWord: 'img',
+    magicWord: "img",
     getSearchUrl: (phrase: string) => getGoogleImagesSearchUrl(phrase),
   },
   gm: {
-    magicWord: 'gm',
+    magicWord: "gm",
     getSearchUrl: (phrase: string) => getGoogleMapsSearchUrl(phrase),
   },
 };
 
 export const directShortcuts = Object.values(directShortcutByKey);
 
-// TODO: replace with cached state
-export const userRecipeByKey: {
+export const recipeById: {
   [id: string]: SearchRecipe;
 } = {
   movies: {
@@ -47,7 +55,19 @@ export const userRecipeByKey: {
   },
 };
 
-export const userRecipes = Object.values(userRecipeByKey);
+export const initRecipes = Object.values(recipeById).reduce(
+  (
+    stack: {
+      [id: string]: UserSearchRecipe;
+    },
+    { id }
+  ) => {
+    stack[id] = { id, isActive: true };
+
+    return stack;
+  },
+  {}
+);
 
 export const PATHS_DATA: {
   type?: string;
