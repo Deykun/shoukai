@@ -31,7 +31,7 @@ export const getYandexSearchUrl = (phrase: string, key?: string) =>
   }`;
 
 export const getSearchUrlGetterBySearchEngine = (
-  searchEngine: '' | SupportedSearchEngine
+  searchEngine: 'default' | SupportedSearchEngine
 ) => {
   if (searchEngine === 'bing') {
     return getBingSearchUrl;

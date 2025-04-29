@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchResult, SearchResultEvaluated, SearchDirectShortcut, ShoukaiSearchRecipe } from '@/types';
+import { SearchResult, SearchResultEvaluated, SearchDirectShortcut, ShoukaiSearchRecipe } from '@/types';
 
 import { openInNewTab } from '@/utils/url';
 
@@ -110,7 +110,7 @@ export const indexResults = (searchPhrase: string, recipes: ShoukaiSearchRecipe[
     if (resultsByKey[searchKey]?.results) {
       const results = resultsByKey[searchKey].results as SearchResult[];
 
-      const getResultScore = recipe?.getResultScore || recipe?.options?.[0]?.getResultScore || getResultScoreDefault;
+      const getResultScore = recipe?.getResultScore || getResultScoreDefault;
       
       const phrase = searchPhrase.toLowerCase();
       const wordsToIgnore = recipe.wordsToIgnore || [];

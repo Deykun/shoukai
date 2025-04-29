@@ -35,19 +35,21 @@ export const getSearchKeyAndDomainURL = (
   searchPhrase: string,
   recipe: ShoukaiSearchRecipe
 ) => {
-  const getSearchUrl = getSearchUrlGetterBySearchEngine(
-    recipe.searchEngine || ""
-  );
+  const searchEngine = recipe.searchEngine || "default";
+  const getSearchUrl = getSearchUrlGetterBySearchEngine(searchEngine);
 
-  const phraseTemplate = recipe.searchOptions[recipe.searchEngine || 'default'] || recipe.searchOptions.default;
+  const phraseTemplate =
+    recipe.searchOptions[searchEngine] ||
+    recipe.searchOptions.default;
 
   const lowerCasedSearchPhrase = searchPhrase.toLowerCase();
-  const phraseToSearch = phraseTemplate.replace('[phrase]', lowerCasedSearchPhrase);
-
-
+  const phraseToSearch = phraseTemplate.replace(
+    "[phrase]",
+    lowerCasedSearchPhrase
+  );
 
   const searchKey = getSearchKey(
-    phraseToSearch,
+    `${phraseToSearch} ${searchEngine}`,
     getSearchUrl(searchPhrase, "seed")
   );
   const domainWithSearch = getSearchUrl(phraseToSearch, searchKey);

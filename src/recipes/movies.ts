@@ -1,10 +1,5 @@
 import { SearchRecipe } from "@/types";
 
-import {
-  getDuckDuckGoSearchUrl,
-  getGoogleSearchUrl,
-} from "@/features/search/utils/search";
-
 export const recipe: SearchRecipe = {
   id: "movies",
   name: "Movies and TV shows",
@@ -19,20 +14,8 @@ export const recipe: SearchRecipe = {
   promoteForTags: ["movie"],
   skipForTags: ["dev", "location"],
   wordsToIgnore: ["filmweb"],
-  options: [
-    {
-      domain: "https://www.duckduckgo.com/",
-      getSearchUrl: (phrase, key) =>
-        getDuckDuckGoSearchUrl(`${phrase} site:filmweb.pl`, key),
-    },
-    {
-      domain: "https://www.google.com/",
-      getSearchUrl: (phrase, key) =>
-        getGoogleSearchUrl(`${phrase} site:filmweb.pl`, key),
-    },
-  ],
   searchOptions: {
     default: `[phrase] site:filmweb.pl`,
   },
-  minimumScore: 0.75,
+  minimumScore: 0.15,
 };
