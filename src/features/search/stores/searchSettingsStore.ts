@@ -26,10 +26,24 @@ export const toggleActiveForRecipe = (id: string) => {
   useSearchSettingsStore.setState((state) => ({
     recipesById: {
       ...state.recipesById,
-
       [id]: {
         ...state.recipesById[id],
         isActive: !state.recipesById[id].isActive,
+      },
+    },
+  }));
+};
+
+export const updateUserRecipe = (
+  id: string,
+  userRecipeUpdate: Partial<UserSearchRecipe>
+) => {
+  useSearchSettingsStore.setState((state) => ({
+    recipesById: {
+      ...state.recipesById,
+      [id]: {
+        ...state.recipesById[id],
+        ...userRecipeUpdate,
       },
     },
   }));

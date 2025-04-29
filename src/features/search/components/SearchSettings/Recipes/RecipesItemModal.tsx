@@ -1,24 +1,61 @@
-import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
-import { recipeById, supportedSearchEngines } from "@/constants";
+import { recipeById, SupportedSearchEngine } from "@/constants";
 import useAppStore, { closeModal } from "@/stores/appStore";
 
 import IconClose from "@/components/Icons/IconClose";
-import IconLogo from "@/components/Icons/IconLogo";
-import IconSearchResults from "@/components/Icons/IconSearchResults";
 import IconSend from "@/components/Icons/IconSend";
 
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import RecipesItemModalField from "./RecipesItemModalField";
 import RecipesItemModalHeader from "./RecipesItemModalHeader";
 import ButtonText from "@/components/UI/ButtonText";
+import { useCallback } from "react";
+import useSearchSettingsStore, {
+  updateUserRecipe,
+} from "@/features/search/stores/searchSettingsStore";
+import SearchEnginePicker from "../SearchEnginePicker/SearchEnginePicker";
 
 const RecipesItemModal = () => {
   const modal = useAppStore((state) => state.modal);
+  const recipeId = useAppStore((state) =>
+    state.modal.type === "recipe" ? state.modal.data.recipeId : ""
+  );
+  const userRecipe = useSearchSettingsStore((state) =>
+    recipeId ? state.recipesById[recipeId] : undefined
+  );
+
   const { t, i18n } = useTranslation();
 
-  if (modal.type !== "recipe") {
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      if (!recipeId) {
+        return;
+      }
+
+      const form = event.currentTarget;
+      const formData = new FormData(form);
+
+      const data: Record<string, string> = {};
+      formData.forEach((value, key) => {
+        data[key] = value.toString();
+      });
+
+      const userRecipe = {
+        searchEngine: (data.searchEngine || "") as SupportedSearchEngine,
+      };
+
+      console.log(data);
+
+      // handleSubmit
+      updateUserRecipe(recipeId, userRecipe);
+    },
+    [recipeId, modal.data]
+  );
+
+  if (modal.type !== "recipe" || !userRecipe) {
     return null;
   }
 
@@ -29,9 +66,7 @@ const RecipesItemModal = () => {
   return (
     <article
       key={modal.data.recipeId}
-      className={clsx(
-        "max-w-screen-md mx-auto p-4 flex flex-col gap-5 animate-fade-in"
-      )}
+      className="max-w-screen-md mx-auto p-4 flex flex-col gap-5 animate-fade-in"
     >
       <header className="flex gap-5 items-center">
         <ButtonIcon
@@ -43,7 +78,7 @@ const RecipesItemModal = () => {
           <IconClose />
         </ButtonIcon>
       </header>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-4 gap-4 items-center">
           <RecipesItemModalHeader
             title="Recipe"
@@ -88,28 +123,11 @@ const RecipesItemModal = () => {
             isDisabled
           />
           <RecipesItemModalField label="Search engine">
-            <div className="flex gap-2 items-center">
-              <ButtonIcon
-                size="large"
-                onClick={() => {}}
-                label={t("search.defaultSearch")}
-                labelPosition="bottom"
-                isDisabled
-              >
-                <IconSearchResults />
-              </ButtonIcon>
-              {supportedSearchEngines.map((searchEngine) => (
-                <ButtonIcon
-                  size="large"
-                  onClick={() => {}}
-                  label={t(`search.${searchEngine}`)}
-                  labelPosition="bottom"
-                  isDisabled
-                >
-                  <IconLogo id={searchEngine} />
-                </ButtonIcon>
-              ))}
-            </div>
+            <SearchEnginePicker
+              className="flex gap-2 items-center"
+              name="searchEngine"
+              value={userRecipe.searchEngine}
+            />
           </RecipesItemModalField>
           <RecipesItemModalHeader
             title="3. After searching"
@@ -127,8 +145,12 @@ const RecipesItemModal = () => {
             isDisabled
           />
         </div>
-        <div className="flex mt-10 justify-end">
-          <ButtonText isActive size="large" isDisabled>
+        <div className="flex mt-12 py-3 justify-between items-center sticky bottom-0 bg-body">
+          <ButtonText onClick={closeModal} size="large">
+            <IconClose />
+            <span>{t("main.close")}</span>
+          </ButtonText>
+          <ButtonText isActive size="large">
             <IconSend />
             <span>Update recipe</span>
           </ButtonText>

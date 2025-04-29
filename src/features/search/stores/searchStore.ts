@@ -1,31 +1,34 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware'
+import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
-import { SearchResultEvaluated } from '@/types';
+import { SearchResultEvaluated } from "@/types";
 
-import { getMetaFromSearchPhrase } from '@/features/search/utils/meta';
-import { getInitDataFromSearchParams } from '@/features/search/utils/url';
+import { getMetaFromSearchPhrase } from "@/features/search/utils/meta";
+import { getInitDataFromSearchParams } from "@/features/search/utils/url";
 
 type SearchStoreState = {
-  searchPhrase: string,
+  searchPhrase: string;
   meta: {
-    phrase: string[],
-    results: string[],
-  },
-  results: SearchResultEvaluated[],
-}
+    phrase: string[];
+    results: string[];
+  };
+  results: SearchResultEvaluated[];
+};
 
 export const useSearchStore = create<SearchStoreState>()(
   devtools(
-    () => ({
-      searchPhrase: getInitDataFromSearchParams().searchPhrase,
-      meta: {
-        phrase: getMetaFromSearchPhrase(getInitDataFromSearchParams().searchPhrase),
+    () =>
+      ({
+        searchPhrase: getInitDataFromSearchParams().searchPhrase,
+        meta: {
+          phrase: getMetaFromSearchPhrase(
+            getInitDataFromSearchParams().searchPhrase
+          ),
+          results: [],
+        },
         results: [],
-      },
-      results: [],
-    } as SearchStoreState),
-    { name: 'searchStore' },
+      } as SearchStoreState),
+    { name: "searchStore" }
   )
 );
 
@@ -42,19 +45,22 @@ export const setSearchPhrase = (value: string) => {
 
 export const setResults = (results: SearchResultEvaluated[]) => {
   useSearchStore.setState((state) => ({
-      ...state,
-      results,
+    ...state,
+    results,
   }));
-}
+};
 
 export const setMetaForResults = (searchPhrase: string, meta: string[]) => {
   useSearchStore.setState((state) => ({
-      ...state,
-      meta: {
-        ...state.meta,
-        results: state.searchPhrase === searchPhrase ? Array.from(new Set([...state.meta.results, ...meta])) : state.meta.results,
-      }
+    ...state,
+    meta: {
+      ...state.meta,
+      results:
+        state.searchPhrase === searchPhrase
+          ? Array.from(new Set([...state.meta.results, ...meta]))
+          : state.meta.results,
+    },
   }));
-}
+};
 
 export default useSearchStore;

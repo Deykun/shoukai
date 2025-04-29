@@ -19,6 +19,12 @@ export const supportedSearchEngines: SupportedSearchEngine[] = [
   "yandex",
 ];
 
+export const supportedSearchEnginesParsers: SupportedSearchEngine[] = [
+  "duckduckgo",
+  "google",
+  "yandex",
+];
+
 export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
 } = {
