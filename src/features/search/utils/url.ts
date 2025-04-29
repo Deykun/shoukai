@@ -1,20 +1,21 @@
-
-import { SearchRecipe, SearchResult } from '@/types';
-import { getSearchKey } from '@/features/search/api/search';
+import { ShoukaiSearchRecipe } from "@/types";
+import { getSearchKey } from "@/features/search/api/search";
+import { SupportedSearchEngine } from "@/constants";
+import { getSearchUrlGetterBySearchEngine } from "./search";
 
 type SupportedParams = {
-  searchPhrase: string,
-}
+  searchPhrase: string;
+};
 
 export const getInitDataFromSearchParams = () => {
   let init: SupportedParams = {
-    searchPhrase: '',
+    searchPhrase: "",
   };
 
   const searchParams = new URL(location.href).searchParams;
 
-  if (searchParams.has('s')) {
-    init.searchPhrase = decodeURI(searchParams.get('s') || '');
+  if (searchParams.has("s")) {
+    init.searchPhrase = decodeURI(searchParams.get("s") || "");
   }
 
   return init;
@@ -27,16 +28,32 @@ export const getSearchParamsFromData = ({ searchPhrase }: SupportedParams) => {
     searchParts.push(`s=${encodeURI(searchPhrase)}`);
   }
 
-  return `?${searchParts.join('&')}`;
+  return `?${searchParts.join("&")}`;
 };
 
-export const getSearchKeyAndDomainURL = (searchPhrase: string, recipe: SearchRecipe) => {
+export const getSearchKeyAndDomainURL = (
+  searchPhrase: string,
+  recipe: ShoukaiSearchRecipe
+) => {
+  const getSearchUrl = getSearchUrlGetterBySearchEngine(
+    recipe.searchEngine || ""
+  );
+
+  const phraseTemplate = recipe.searchOptions[recipe.searchEngine || 'default'] || recipe.searchOptions.default;
+
   const lowerCasedSearchPhrase = searchPhrase.toLowerCase();
-  const searchKey = getSearchKey(lowerCasedSearchPhrase, recipe.options[0].getSearchUrl(searchPhrase, 'seed'));
-  const domainWithSearch = recipe.options[0].getSearchUrl(lowerCasedSearchPhrase, searchKey);
+  const phraseToSearch = phraseTemplate.replace('[phrase]', lowerCasedSearchPhrase);
+
+
+
+  const searchKey = getSearchKey(
+    phraseToSearch,
+    getSearchUrl(searchPhrase, "seed")
+  );
+  const domainWithSearch = getSearchUrl(phraseToSearch, searchKey);
 
   return {
     searchKey,
     domainWithSearch,
-  }
-}
+  };
+};

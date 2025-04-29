@@ -46,6 +46,8 @@ export type UserSearchRecipe = {
   searchEngine?: SupportedSearchEngine,
 }
 
+export type ShoukaiSearchRecipe = SearchRecipe & UserSearchRecipe;
+
 export type SearchResult = {
   source: string,
   url: string,
