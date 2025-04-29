@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchResult, SearchResultEvaluated, SearchDirectShortcut } from '@/types';
+import { SearchResult, SearchResultEvaluated, SearchDirectShortcut, ShoukaiSearchRecipe } from '@/types';
 
 import { openInNewTab } from '@/utils/url';
 
@@ -36,7 +36,7 @@ export const getDirectShortcutIfPresent = (searchPhrase: string, shortcuts: Sear
   return undefined;
 };
 
-export const getRecipesForPhrase = (searchPhrase: string, recipes: SearchRecipe[], tags: string[]) => {
+export const getRecipesForPhrase = (searchPhrase: string, recipes: ShoukaiSearchRecipe[], tags: string[]) => {
   if (tags.length === 0) {
     return recipes;
   }
@@ -63,7 +63,7 @@ let openedTabs: {
   [url: string]: true,
 } = {};
 
-export const performSearch = (searchPhrase: string, recipes: SearchRecipe[]) => {
+export const performSearch = (searchPhrase: string, recipes: ShoukaiSearchRecipe[]) => {
   if (!searchPhrase) {
     setResults([]);
   
@@ -79,9 +79,9 @@ export const performSearch = (searchPhrase: string, recipes: SearchRecipe[]) => 
     const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
   
     const hasResults = resultsByKey[searchKey]?.results;
-    const wasTabOpenAlread = openedTabs[domainWithSearch];
+    const wasTabOpenAlready = openedTabs[domainWithSearch];
 
-    const shouldSearch = !hasResults && !wasTabOpenAlread;
+    const shouldSearch = !hasResults && !wasTabOpenAlready;
   
     if (shouldSearch) {
       openedTabs[domainWithSearch] = true;
@@ -91,7 +91,7 @@ export const performSearch = (searchPhrase: string, recipes: SearchRecipe[]) => 
   }
 };
 
-export const indexResults = (searchPhrase: string, recipes: SearchRecipe[]) => {
+export const indexResults = (searchPhrase: string, recipes: ShoukaiSearchRecipe[]) => {
   if (!searchPhrase) {
     setResults([]);
   
@@ -110,7 +110,7 @@ export const indexResults = (searchPhrase: string, recipes: SearchRecipe[]) => {
     if (resultsByKey[searchKey]?.results) {
       const results = resultsByKey[searchKey].results as SearchResult[];
 
-      const getResultScore = recipe?.getResultScore || recipe?.options?.[0]?.getResultScore || getResultScoreDefault;
+      const getResultScore = recipe?.getResultScore || getResultScoreDefault;
       
       const phrase = searchPhrase.toLowerCase();
       const wordsToIgnore = recipe.wordsToIgnore || [];

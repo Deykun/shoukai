@@ -4,12 +4,6 @@ export type GetResultScoreParams = { phrase: string, title: string };
 
 export type GetResultScore = (params: GetResultScoreParams) => number;
 
-export type SearchShortcut = {
-  domain: string,
-  getSearchUrl: (searchPhrase: string, searchKey: string) => string,
-  getResultScore?: GetResultScore,
-};
-
 export type SearchRecipe = {
   id: string,
   name: string,
@@ -21,7 +15,6 @@ export type SearchRecipe = {
       description: string,
     }
   },
-  options: SearchShortcut[],
   searchOptions: {
     default: string,
     bing?: string,
@@ -45,6 +38,8 @@ export type UserSearchRecipe = {
   isActive: boolean,
   searchEngine?: SupportedSearchEngine,
 }
+
+export type ShoukaiSearchRecipe = SearchRecipe & UserSearchRecipe;
 
 export type SearchResult = {
   source: string,

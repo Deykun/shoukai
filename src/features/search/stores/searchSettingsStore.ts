@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 import { initRecipes, recipeById } from "@/constants";
-import { SearchRecipe, UserSearchRecipe } from "@/types";
+import { SearchRecipe, ShoukaiSearchRecipe, UserSearchRecipe } from "@/types";
 
 type AppStoreState = {
   recipesById: {
@@ -26,7 +26,6 @@ export const toggleActiveForRecipe = (id: string) => {
   useSearchSettingsStore.setState((state) => ({
     recipesById: {
       ...state.recipesById,
-
       [id]: {
         ...state.recipesById[id],
         isActive: !state.recipesById[id].isActive,
@@ -35,14 +34,32 @@ export const toggleActiveForRecipe = (id: string) => {
   }));
 };
 
-export const selectUserRecipes = (state: AppStoreState): SearchRecipe[] => {
+export const updateUserRecipe = (
+  id: string,
+  userRecipeUpdate: Partial<UserSearchRecipe>
+) => {
+  useSearchSettingsStore.setState((state) => ({
+    recipesById: {
+      ...state.recipesById,
+      [id]: {
+        ...state.recipesById[id],
+        ...userRecipeUpdate,
+      },
+    },
+  }));
+};
+
+export const selectUserRecipes = (state: AppStoreState): ShoukaiSearchRecipe[] => {
   const activeUserRecipes = Object.values(state.recipesById).filter(
     ({ isActive }) => isActive
   );
 
   const recipes = activeUserRecipes.reduce(
-    (stack: SearchRecipe[], userRecipe) => {
-      stack.push(recipeById[userRecipe.id]);
+    (stack: ShoukaiSearchRecipe[], userRecipe) => {
+      stack.push({
+        ...recipeById[userRecipe.id],
+        ...userRecipe,
+      });
 
       return stack;
     },
