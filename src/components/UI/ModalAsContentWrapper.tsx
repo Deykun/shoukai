@@ -2,7 +2,10 @@ import clsx from "clsx";
 
 import useAppStore from "@/stores/appStore";
 
+import LanguageModal from "@/features/search/components/SearchSettings/Language/LanguageModal";
+import OverviewModal from "@/features/documentation/components/OverviewModal";
 import RecipesItemModal from "@/features/search/components/SearchSettings/Recipes/RecipesItemModal";
+
 
 type Props = {
   children: React.ReactNode;
@@ -14,6 +17,8 @@ const ModalAsContentWrapper = ({ children }: Props) => {
   return (
     <div className="grid">
       <div className="col-start-1 row-start-1 empty:hidden z-[10]">
+        <LanguageModal />
+        <OverviewModal />
         <RecipesItemModal />
       </div>
       <div

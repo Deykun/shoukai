@@ -12,8 +12,10 @@ import useAppStore, { toggleSettingsPane } from "@/stores/appStore";
 import Language from "./Language/Language";
 import Recipes from "./Recipes/Recipes";
 
+import Documentation from "@/features/documentation/components/Documentation";
+
 const SearchSettings = () => {
-  const areSettingsOpen = useAppStore((state) => state.topPane === 'settings');
+  const areSettingsOpen = useAppStore((state) => state.topPane === "settings");
   const { t } = useTranslation();
 
   return (
@@ -38,8 +40,9 @@ const SearchSettings = () => {
           }
         )}
       >
-        <div className="flex gap-5 items-center">
+        <div className="flex gap-2 items-center">
           <Language />
+          <Documentation />
           <ButtonText
             href="https://github.com/Deykun/shoukai"
             target="_blank"
