@@ -86,12 +86,12 @@
     background: #3cea0014;
 
     > svg {
-      fill: #ff8080;
+      color: #518601;
     }
 
     @include hoverOnDesktopActiveOnMobile {
       > svg {
-        fill: #ffdada;
+        color: #518601;
       }
     }
   }

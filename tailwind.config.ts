@@ -12,6 +12,8 @@ export default {
   theme: {
     colors: {
       body: "white",
+      'body-contrast': "#424242",
+      'body-contrast--50': "#42424280",
       transparent: "transparent",
       current: "currentColor",
       // 'default-body': '#3b4f52',

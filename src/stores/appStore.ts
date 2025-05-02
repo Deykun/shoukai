@@ -3,8 +3,8 @@ import { devtools } from "zustand/middleware";
 
 type TopPane = "" | "settings";
 
-type ModalEmpty = {
-  type: "";
+type ModalWithoutState = {
+  type: "" | "language" | "documentationOverview";
   data: {};
 };
 
@@ -15,14 +15,14 @@ type ModalRecipe = {
   };
 };
 
-type Modal = ModalEmpty | ModalRecipe;
+type Modal = ModalWithoutState | ModalRecipe;
 
 type AppStoreState = {
   topPane: TopPane;
   modal: Modal;
 };
 
-const MODAL_EMPTY: ModalEmpty = {
+const MODAL_EMPTY: ModalWithoutState = {
   type: "",
   data: {},
 };
@@ -58,6 +58,32 @@ export const closeModal = () => {
     };
   });
 };
+
+export const toggleModalWithoutState = (
+  modal: "language" | "documentationOverview"
+) => {
+  useAppStore.setState((state) => {
+    const isOpenAlready = state.modal.type === modal;
+
+    if (isOpenAlready) {
+      return {
+        modal: MODAL_EMPTY,
+      };
+    }
+
+    return {
+      modal: {
+        type: modal,
+        data: {},
+      },
+    };
+  });
+};
+
+export const toggleLanguageModal = () => toggleModalWithoutState("language");
+
+export const toggleDocumentationOverviewModal = () =>
+  toggleModalWithoutState("documentationOverview");
 
 export const toggleRecipeModal = (recipeId: string) => {
   useAppStore.setState((state) => {

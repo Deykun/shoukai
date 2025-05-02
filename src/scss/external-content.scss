@@ -1,0 +1,35 @@
+.external-content {
+  // @apply text-justify hyphens-auto;
+  @apply text-justify;
+
+  h1,
+  h2,
+  h3 {
+    @apply text-primary-contrast font-[600];
+  }
+
+  h1 {
+    @apply text-lg;
+  }
+
+  p {
+    @apply text-sm text-body-contrast--50;
+
+    strong {
+      @apply text-primary-contrast;
+    }
+
+    var {
+      @apply inline-block align-middle;
+      @apply px-2 py-[1px] scale-90 rounded-lg;
+      @apply bg-[#f5f9ef] text-[#075525];
+      @apply tracking-widest font-[600] not-italic;
+      @apply hover:saturate-0 duration-500;
+    }
+
+    a {
+      @apply underline underline-offset-4 duration-300;
+      @apply hover:text-[#82a849];
+    }
+  }
+}

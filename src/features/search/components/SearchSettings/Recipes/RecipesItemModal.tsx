@@ -49,8 +49,8 @@ const RecipesItemModal = () => {
 
       console.log(data);
 
-      // handleSubmit
       updateUserRecipe(recipeId, userRecipe);
+      closeModal();
     },
     [recipeId, modal.data]
   );

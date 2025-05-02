@@ -1,38 +1,25 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import { LOCAL_STORAGE } from '@/constants';
+import useAppStore, { toggleLanguageModal } from "@/stores/appStore";
 
-import { SUPPORTED_LANGS } from '@/i18n';
+import IconFlag from "@/components/Icons/IconFlag";
 
-import IconFlag from '@/components/Icons/IconFlag';
-
-import ButtonIcon from '@/components/UI/ButtonIcon';
+import ButtonText from "@/components/UI/ButtonText";
 
 const Language = () => {
-  const { t, i18n } = useTranslation();
+  const isOpen = useAppStore((state) => state.modal.type === "language");
 
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem(LOCAL_STORAGE.SHOUKAI_USER_LANG, lang);
-  }
+  const { i18n } = useTranslation();
 
   return (
-    <section>
+    <div className="flex gap-1">
       <h3 className="sr-only">Language</h3>
-      <div className="flex gap-1">
-        {SUPPORTED_LANGS.map((lang) => <ButtonIcon
-          key={lang}
-          onClick={() => changeLanguage(lang)}
-          className="rounded-sm"
-          isActive={i18n.language === lang}
-          label={t('main.currentLanguage', { lng: lang })}
-          labelPosition="bottom"
-        >
-          <IconFlag className="navigation-pane-flag" code={lang} />
-        </ButtonIcon>)}
-      </div>
-    </section>
-  )
-}
+      <ButtonText onClick={toggleLanguageModal} isActive={isOpen}>
+        <IconFlag code={i18n.language} />
+        <span className="uppercase">{i18n.language}</span>
+      </ButtonText>
+    </div>
+  );
+};
 
 export default Language;
