@@ -47,7 +47,7 @@ const SearchSettings = () => {
             href="https://github.com/Deykun/shoukai"
             target="_blank"
             rel="noreferrer noopener"
-            title="Google Maps"
+            title="github.com/Deykun/shoukai"
             wrapperClassName="ml-auto"
           >
             <IconGithub />
