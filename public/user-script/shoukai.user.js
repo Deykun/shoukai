@@ -553,7 +553,6 @@ const addIndexedMarker = (el, { index, title, url, description }) => {
       if (location.href.includes('yandex.com')) {
         const parseYandex = () => {
   const searchPhrase = document.querySelector('form[role="search"] textarea')?.value;
-  console.log('searchPhrase', searchPhrase);
   if (searchPhrase) {
     const keysWords = searchPhrase.split(' ');
 

@@ -1,6 +1,5 @@
 const parseYandex = () => {
   const searchPhrase = document.querySelector('form[role="search"] textarea')?.value;
-  console.log('searchPhrase', searchPhrase);
   if (searchPhrase) {
     const keysWords = searchPhrase.split(' ');
 
