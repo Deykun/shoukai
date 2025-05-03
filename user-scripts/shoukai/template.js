@@ -52,7 +52,7 @@ const domReady = (fn) => {
   document.addEventListener('DOMContentLoaded', fn);
 };
 
-const initshoukai = async () => {
+const initShoukai = async () => {
   const searchParams = new URL(location.href).searchParams;
   const searchKey = searchParams.get('shoukaiKey');
 
@@ -122,11 +122,11 @@ const initshoukai = async () => {
     observer.observe(document.body, config);
   } catch (error) {
     userScriptLogger({
-      isError: true, isCritical: true, message: 'initshoukai() failed', error,
+      isError: true, isCritical: true, message: 'initShoukai() failed', error,
     });
 
     throw error;
   }
 };
 
-domReady(initshoukai);
+domReady(initShoukai);

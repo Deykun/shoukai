@@ -38,7 +38,7 @@ const RecipesItemModalField = ({
       {hasDescription && (
         <>
           <span>{labelDescription}</span>
-          <p className="col-span-3 opacity-50 text-xs text-justify hyphens-auto">{valueDescription}</p>
+          <p className="col-span-3">{valueDescription}</p>
         </>
       )}
     </>
