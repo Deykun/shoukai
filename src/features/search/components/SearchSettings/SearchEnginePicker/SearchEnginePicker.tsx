@@ -39,6 +39,7 @@ const SearchEnginePicker = ({
       </ButtonIcon>
       {supportedSearchEngines.map((searchEngine) => (
         <ButtonIcon
+          key={searchEngine}
           size="large"
           onClick={() => setValue(searchEngine)}
           label={t(`search.${searchEngine}`)}

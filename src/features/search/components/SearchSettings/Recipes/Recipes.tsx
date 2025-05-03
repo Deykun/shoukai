@@ -7,7 +7,7 @@ const Recipes = () => {
   return (
     <ul className="grid grid-cols-2 gap-4">
       {Object.values(recipesById).map((userRecipe) => (
-        <RecipesItem userRecipe={userRecipe} />
+        <RecipesItem key={userRecipe.id} userRecipe={userRecipe} />
       ))}
     </ul>
   );

@@ -16,6 +16,7 @@ export const recipe: SearchRecipe = {
   wordsToIgnore: ["filmweb"],
   searchOptions: {
     default: `[phrase] site:filmweb.pl`,
+    yandex: `"[phrase]" site:filmweb.pl`,
   },
   minimumScore: 0.15,
 };

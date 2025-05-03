@@ -5,6 +5,9 @@ import useAppStore, { closeModal } from "@/stores/appStore";
 
 import IconClose from "@/components/Icons/IconClose";
 import IconSend from "@/components/Icons/IconSend";
+import IconSearchInput from "@/components/Icons/IconSearchInput";
+import IconSearchWeb from "@/components/Icons/IconSearchWeb";
+import IconSearchResults from "@/components/Icons/IconSearchResults";
 
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import RecipesItemModalField from "./RecipesItemModalField";
@@ -47,8 +50,6 @@ const RecipesItemModal = () => {
         searchEngine: (data.searchEngine || "") as SupportedSearchEngine,
       };
 
-      console.log(data);
-
       updateUserRecipe(recipeId, userRecipe);
       closeModal();
     },
@@ -79,7 +80,7 @@ const RecipesItemModal = () => {
         </ButtonIcon>
       </header>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-4 gap-4 items-center">
+        <div className="grid grid-cols-4 gap-4 items-center external-content">
           <RecipesItemModalHeader
             title="Recipe"
             description="Metadata used by Shoukai."
@@ -100,6 +101,7 @@ const RecipesItemModal = () => {
             isDisabled
           />
           <RecipesItemModalHeader
+            icon={IconSearchInput}
             title="1. Before searching"
             description="Rules that determine whether a recipe will be called. For instance, if phrases related to programming are identified, there's no need to call a recipe associated with movies."
           />
@@ -114,6 +116,7 @@ const RecipesItemModal = () => {
             isDisabled
           />
           <RecipesItemModalHeader
+            icon={IconSearchWeb}
             title="2. Searching"
             description="Rules related to the actual search action."
           />
@@ -130,6 +133,7 @@ const RecipesItemModal = () => {
             />
           </RecipesItemModalField>
           <RecipesItemModalHeader
+            icon={IconSearchResults}
             title="3. After searching"
             description="Rules concerning result scoring and validation."
           />
