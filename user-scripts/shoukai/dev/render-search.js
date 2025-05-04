@@ -7,10 +7,19 @@ export const getResultsByKey = () => {
 unsafeWindow.shoukaiGetResultsByKey = getResultsByKey;
 
 export const resetResults = () => {
+  GM_setValue("queryByPhrase", {});
   GM_setValue("resultsByKey", {});
 };
 
 unsafeWindow.shoukaiReset = resetResults;
+
+export const getQueries = () => {
+  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+
+  return queryByPhrase;
+};
+
+unsafeWindow.shoukaiGetQueries = getQueries;
 
 export const getQuery = (phrase) => {
   if (!phrase) {
@@ -18,8 +27,10 @@ export const getQuery = (phrase) => {
   }
 
   const queryByPhrase = GM_getValue("queryByPhrase") || {};
+  const date = new Date().toString();
+  const stamp = getDayStampFromDate(date);
 
-  return queryByPhrase[phrase.toLowerCase()];
+  return queryByPhrase?.[stamp]?.[phrase.toLowerCase()];
 };
 
 unsafeWindow.shoukaiGetQuery = getQuery;
@@ -31,8 +42,13 @@ export const setQuery = (phrase, openedTabs = []) => {
 
   const queryByPhrase = GM_getValue("queryByPhrase") || {};
   const date = new Date().toString();
+  const stamp = getDayStampFromDate(date);
 
-  queryByPhrase[phrase.toLowerCase()] = {
+  if (!queryByPhrase[stamp]) {
+    queryByPhrase[stamp] = {};
+  }
+
+  queryByPhrase[stamp][phrase.toLowerCase()] = {
     phrase,
     date,
     openedTabs,

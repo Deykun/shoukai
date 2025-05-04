@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { SearchResult } from "@/types";
+import { ShoukaiQuery, SearchResult } from "@/types";
 import { directShortcuts } from "@/constants";
 
 import {
@@ -19,19 +19,19 @@ import { openInNewTab } from "@/utils/url";
 
 declare global {
   interface Window {
+    shoukaiReset?: () => void,
     shoukaiGetResultsByKey?: () => {
       [key: string]: {
         date: string;
         results: SearchResult[];
       };
     };
-    shoukaiGetQuery?: (phrase: string) =>
-      | {
-          phrase: string;
-          date: Date;
-          openedTabs: string[];
-        }
-      | undefined;
+    shoukaiGetQueries?: () => {
+      [stamp: string]: {
+        [phrase: string]: ShoukaiQuery;
+      };
+    };
+    shoukaiGetQuery?: (phrase: string) => ShoukaiQuery | undefined;
     shoukaiSetQuery?: (phrase: string, openedTabs: string[]) => void;
   }
 }
@@ -93,7 +93,6 @@ export default function useSearch() {
         // Opens a new tab after all others and closes the current one to keep search results at the top
         setTimeout(() => {
           openInNewTab(location.href);
-
           window.close();
         }, 10);
       }

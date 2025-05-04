@@ -10,9 +10,9 @@ const Icon = ({ className }: Props) => (
   >
     <path
       fill="currentColor"
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M9.53 3.22a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-1.5-1.5a.75.75 0 0 1 1.06-1.06l.97.97 3.97-3.97a.75.75 0 0 1 1.06 0"
-      clip-rule="evenodd"
+      clipRule="evenodd"
     />
   </svg>
 );

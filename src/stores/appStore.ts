@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 type TopPane = "" | "settings";
 
 type ModalWithoutState = {
-  type: "" | "language" | "documentationOverview";
+  type: "" | "language" | "documentationOverview" | "history";
   data: {};
 };
 
@@ -60,7 +60,7 @@ export const closeModal = () => {
 };
 
 export const toggleModalWithoutState = (
-  modal: "language" | "documentationOverview"
+  modal: "language" | "documentationOverview" | "history"
 ) => {
   useAppStore.setState((state) => {
     const isOpenAlready = state.modal.type === modal;
@@ -79,6 +79,8 @@ export const toggleModalWithoutState = (
     };
   });
 };
+
+export const toggleHistoryModal = () => toggleModalWithoutState("history");
 
 export const toggleLanguageModal = () => toggleModalWithoutState("language");
 

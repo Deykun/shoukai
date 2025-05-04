@@ -24,11 +24,7 @@ const SearchBar = () => {
 
   const { t } = useTranslation();
 
-  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setSearchPhrase(inputValue);
-
+  const updateBrowserData = (inputValue: string) => {
     const searchParams = getSearchParamsFromData({
       searchPhrase: inputValue,
     });
@@ -40,8 +36,18 @@ const SearchBar = () => {
     );
   };
 
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setSearchPhrase(inputValue);
+
+    updateBrowserData(inputValue);
+  };
+
   useEffectChange(() => {
     setInputValue(searchPhrase);
+
+    updateBrowserData(inputValue);
   }, [searchPhrase]);
 
   return (
