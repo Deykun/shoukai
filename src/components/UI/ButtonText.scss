@@ -3,7 +3,7 @@
 .ui-button-text {
   > a,
   > button {
-    @apply inline-flex justify-center items-center gap-3 p-2 px-3;
+    @apply relative inline-flex justify-center items-center gap-3 p-2 px-3;
 
     color: #075525;
     background-color: transparent;
@@ -82,11 +82,11 @@
 .ui-button-text--active {
   > a,
   > button {
-    color: #518601;
+    color: #02441b;
     background: #3cea0014;
 
     > svg {
-      color: #518601;
+      color: #02441b;
     }
 
     @include hoverOnDesktopActiveOnMobile {

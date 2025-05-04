@@ -1,28 +1,34 @@
 import { useState } from "react";
 import clsx from "clsx";
 
-import ButtonIcon from "@/components/UI/ButtonIcon";
 import ButtonText from "@/components/UI/ButtonText";
 
+import IconBooWithBookmark from "@/components/Icons/IconBooWithBookmark";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
-import IconSearchInput from "@/components/Icons/IconSearchInput";
-import IconSearchWeb from "@/components/Icons/IconSearchWeb";
-import IconSearchResults from "@/components/Icons/IconSearchResults";
+import IconTag from "@/components/Icons/IconTag";
+import IconPaint from "@/components/Icons/IconPaint";
 
+import General from "../General/General";
 import Recipes from "../Recipes/Recipes";
 
-const getClassNameForTab = (tab: string, activeTab: string) =>
-  clsx("col-start-1 row-start-1", "duration-500", {
-    "opacity-100": activeTab === tab,
-    "opacity-0 pointer-events-none": activeTab !== tab,
-  });
+type Tab = "general" | "tags" | "recipes" | "design";
+
+const getClassNameForTab = (tab: Tab, activeTab: Tab) =>
+  clsx(
+    "col-start-1 row-start-1",
+    "duration-500",
+    {
+      "opacity-100": activeTab === tab,
+      "opacity-0 pointer-events-none": activeTab !== tab,
+    }
+  );
 
 const SearchTabs = () => {
-  const [activeTab, setActiveTab] = useState("general");
+  const [activeTab, setActiveTab] = useState<Tab>("general");
 
   return (
     <div>
-      <header className="flex gap-2 pb-1 mb-2 border-b-[1px] border-b-[#51860144]">
+      <header className="flex gap-2 pb-1 mb-3">
         <ButtonText
           onClick={() => setActiveTab("general")}
           isActive={activeTab === "general"}
@@ -31,34 +37,43 @@ const SearchTabs = () => {
           <span>General</span>
         </ButtonText>
         <ButtonText
-          onClick={() => setActiveTab("input")}
-          isActive={activeTab === "input"}
+          onClick={() => setActiveTab("design")}
+          isActive={activeTab === "design"}
         >
-          <IconSearchInput />
-          <span>1. Input</span>
+          <IconPaint />
+          <span>Design</span>
         </ButtonText>
         <ButtonText
-          onClick={() => setActiveTab("web")}
-          isActive={activeTab === "web"}
+          onClick={() => setActiveTab("tags")}
+          isActive={activeTab === "tags"}
         >
-          <IconSearchWeb />
-          <span>2. Web</span>
+          <IconTag />
+          <span>Tags</span>
         </ButtonText>
         <ButtonText
-          onClick={() => setActiveTab("results")}
-          isActive={activeTab === "results"}
+          onClick={() => setActiveTab("recipes")}
+          isActive={activeTab === "recipes"}
         >
-          <IconSearchResults />
-          <span>3. Results</span>
+          <IconBooWithBookmark />
+          <span>Recipes</span>
         </ButtonText>
       </header>
       <div className="grid">
-        <div className={getClassNameForTab("general", activeTab)}>General</div>
-        <div className={getClassNameForTab("input", activeTab)}>Input</div>
-        <div className={getClassNameForTab("web", activeTab)}>
+        <div className={getClassNameForTab("general", activeTab)}>
+          <General />
+        </div>
+        <div className={getClassNameForTab("tags", activeTab)}>
+          <p className="text-sm">
+            WiP: After you make a request, the text of the prompt is validated
+            to determine tags.
+          </p>
+        </div>
+        <div className={getClassNameForTab("design", activeTab)}>
+          <p className="text-sm">WiP: Theme.</p>
+        </div>
+        <div className={getClassNameForTab("recipes", activeTab)}>
           <Recipes />
         </div>
-        <div className={getClassNameForTab("results", activeTab)}>results</div>
       </div>
     </div>
   );
