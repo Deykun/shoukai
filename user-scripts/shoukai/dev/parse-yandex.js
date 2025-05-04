@@ -12,15 +12,9 @@ const parseYandex = () => {
       const elTitle = Array.from(el.querySelectorAll('h2, h3')).find((elToCheck) => elToCheck?.innerText);
       const title = elTitle?.innerText?.replace(/\n|\r/g, '')?.trim() || '';
 
-      console.log({
-        url,
-        title,
-      })
-
       if (!title) {
         return undefined;
       }
-  
 
       const description = truncateString(el.querySelector('.OrganicTextContentSpan')?.innerText?.trim(), 120) || '';
 

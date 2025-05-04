@@ -330,19 +330,49 @@ const getRadiobox = (params) => {
   if (!searchKey) {
     if (location.href.includes('localhost') || location.href.includes('deykun.github.io')) {
       const getResultsByKey = () => {
-  const resultsByKey = GM_getValue('resultsByKey') || {};
+  const resultsByKey = GM_getValue("resultsByKey") || {};
 
   return resultsByKey;
 };
 
+unsafeWindow.shoukaiGetResultsByKey = getResultsByKey;
+
 const resetResults = () => {
- GM_setValue('resultsByKey', {});
+  GM_setValue("resultsByKey", {});
 };
 
-unsafeWindow.shoukaiGetResultsByKey = getResultsByKey;
 unsafeWindow.shoukaiReset = resetResults;
 
+const getQuery = (phrase) => {
+  if (!phrase) {
+    return;
+  }
 
+  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+
+  return queryByPhrase[phrase.toLowerCase()];
+};
+
+unsafeWindow.shoukaiGetQuery = getQuery;
+
+const setQuery = (phrase, openedTabs = []) => {
+  if (!phrase) {
+    return;
+  }
+
+  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+  const date = new Date().toString();
+
+  queryByPhrase[phrase.toLowerCase()] = {
+    phrase,
+    date,
+    openedTabs,
+  };
+
+  GM_setValue("queryByPhrase", queryByPhrase);
+};
+
+unsafeWindow.shoukaiSetQuery = setQuery;
 
       addClass(document.body, 'has-user-script');
     }
@@ -565,15 +595,9 @@ const addIndexedMarker = (el, { index, title, url, description }) => {
       const elTitle = Array.from(el.querySelectorAll('h2, h3')).find((elToCheck) => elToCheck?.innerText);
       const title = elTitle?.innerText?.replace(/\n|\r/g, '')?.trim() || '';
 
-      console.log({
-        url,
-        title,
-      })
-
       if (!title) {
         return undefined;
       }
-  
 
       const description = truncateString(el.querySelector('.OrganicTextContentSpan')?.innerText?.trim(), 120) || '';
 

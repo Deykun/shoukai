@@ -2,9 +2,10 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 import { initRecipes, recipeById } from "@/constants";
-import { SearchRecipe, ShoukaiSearchRecipe, UserSearchRecipe } from "@/types";
+import { ShoukaiSearchRecipe, UserSearchRecipe } from "@/types";
 
 type AppStoreState = {
+  shouldOpenNewTabForResults: boolean,
   recipesById: {
     [id: string]: UserSearchRecipe;
   };
@@ -14,6 +15,7 @@ export const useSearchSettingsStore = create<AppStoreState>()(
   persist(
     devtools(
       (_get, _set) => ({
+        shouldOpenNewTabForResults: false,
         recipesById: initRecipes,
       }),
       { name: "searchSettingsStore" }
@@ -21,6 +23,12 @@ export const useSearchSettingsStore = create<AppStoreState>()(
     { name: "search-settings-store" }
   )
 );
+
+export const toggleShouldOpenNewTabForResult = () => {
+  useSearchSettingsStore.setState((state) => ({
+    shouldOpenNewTabForResults: !state.shouldOpenNewTabForResults,
+  }));
+}
 
 export const toggleActiveForRecipe = (id: string) => {
   useSearchSettingsStore.setState((state) => ({
