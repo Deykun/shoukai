@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { SearchResult } from "@/types";
+import { ShoukaiQuery, SearchResult } from "@/types";
 import { directShortcuts } from "@/constants";
 
 import {
@@ -25,13 +25,10 @@ declare global {
         results: SearchResult[];
       };
     };
-    shoukaiGetQuery?: (phrase: string) =>
-      | {
-          phrase: string;
-          date: Date;
-          openedTabs: string[];
-        }
-      | undefined;
+    shoukaiGetQueries?: () => {
+      [phrase: string]: ShoukaiQuery;
+    };
+    shoukaiGetQuery?: (phrase: string) => ShoukaiQuery | undefined;
     shoukaiSetQuery?: (phrase: string, openedTabs: string[]) => void;
   }
 }

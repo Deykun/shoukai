@@ -13,6 +13,7 @@ import Language from "./Language/Language";
 import SearchTabs from "./SearchTabs/SearchTabs";
 
 import Documentation from "@/features/documentation/components/Documentation";
+import History from "@/features/history/components/History";
 
 const SearchSettings = () => {
   const areSettingsOpen = useAppStore((state) => state.topPane === "settings");
@@ -43,6 +44,7 @@ const SearchSettings = () => {
         <div className="flex gap-2 items-center">
           <Language />
           <Documentation />
+          <History />
           <ButtonText
             href="https://github.com/Deykun/shoukai"
             target="_blank"

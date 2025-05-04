@@ -12,6 +12,14 @@ export const resetResults = () => {
 
 unsafeWindow.shoukaiReset = resetResults;
 
+export const getQueries = () => {
+  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+
+  return queryByPhrase;
+};
+
+unsafeWindow.shoukaiGetQueries = getQueries;
+
 export const getQuery = (phrase) => {
   if (!phrase) {
     return;

@@ -14,7 +14,12 @@ const Documentation = () => {
   return (
     <div className="flex gap-1">
       <h3 className="sr-only">Documentation</h3>
-      <ButtonIcon onClick={toggleDocumentationOverviewModal} isActive={isOpen}>
+      <ButtonIcon
+        onClick={toggleDocumentationOverviewModal}
+        isActive={isOpen}
+        label="Documentation"
+        labelPosition="bottom"
+      >
         <IconInfo />
       </ButtonIcon>
     </div>

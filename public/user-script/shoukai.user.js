@@ -343,6 +343,14 @@ const resetResults = () => {
 
 unsafeWindow.shoukaiReset = resetResults;
 
+const getQueries = () => {
+  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+
+  return queryByPhrase;
+};
+
+unsafeWindow.shoukaiGetQueries = getQueries;
+
 const getQuery = (phrase) => {
   if (!phrase) {
     return;
