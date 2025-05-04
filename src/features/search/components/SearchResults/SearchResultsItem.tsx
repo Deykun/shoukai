@@ -34,7 +34,7 @@ const SearchResultsItem = ({ result }: Props) => {
       >
         {url}
       </a>
-      <p className="text-xs">{description}</p>
+      <p className="text-xs text-[#979f8a]">{description}</p>
       <ButtonIcon
         size="small"
         wrapperClassName="absolute top-2 right-2"
