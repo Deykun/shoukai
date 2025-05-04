@@ -22,18 +22,51 @@ const removeDoubleSpaces = (input: string) => {
   return input.replace(/\s{2,}/g, " ");
 };
 
-const getIsYear = (text: string) => {
-  // It works with 1990, 1991 - 1992, 1993-1994, (1994)
-  const textSanitize = text
+export const getIsCapitalized = (input: string) => {
+  const lowerCaseInput = input.toLowerCase();
+
+  return (
+    lowerCaseInput.slice(0, 1) !== input.slice(0, 1) &&
+    lowerCaseInput.slice(1) === input.slice(1)
+  );
+};
+
+export const getHasYear = (searchPhrase: string) => {
+  const textSanitize = searchPhrase
     .replaceAll("(", " ")
     .replaceAll(")", " ")
-    .replaceAll("-", " ");
+    .replaceAll("-", " ")
+    .replaceAll(".", " ");
 
   const sanitizedPhrases = textSanitize.trim().split(" ").filter(Boolean);
 
   return sanitizedPhrases.some(
-    (phrase) => phrase.length === 4 && text.match(/\d{4}/)?.[0]
+    (phrase) => phrase.length === 4 && phrase.match(/\d{4}/)?.[0]
   );
+};
+
+const chunkPairs = (arr: string[]) => {
+  const result: [string, string][] = [];
+  for (let i = 0; i < arr.length - 1; i++) {
+    result.push([arr[i], arr[i + 1]]);
+  }
+  return result;
+};
+
+export const getHasName = (searchPhrase: string) => {
+  const textSanitize = searchPhrase;
+
+  const sanitizedWords = textSanitize.trim().split(" ").filter(Boolean);
+
+  const hasManyWordsAndAllCapitalized = sanitizedWords.length >= 5 && sanitizedWords.every(getIsCapitalized);
+
+  if (hasManyWordsAndAllCapitalized) {
+    return false;
+  }
+
+  const sanitizedPairs = chunkPairs(sanitizedWords);
+
+  return sanitizedPairs.some((pair) => pair.every(getIsCapitalized));
 };
 
 export const getTextStructureMatching = (searchPhrase: string) => {
@@ -41,11 +74,13 @@ export const getTextStructureMatching = (searchPhrase: string) => {
   const words = searchPhraseSanitize.split(" ").filter(Boolean);
   const wordCount = words.length;
 
-  const hasYear = words.some(getIsYear);
+  const hasYear = getHasYear(searchPhrase);
+  const hasName = getHasName(searchPhrase);
 
   return {
     wordCount,
     hasYear,
+    hasName,
   };
 };
 

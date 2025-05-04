@@ -13,7 +13,8 @@
     "lint:fix": "eslint src --fix",
     "build-us": "tsx user-scripts/shoukai/build.ts",
     "dev-us": "nodemon --watch user-scripts/shoukai --exec npm run build-us",
-    "dev-us-server": "tsx user-scripts/shoukai/dev-script.ts"
+    "dev-us-server": "tsx user-scripts/shoukai/dev-script.ts",
+    "test": "vitest"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.52.1",
@@ -70,6 +71,7 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^7.16.0",
     "vite": "^5.3.4",
+    "vitest": "^3.1.2",
     "wikipedia": "^2.1.2",
     "wouter": "^3.3.1"
   },
