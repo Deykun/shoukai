@@ -41,9 +41,9 @@ const RecipesItem = ({ userRecipe }: Props) => {
             dangerouslySetInnerHTML={{ __html: svgIcon }}
           />
         )}
-        <div className="flex flex-col gap-1">
-          <h4>{byLang?.[i18n.language]?.name || name}</h4>
-          <p className="text-xs opacity-75">
+        <div className="flex flex-col gap-1 font-[600]">
+          <h4 className="text-[#005b46]">{byLang?.[i18n.language]?.name || name}</h4>
+          <p className="text-xs text-[#979f8a]">
             {byLang?.[i18n.language]?.description || description}
           </p>
         </div>

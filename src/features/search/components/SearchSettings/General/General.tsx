@@ -17,11 +17,11 @@ const General = () => {
           onChange={toggleShouldOpenNewTabForResult}
         />
         <label
-          className="text-sm font-[500]"
+          className="text-sm font-[600] cursor-pointer"
           onClick={toggleShouldOpenNewTabForResult}
         >
-          Open results in new tabs{" "}
-          <small>
+          <span className="text-[#005b46]">Open results in new tabs</span>
+          <small className="text-[#979f8a]">
             <br />
             shoukai will remain as the active tab, but make sure you’ve allowed
             shoukai to open tabs

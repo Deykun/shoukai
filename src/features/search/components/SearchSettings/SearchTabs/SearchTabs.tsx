@@ -14,14 +14,10 @@ import Recipes from "../Recipes/Recipes";
 type Tab = "general" | "tags" | "recipes" | "design";
 
 const getClassNameForTab = (tab: Tab, activeTab: Tab) =>
-  clsx(
-    "col-start-1 row-start-1",
-    "duration-500",
-    {
-      "opacity-100": activeTab === tab,
-      "opacity-0 pointer-events-none": activeTab !== tab,
-    }
-  );
+  clsx("col-start-1 row-start-1", "duration-500", {
+    "opacity-100": activeTab === tab,
+    "opacity-0 pointer-events-none": activeTab !== tab,
+  });
 
 const SearchTabs = () => {
   const [activeTab, setActiveTab] = useState<Tab>("general");
@@ -63,13 +59,13 @@ const SearchTabs = () => {
           <General />
         </div>
         <div className={getClassNameForTab("tags", activeTab)}>
-          <p className="text-sm">
+          <p className="text-sm font-[600] text-[#979f8a]">
             WiP: After you make a request, the text of the prompt is validated
             to determine tags.
           </p>
         </div>
         <div className={getClassNameForTab("design", activeTab)}>
-          <p className="text-sm">WiP: Theme.</p>
+          <p className="text-sm font-[600] text-[#979f8a]">WiP: Theme.</p>
         </div>
         <div className={getClassNameForTab("recipes", activeTab)}>
           <Recipes />

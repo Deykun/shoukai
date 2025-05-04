@@ -15,6 +15,7 @@ import useSearchStore, {
 import useSearchSettingsStore, {
   selectUserRecipes,
 } from "@/features/search/stores/searchSettingsStore";
+import { openInNewTab } from "@/utils/url";
 
 declare global {
   interface Window {
@@ -24,6 +25,14 @@ declare global {
         results: SearchResult[];
       };
     };
+    shoukaiGetQuery?: (phrase: string) =>
+      | {
+          phrase: string;
+          date: Date;
+          openedTabs: string[];
+        }
+      | undefined;
+    shoukaiSetQuery?: (phrase: string, openedTabs: string[]) => void;
   }
 }
 
@@ -78,10 +87,15 @@ export default function useSearch() {
 
   useEffect(() => {
     if (searchConfig.phrase && searchConfig.recipes.length > 0) {
-      performSearch(searchPhrase, searchConfig.recipes);
+      const didOpenNewTab = performSearch(searchPhrase, searchConfig.recipes);
 
-      if (shouldOpenNewTabForResults) {
-        
+      if (shouldOpenNewTabForResults && didOpenNewTab) {
+        // Opens a new tab after all others and closes the current one to keep search results at the top
+        setTimeout(() => {
+          openInNewTab(location.href);
+
+          window.close();
+        }, 10);
       }
     }
   }, [searchConfig]);

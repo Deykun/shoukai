@@ -1,33 +1,43 @@
-import { SearchResult, SearchResultEvaluated, SearchDirectShortcut, ShoukaiSearchRecipe } from '@/types';
+import {
+  SearchResult,
+  SearchResultEvaluated,
+  SearchDirectShortcut,
+  ShoukaiSearchRecipe,
+} from "@/types";
 
-import { openInNewTab } from '@/utils/url';
+import { openInNewTab } from "@/utils/url";
 
-import { getSearchKeyAndDomainURL } from '@/features/search/utils/url';
-import { setResults } from '@/features/search/stores/searchStore';
+import { getSearchKeyAndDomainURL } from "@/features/search/utils/url";
+import { setResults } from "@/features/search/stores/searchStore";
 
-import { getResultScoreDefault } from './default';
+import { getResultScoreDefault } from "./default";
 
-export const getDirectShortcutIfPresent = (searchPhrase: string, shortcuts: SearchDirectShortcut[]) => {
-  const words = searchPhrase.split(' ');
+export const getDirectShortcutIfPresent = (
+  searchPhrase: string,
+  shortcuts: SearchDirectShortcut[]
+) => {
+  const words = searchPhrase.split(" ");
 
   if (words.length < 2) {
     return undefined;
   }
-  
+
   const firstWord = words.at(0);
   const lastWord = words.at(-1);
   const wordsInTheMiddle = words.slice(1, -1);
 
-  const shortcutForFirstOrLastWord = shortcuts.find(({ magicWord }) => magicWord === firstWord || magicWord === lastWord);
+  const shortcutForFirstOrLastWord = shortcuts.find(
+    ({ magicWord }) => magicWord === firstWord || magicWord === lastWord
+  );
 
   if (shortcutForFirstOrLastWord) {
     return {
       phrase: `${
-        firstWord !== shortcutForFirstOrLastWord.magicWord ? `${firstWord} ` : ''
-      }${
-        wordsInTheMiddle.join(' ')
-      }${
-        lastWord !== shortcutForFirstOrLastWord.magicWord ? ` ${lastWord}` : ''
+        firstWord !== shortcutForFirstOrLastWord.magicWord
+          ? `${firstWord} `
+          : ""
+      }${wordsInTheMiddle.join(" ")}${
+        lastWord !== shortcutForFirstOrLastWord.magicWord ? ` ${lastWord}` : ""
       }`.trim(),
       shortcut: shortcutForFirstOrLastWord,
     };
@@ -36,98 +46,118 @@ export const getDirectShortcutIfPresent = (searchPhrase: string, shortcuts: Sear
   return undefined;
 };
 
-export const getRecipesForPhrase = (searchPhrase: string, recipes: ShoukaiSearchRecipe[], tags: string[]) => {
+export const getRecipesForPhrase = (
+  searchPhrase: string,
+  recipes: ShoukaiSearchRecipe[],
+  tags: string[]
+) => {
   if (tags.length === 0) {
     return recipes;
   }
 
-  return recipes.filter(
-    ({ promoteForTags, skipForTags }) => {
-      if (tags.some((tag) => promoteForTags.includes(tag))) {
-        // Has promoted tag
-        return true;
-      }
-
-      if (tags.some((tag) => skipForTags.includes(tag))) {
-        // Has tag to skip
-        return false;
-      }
-
-      // Let's try
+  return recipes.filter(({ promoteForTags, skipForTags }) => {
+    if (tags.some((tag) => promoteForTags.includes(tag))) {
+      // Has promoted tag
       return true;
     }
-  );
+
+    if (tags.some((tag) => skipForTags.includes(tag))) {
+      // Has tag to skip
+      return false;
+    }
+
+    // Let's try
+    return true;
+  });
 };
 
-let openedTabs: {
-  [url: string]: true,
-} = {};
-
-export const performSearch = (searchPhrase: string, recipes: ShoukaiSearchRecipe[]) => {
+export const performSearch = (
+  searchPhrase: string,
+  recipes: ShoukaiSearchRecipe[]
+) => {
   if (!searchPhrase) {
     setResults([]);
-  
+
     return;
   }
 
-  for (const recipe of recipes) {
-    const {
-      searchKey,
-      domainWithSearch
-    } = getSearchKeyAndDomainURL(searchPhrase, recipe);
-  
-    const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
-  
-    const hasResults = resultsByKey[searchKey]?.results;
-    const wasTabOpenAlready = openedTabs[domainWithSearch];
+  const shoukaiQuery = window.shoukaiGetQuery
+    ? window.shoukaiGetQuery(searchPhrase)
+    : undefined;
 
-    const shouldSearch = !hasResults && !wasTabOpenAlready;
-  
+  const openedTabs = shoukaiQuery?.openedTabs || [];
+
+  const newOpenTabs: string[] = [];
+  let didOpenNewTab = false;
+
+  for (const recipe of recipes) {
+    const { domainWithSearch } = getSearchKeyAndDomainURL(searchPhrase, recipe);
+
+    newOpenTabs.push(domainWithSearch);
+
+    const wasTabOpenAlready = openedTabs.includes(domainWithSearch);
+
+    const shouldSearch = !wasTabOpenAlready;
+
     if (shouldSearch) {
-      openedTabs[domainWithSearch] = true;
-  
+      didOpenNewTab = true;
       openInNewTab(domainWithSearch);
     }
   }
+
+  if (didOpenNewTab && window.shoukaiSetQuery) {
+    window.shoukaiSetQuery(searchPhrase, newOpenTabs);
+  }
+
+  return didOpenNewTab;
 };
 
-export const indexResults = (searchPhrase: string, recipes: ShoukaiSearchRecipe[]) => {
+export const indexResults = (
+  searchPhrase: string,
+  recipes: ShoukaiSearchRecipe[]
+) => {
   if (!searchPhrase) {
     setResults([]);
-  
+
     return;
   }
 
   let allValidResults: SearchResultEvaluated[] = [];
 
   for (const recipe of recipes) {
-    const {
-      searchKey,
-    } = getSearchKeyAndDomainURL(searchPhrase, recipe);
+    const { searchKey } = getSearchKeyAndDomainURL(searchPhrase, recipe);
 
-    const resultsByKey = window.shoukaiGetResultsByKey ? window.shoukaiGetResultsByKey() : {};
-    
+    const resultsByKey = window.shoukaiGetResultsByKey
+      ? window.shoukaiGetResultsByKey()
+      : {};
+
     if (resultsByKey[searchKey]?.results) {
       const results = resultsByKey[searchKey].results as SearchResult[];
 
       const getResultScore = recipe?.getResultScore || getResultScoreDefault;
-      
+
       const phrase = searchPhrase.toLowerCase();
       const wordsToIgnore = recipe.wordsToIgnore || [];
       const minimumScore = recipe.minimumScore ?? 0.2;
 
       const scoredResults = results.map((result) => {
-        const title = result.title.toLowerCase().replace(/[\)|\-|\(|0-9]/g, ' ').split(' ').filter((word) => word && !wordsToIgnore.includes(word)).join(' ');
+        const title = result.title
+          .toLowerCase()
+          .replace(/[\)|\-|\(|0-9]/g, " ")
+          .split(" ")
+          .filter((word) => word && !wordsToIgnore.includes(word))
+          .join(" ");
 
-        return { ...result, score: getResultScore({ phrase, title }), recipeId: recipe.id }
+        return {
+          ...result,
+          score: getResultScore({ phrase, title }),
+          recipeId: recipe.id,
+        };
       });
 
-      const validResults = scoredResults.filter(({ score }) => score >= minimumScore);
-
-      console.log({
-        validResults,
-        name: recipe.name,
-      });
+      const validResults = scoredResults.filter(
+        ({ score }) => score >= minimumScore
+      );
 
       allValidResults = [...allValidResults, ...validResults];
     }
