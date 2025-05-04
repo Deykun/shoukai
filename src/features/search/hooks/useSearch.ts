@@ -1,39 +1,61 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { SearchResult } from '@/types'
-import { directShortcuts } from '@/constants';
+import { SearchResult } from "@/types";
+import { directShortcuts } from "@/constants";
 
-import { getRecipesForPhrase, getDirectShortcutIfPresent, performSearch, indexResults } from '@/features/search/utils/actions';
-import useSearchStore, { setResults } from '@/features/search/stores/searchStore';
-import useSearchSettingsStore, { selectUserRecipes } from "@/features/search/stores/searchSettingsStore";
+import {
+  getRecipesForPhrase,
+  getDirectShortcutIfPresent,
+  performSearch,
+  indexResults,
+} from "@/features/search/utils/actions";
+import useSearchStore, {
+  setResults,
+} from "@/features/search/stores/searchStore";
+import useSearchSettingsStore, {
+  selectUserRecipes,
+} from "@/features/search/stores/searchSettingsStore";
 
 declare global {
   interface Window {
     shoukaiGetResultsByKey?: () => {
       [key: string]: {
-        date: string,
-        results: SearchResult[],
-      }
-    },
+        date: string;
+        results: SearchResult[];
+      };
+    };
   }
 }
 
 export default function useSearch() {
+  const shouldOpenNewTabForResults = useSearchSettingsStore(
+    (state) => state.shouldOpenNewTabForResults
+  );
   const recipes = useSearchSettingsStore(selectUserRecipes);
-  const searchPhrase = useSearchStore(state => state.searchPhrase);
-  const tags = useSearchStore(state => [...state.meta.phrase, ...state.meta.results]);
-  const directShortcut = getDirectShortcutIfPresent(searchPhrase, directShortcuts);
+  const searchPhrase = useSearchStore((state) => state.searchPhrase);
+  const tags = useSearchStore((state) => [
+    ...state.meta.phrase,
+    ...state.meta.results,
+  ]);
+  const directShortcut = getDirectShortcutIfPresent(
+    searchPhrase,
+    directShortcuts
+  );
   const [searchConfig, setSearchConfig] = useState({
-    phrase: searchPhrase || '',
-    recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, recipes, tags),
+    phrase: searchPhrase || "",
+    recipes: directShortcut
+      ? []
+      : getRecipesForPhrase(searchPhrase, recipes, tags),
   });
 
   useEffect(() => {
     setResults([]);
 
-    if (directShortcut) {  
-      location.href = directShortcut.shortcut.getSearchUrl(directShortcut.phrase);;
-  
+    if (directShortcut) {
+      location.href = directShortcut.shortcut.getSearchUrl(
+        directShortcut.phrase
+      );
+
       return;
     }
 
@@ -41,11 +63,13 @@ export default function useSearch() {
       if (searchPhrase) {
         setSearchConfig({
           phrase: searchPhrase,
-          recipes: directShortcut ? [] : getRecipesForPhrase(searchPhrase, recipes, tags),
+          recipes: directShortcut
+            ? []
+            : getRecipesForPhrase(searchPhrase, recipes, tags),
         });
       } else {
         setSearchConfig({
-          phrase: '',
+          phrase: "",
           recipes: [],
         });
       }
@@ -55,9 +79,12 @@ export default function useSearch() {
   useEffect(() => {
     if (searchConfig.phrase && searchConfig.recipes.length > 0) {
       performSearch(searchPhrase, searchConfig.recipes);
+
+      if (shouldOpenNewTabForResults) {
+        
+      }
     }
   }, [searchConfig]);
-
 
   const cachedIndexResults = useCallback(() => {
     if (searchConfig.phrase && searchConfig.recipes.length > 0) {
@@ -69,15 +96,18 @@ export default function useSearch() {
     cachedIndexResults();
   }, [cachedIndexResults]);
 
-  const handleStorageUpdate = useCallback((event: StorageEvent) => {
-    if (event) {
-      setTimeout(cachedIndexResults, 10);
-    }
-  }, [searchConfig]);
+  const handleStorageUpdate = useCallback(
+    (event: StorageEvent) => {
+      if (event) {
+        setTimeout(cachedIndexResults, 10);
+      }
+    },
+    [searchConfig]
+  );
 
   useEffect(() => {
-    window.addEventListener('storage', handleStorageUpdate);
+    window.addEventListener("storage", handleStorageUpdate);
 
-    return () => window.removeEventListener('storage', handleStorageUpdate);
-  }, [handleStorageUpdate])
-};
+    return () => window.removeEventListener("storage", handleStorageUpdate);
+  }, [handleStorageUpdate]);
+}

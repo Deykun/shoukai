@@ -58,7 +58,7 @@ const SearchTabs = () => {
           <span>Recipes</span>
         </ButtonText>
       </header>
-      <div className="grid">
+      <div className="grid px-2">
         <div className={getClassNameForTab("general", activeTab)}>
           <General />
         </div>

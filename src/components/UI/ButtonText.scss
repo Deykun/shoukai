@@ -1,6 +1,8 @@
 @import "@/scss/mixins.scss";
 
 .ui-button-text {
+  @apply inline-block leading-none;
+
   > a,
   > button {
     @apply relative inline-flex justify-center items-center gap-3 p-2 px-3;
@@ -11,9 +13,9 @@
     transition: 0.3s ease-in-out;
 
     &:disabled {
-      color: #b3cbbc
+      color: #b3cbbc;
     }
-    
+
     @include hoverOnDesktopActiveOnMobile {
       color: #518601;
       background: #3cea0014;
@@ -39,7 +41,7 @@
     }
 
     > span {
-      font-size: 12px;    
+      font-size: 12px;
       font-weight: 600;
       line-height: 1.4;
       white-space: nowrap;
@@ -70,12 +72,12 @@
       span {
         font-size: 14px;
       }
-  
+
       > img,
       > svg {
         @apply size-8;
       }
-    } 
+    }
   }
 }
 
@@ -112,7 +114,6 @@
   }
 }
 
-
 .ui-button-text--promoted {
   > a:not(:hover),
   > button:not(:hover) {
@@ -121,4 +122,3 @@
     box-shadow: 0px 5px 7px -4px #08562645;
   }
 }
-

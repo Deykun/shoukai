@@ -1,35 +1,32 @@
-import { useState } from "react";
+import useSearchSettingsStore, {
+  toggleShouldOpenNewTabForResult,
+} from "@/features/search/stores/searchSettingsStore";
 
-import ButtonText from "@/components/UI/ButtonText";
-
-import IconNewTab from "@/components/Icons/IconNewTab";
 import Checkbox from "@/components/UI/Checkbox";
-import Radiobox from "@/components/UI/Radiobox";
-
 
 const General = () => {
-  const [v, setV] = useState(false);
+  const shouldOpenNewTabForResults = useSearchSettingsStore(
+    (state) => state.shouldOpenNewTabForResults
+  );
 
   return (
     <div>
-      <ButtonText>
-        <IconNewTab />
-        <span>Recipes</span>
-      </ButtonText>
-      <br />
-      <br />
-      Checkbox:
-      <div>
-        <Checkbox size="small" isActive={v} onChange={(x) => setV(x)} />
-        <Radiobox size="small" isActive={v} onChange={(x) => setV(x)} />
-      </div>
-      <div>
-        <Checkbox isActive={v} onChange={(x) => setV(x)} />
-        <Radiobox isActive={v} onChange={(x) => setV(x)} />
-      </div>
-      <div>
-        <Checkbox size="large" isActive={v} onChange={(x) => setV(x)} />
-        <Radiobox size="large" isActive={v} onChange={(x) => setV(x)} />
+      <div className="flex gap-3 items-center">
+        <Checkbox
+          isActive={shouldOpenNewTabForResults}
+          onChange={toggleShouldOpenNewTabForResult}
+        />
+        <label
+          className="text-sm font-[500]"
+          onClick={toggleShouldOpenNewTabForResult}
+        >
+          Open results in new tabs{" "}
+          <small>
+            <br />
+            shoukai will remain as the active tab, but make sure you’ve allowed
+            shoukai to open tabs
+          </small>
+        </label>
       </div>
     </div>
   );
