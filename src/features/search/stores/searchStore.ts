@@ -9,7 +9,7 @@ import { getInitDataFromSearchParams } from "@/features/search/utils/url";
 type SearchStoreState = {
   searchPhrase: string;
   meta: {
-    phrase: string[];
+    input: string[];
     results: string[];
   };
   results: SearchResultEvaluated[];
@@ -21,7 +21,7 @@ export const useSearchStore = create<SearchStoreState>()(
       ({
         searchPhrase: getInitDataFromSearchParams().searchPhrase,
         meta: {
-          phrase: getMetaFromSearchPhrase(
+          input: getMetaFromSearchPhrase(
             getInitDataFromSearchParams().searchPhrase
           ),
           results: [],
@@ -37,7 +37,7 @@ export const setSearchPhrase = (value: string) => {
     ...state,
     searchPhrase: value,
     meta: {
-      phrase: getMetaFromSearchPhrase(value),
+      input: getMetaFromSearchPhrase(value),
       results: [],
     },
   }));

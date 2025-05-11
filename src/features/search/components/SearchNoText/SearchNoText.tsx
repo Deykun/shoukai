@@ -11,7 +11,7 @@ import useSearchStore from "@/features/search/stores/searchStore";
 
 const SearchNoText = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
-  const metaPhrase = useSearchStore(state => state.meta.phrase);
+  const metaInput = useSearchStore(state => state.meta.input);
   const metaResults = useSearchStore(state => state.meta.results);
 
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ const SearchNoText = () => {
         target="_blank"
         rel="noreferrer noopener"
         title="Google Image"
-        isPromoted={metaPhrase.includes('image')}
+        isPromoted={metaInput.includes('image')}
       >
         <IconSearchCamera />
         <span>{t("search.typeImage")}</span>

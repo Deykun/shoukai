@@ -43,7 +43,7 @@ export default function useSearch() {
   const recipes = useSearchSettingsStore(selectUserRecipes);
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
   const tags = useSearchStore((state) => [
-    ...state.meta.phrase,
+    ...state.meta.input,
     ...state.meta.results,
   ]);
   const directShortcut = getDirectShortcutIfPresent(

@@ -17,10 +17,10 @@ import { useEffect, useMemo } from "react";
 
 const SidebarWikipedia = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
-  const metaPhrase = useSearchStore((state) => state.meta.phrase);
+  const metaInput = useSearchStore((state) => state.meta.input);
   const { t, i18n } = useTranslation();
 
-  const wikipediSearchPhrase = useMemo(() => {
+  const wikipediaSearchPhrase = useMemo(() => {
     const normalizedPhrase = searchPhrase.split("site:")[0].trim();
 
     if (normalizedPhrase.length < 4) {
@@ -33,20 +33,20 @@ const SidebarWikipedia = () => {
       return "";
     }
 
-    if (metaPhrase.includes("dev") && numberOfWords > 3) {
+    if (metaInput.includes("dev") && numberOfWords > 3) {
       return "";
     }
 
     return normalizedPhrase;
-  }, [searchPhrase, metaPhrase]);
+  }, [searchPhrase, metaInput]);
 
   const {
     isLoading,
     // error,
     data,
   } = useQuery({
-    queryFn: () => getWikipediaResult(wikipediSearchPhrase, i18n.language),
-    queryKey: [wikipediSearchPhrase, i18n.language],
+    queryFn: () => getWikipediaResult(wikipediaSearchPhrase, i18n.language),
+    queryKey: [wikipediaSearchPhrase, i18n.language],
   });
 
   useEffect(() => {
@@ -59,17 +59,17 @@ const SidebarWikipedia = () => {
     }
   }, [data]);
 
-  if (!wikipediSearchPhrase) {
+  if (!wikipediaSearchPhrase) {
     return null;
   }
 
   const wikipediaUrl = `https://${i18n.language}.wikipedia.org/wiki/${encodeURI(
-    data?.title || wikipediSearchPhrase
+    data?.title || wikipediaSearchPhrase
   )}`;
 
   return (
     <section className="bg-[#f5f9ef] p-4 py-2 rounded-md flex flex-col gap-2">
-      {wikipediSearchPhrase && (
+      {wikipediaSearchPhrase && (
         <>
           <h3 className="text-[18px] font-[600]">
             <a
@@ -79,7 +79,7 @@ const SidebarWikipedia = () => {
               target="_blank"
               rel="noreferrer noopener"
             >
-              {data?.title || wikipediSearchPhrase}
+              {data?.title || wikipediaSearchPhrase}
             </a>
           </h3>
           {data?.description && data?.description !== data?.title && (

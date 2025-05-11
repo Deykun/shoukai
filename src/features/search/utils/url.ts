@@ -1,6 +1,5 @@
 import { ShoukaiSearchRecipe } from "@/types";
 import { getSearchKey } from "@/features/search/api/search";
-import { SupportedSearchEngine } from "@/constants";
 import { getSearchUrlGetterBySearchEngine } from "./search";
 
 type SupportedParams = {
