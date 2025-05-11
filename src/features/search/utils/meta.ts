@@ -70,14 +70,22 @@ export const getHasName = (searchPhrase: string) => {
 };
 
 export const getTextStructureMatching = (searchPhrase: string) => {
+  const tags: string[] = [];
   const searchPhraseSanitize = removeDoubleSpaces(searchPhrase).trim();
   const words = searchPhraseSanitize.split(" ").filter(Boolean);
   const wordCount = words.length;
 
   const hasYear = getHasYear(searchPhrase);
+  if (hasYear) {
+    tags.push('year');
+  }
   const hasName = getHasName(searchPhrase);
+  if (hasName) {
+    tags.push('person');
+  }
 
   return {
+    tags,
     wordCount,
     hasYear,
     hasName,
@@ -89,8 +97,12 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
     return [];
   }
 
-  const tags: string[] = [];
+  const textStructure = getTextStructureMatching(searchPhrase);
 
+  console.log(textStructure);
+
+  const tags: string[] = textStructure.tags;
+  
   const searchPhraseWords = searchPhrase
     .toLowerCase()
     .split(" ")

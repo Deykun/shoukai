@@ -875,7 +875,7 @@ const getQuery = (phrase) => {
 
 unsafeWindow.shoukaiGetQuery = getQuery;
 
-const setQuery = (phrase, openedTabs = []) => {
+const setQuery = ({ phrase, openedTabs = [], searchKeys = [] }) => {
   if (!phrase) {
     return;
   }
@@ -892,6 +892,7 @@ const setQuery = (phrase, openedTabs = []) => {
     phrase,
     date,
     openedTabs,
+    searchKeys,
   };
 
   GM_setValue("queryByPhrase", queryByPhrase);

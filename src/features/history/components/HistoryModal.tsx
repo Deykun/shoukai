@@ -40,7 +40,7 @@ const HistoryModal = () => {
         };
       },
       []
-    );
+    ).reverse();
 
     return queriesAsMap;
   }, [isOpen]);

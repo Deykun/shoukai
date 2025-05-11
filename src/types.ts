@@ -62,4 +62,5 @@ export type ShoukaiQuery = {
   phrase: string;
   date: Date;
   openedTabs: string[];
+  searchKeys: string[];
 };

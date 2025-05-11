@@ -19,7 +19,7 @@ import { openInNewTab } from "@/utils/url";
 
 declare global {
   interface Window {
-    shoukaiReset?: () => void,
+    shoukaiReset?: () => void;
     shoukaiGetResultsByKey?: () => {
       [key: string]: {
         date: string;
@@ -32,7 +32,11 @@ declare global {
       };
     };
     shoukaiGetQuery?: (phrase: string) => ShoukaiQuery | undefined;
-    shoukaiSetQuery?: (phrase: string, openedTabs: string[]) => void;
+    shoukaiSetQuery?: (params: {
+      phrase: string;
+      openedTabs: string[];
+      searchKeys: string[];
+    }) => void;
   }
 }
 
