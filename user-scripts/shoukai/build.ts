@@ -41,4 +41,6 @@ if (!existsSync('./public/user-script')){
   mkdirSync('./public/user-script');
 }
 
+template = template.replaceAll('SCRIPT_VERSION', '1.1');
+
 fs.writeFileSync('./public/user-script/shoukai.user.js', template);

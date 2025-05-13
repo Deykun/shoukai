@@ -87,8 +87,6 @@ export const performSearch = (
 
   const openedTabs = shoukaiQuery?.openedTabs || [];
 
-  console.log(shoukaiQuery);
-
   const newOpenTabs: string[] = [];
   const newSearchKeys: string[] = [];
   let didOpenNewTab = false;

@@ -4,11 +4,11 @@ const getFromLocalStorage = (key, defaultValues = {}) => (localStorage.getItem(k
   ? { ...defaultValues, ...JSON.parse(localStorage.getItem(key)) }
   : { ...defaultValues });
 
-const getSourcesFromLS = () => getFromLocalStorage('wikiparse-units', {});
+const getSourcesFromLS = () => getFromLocalStorage('shoukaiparse-units', {});
 
-const getSettingsFromLS = () => getFromLocalStorage('wikiparse-state', {});
+const getSettingsFromLS = () => getFromLocalStorage('shoukaiparse-state', {});
 
-window.WikiParser = {
+unsafeWindow.shoukaiScript = {
   version: 'SCRIPT_VERSION',
   isDevMode: false,
   cache: {
@@ -22,7 +22,7 @@ window.WikiParser = {
   actions: {},
 };
 
-window.WikiParser.ui = {
+unsafeWindow.shoukaiScript.ui = {
   status: {
     type: '',
     text: '',

@@ -3,15 +3,17 @@ import clsx from "clsx";
 
 import ButtonText from "@/components/UI/ButtonText";
 
-import IconBooWithBookmark from "@/components/Icons/IconBooWithBookmark";
+import IconBookWithBookmark from "@/components/Icons/IconBookWithBookmark";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 import IconTag from "@/components/Icons/IconTag";
 import IconPaint from "@/components/Icons/IconPaint";
 
 import General from "../General/General";
 import Recipes from "../Recipes/Recipes";
+import Script from "../Script/Script";
+import IconMergeUserScript from "@/components/Icons/IconMergeUserScript";
 
-type Tab = "general" | "tags" | "recipes" | "design";
+type Tab = "general" | "tags" | "recipes" | "design" | "script";
 
 const getClassNameForTab = (tab: Tab, activeTab: Tab) =>
   clsx("col-start-1 row-start-1", "duration-500", {
@@ -50,8 +52,17 @@ const SearchTabs = () => {
           onClick={() => setActiveTab("recipes")}
           isActive={activeTab === "recipes"}
         >
-          <IconBooWithBookmark />
+          <IconBookWithBookmark />
           <span>Recipes</span>
+        </ButtonText>
+        <ButtonText
+          wrapperClassName="ml-auto"
+          onClick={() => setActiveTab("script")}
+          isActive={activeTab === "script"}
+        >
+          <span className="show-for-script">Connected</span>
+          <span className="show-for-no-script">Disconnected</span>
+          <IconMergeUserScript />
         </ButtonText>
       </header>
       <div className="grid px-2">
@@ -69,6 +80,9 @@ const SearchTabs = () => {
         </div>
         <div className={getClassNameForTab("recipes", activeTab)}>
           <Recipes />
+        </div>
+        <div className={getClassNameForTab("script", activeTab)}>
+          <Script />
         </div>
       </div>
     </div>

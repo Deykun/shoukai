@@ -63,16 +63,18 @@ const SearchSettings = () => {
             <IconClose />
           </ButtonIcon>
         </div>
-        <p className="text-justify show-for-no-script">
+        <p className="text-justify show-for-no-script text-xs text-[#d50101]">
           {t("about.description")}
-          <br />
+          {' '}
           <a
             href="https://deykun.github.io/shoukai/user-script/shoukai.user.js"
             target="_blank"
-            className="underline"
+            className="underline tracking-wider font-[800]"
           >
-            shoukai/user-script/shoukai.user.js
+            shoukai.user.js
           </a>
+          <br />
+          <br />
         </p>
         <SearchTabs />
       </div>
