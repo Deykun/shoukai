@@ -35,7 +35,7 @@ const userScriptLogger = (params) => {
       console.error(error);
     }
 
-    if (window.WikiParser.isDevMode && error) {
+    if (unsafeWindow.shoukaiScript.isDevMode && error) {
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -66,6 +66,10 @@ const initShoukai = async () => {
     if (location.href.includes('localhost') || location.href.includes('deykun.github.io')) {
       /* import @/render-search.js */
       addClass(document.body, 'has-user-script');
+      const scriptVersionElement = document.getElementById('shoukai-version');
+      if (scriptVersionElement) {
+        scriptVersionElement.innerHTML = 'SCRIPT_VERSION';
+      }
     }
 
     return;
@@ -108,7 +112,7 @@ const initShoukai = async () => {
     const debouncedRefresh = debounce(() => {
       parse();
 
-      const didLocationChange = location.href !== window.WikiParser.cache.location;
+      const didLocationChange = location.href !== unsafeWindow.shoukaiScript.cache.location;
       if (didLocationChange) {
         renderApp();
       }

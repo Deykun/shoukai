@@ -9,8 +9,9 @@ import ModalAsContentWrapper from "@/components/UI/ModalAsContentWrapper";
 
 import SearchBar from "@/features/search/components/SearchBar";
 import SearchResultsSummary from "@/features/search/components/SearchResultsSummary";
-import SearchNoText from "@/features/search/components/SearchNoText/SearchNoText";
 import SearchLogic from "@/features/search/components/SearchLogic/SearchLogic";
+import SearchNoText from "@/features/search/components/SearchNoText/SearchNoText";
+import SearchProgress from "../components/SearchProgress/SearchProgress";
 import SearchResults from "@/features/search/components/SearchResults/SearchResults";
 import GoToSearchEngine from "@/features/search/components/GoToSearchEngine";
 import SearchSettings from "@/features/search/components/SearchSettings/SearchSettings";
@@ -51,6 +52,7 @@ const SearchPage = () => {
             </div>
             <div className="mt-5 grid grid-cols-3 gap-5">
               <div className="col-span-2">
+                <SearchProgress />
                 <SearchResults />
                 <SearchLogic />
               </div>

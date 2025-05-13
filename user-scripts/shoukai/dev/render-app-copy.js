@@ -36,7 +36,7 @@ const getSourceTextToCopy = (source, value) => {
 `;
 }
 
-window.WikiParser.ui.eventsSubscribers.copyCode = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCode = {
   selector: '#copy-code',
   handleClick: () => {
     const source = location.href.split('#')[0];
@@ -49,7 +49,7 @@ window.WikiParser.ui.eventsSubscribers.copyCode = {
   },
 };
 
-window.WikiParser.ui.eventsSubscribers.copyCodeAll = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
   selector: '#copy-code-all',
   handleClick: () => {
     const unitsBySource = getSourcesFromLS();
@@ -64,10 +64,10 @@ window.WikiParser.ui.eventsSubscribers.copyCodeAll = {
   },
 };
 
-window.WikiParser.ui.eventsSubscribers.removeAll = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.removeAll = {
   selector: '#remove-all',
   handleClick: () => {
-    // localStorage.removeItem('wikiparse-units');
+    // localStorage.removeItem('shoukaiparse-units');
     localStorage.clear();
     console.log('Removed!');
   },

@@ -19,7 +19,7 @@ import { openInNewTab } from "@/utils/url";
 
 declare global {
   interface Window {
-    shoukaiReset?: () => void,
+    shoukaiReset?: () => void;
     shoukaiGetResultsByKey?: () => {
       [key: string]: {
         date: string;
@@ -32,7 +32,11 @@ declare global {
       };
     };
     shoukaiGetQuery?: (phrase: string) => ShoukaiQuery | undefined;
-    shoukaiSetQuery?: (phrase: string, openedTabs: string[]) => void;
+    shoukaiSetQuery?: (params: {
+      phrase: string;
+      openedTabs: string[];
+      searchKeys: string[];
+    }) => void;
   }
 }
 
@@ -43,7 +47,7 @@ export default function useSearch() {
   const recipes = useSearchSettingsStore(selectUserRecipes);
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
   const tags = useSearchStore((state) => [
-    ...state.meta.phrase,
+    ...state.meta.input,
     ...state.meta.results,
   ]);
   const directShortcut = getDirectShortcutIfPresent(

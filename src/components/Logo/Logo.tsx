@@ -13,8 +13,9 @@ const Logo = () => {
       <span className="relative">
         shoukai
         <span className="absolute top-full right-0 h-[5px] w-[70px] rounded-full bg-[#82a849]" />
-        
-      <small className="absolute text-[10px] text-[#5b0000] left-0 -bottom-2.5">alfa</small>
+        <small className="absolute text-[14px] text-[#5b0000] left-0 -bottom-2.5">
+          alfa
+        </small>
       </span>
       <IconSearch className="size-12 fill-[#82a849] text-[#82a849]" />
     </h1>

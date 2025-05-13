@@ -20,12 +20,12 @@ export const appendCSS = (styles, { sourceName = '' } = {}) => {
 export const render = (HTML = '', source) => {
   const id = `g-wp-html-${source}`;
 
-  if (HTML === window.WikiParser.cache.HTML[id]) {
+  if (HTML === unsafeWindow.shoukaiScript.cache.HTML[id]) {
     /* Don't rerender if HTML is the same */
     return;
   }
 
-  window.WikiParser.cache.HTML[id] = HTML;
+  unsafeWindow.shoukaiScript.cache.HTML[id] = HTML;
 
   const wrapperEl = document.getElementById(id);
 

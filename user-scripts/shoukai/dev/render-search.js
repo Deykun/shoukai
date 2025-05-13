@@ -35,7 +35,7 @@ export const getQuery = (phrase) => {
 
 unsafeWindow.shoukaiGetQuery = getQuery;
 
-export const setQuery = (phrase, openedTabs = []) => {
+export const setQuery = ({ phrase, openedTabs = [], searchKeys = [] }) => {
   if (!phrase) {
     return;
   }
@@ -52,6 +52,7 @@ export const setQuery = (phrase, openedTabs = []) => {
     phrase,
     date,
     openedTabs,
+    searchKeys,
   };
 
   GM_setValue("queryByPhrase", queryByPhrase);

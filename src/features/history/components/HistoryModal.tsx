@@ -40,7 +40,7 @@ const HistoryModal = () => {
         };
       },
       []
-    );
+    ).reverse();
 
     return queriesAsMap;
   }, [isOpen]);
@@ -72,7 +72,7 @@ const HistoryModal = () => {
         <h1>History</h1>
       </div>
       {queriesAsMap.map(({ stamp, items }) => (
-        <HistoryModalSection stamp={stamp} items={items} />
+        <HistoryModalSection key={stamp} stamp={stamp} items={items} />
       ))}
     </div>
   );

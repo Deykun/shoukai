@@ -52,6 +52,10 @@ svg {
   text-shadow: none;
 }
 
+body:not(.has-user-script) .show-for-script {
+  display: none;
+}
+
 body.has-user-script .show-for-no-script {
   display: none;
 }

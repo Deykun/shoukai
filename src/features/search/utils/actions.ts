@@ -88,12 +88,17 @@ export const performSearch = (
   const openedTabs = shoukaiQuery?.openedTabs || [];
 
   const newOpenTabs: string[] = [];
+  const newSearchKeys: string[] = [];
   let didOpenNewTab = false;
 
   for (const recipe of recipes) {
-    const { domainWithSearch } = getSearchKeyAndDomainURL(searchPhrase, recipe);
+    const { searchKey, domainWithSearch } = getSearchKeyAndDomainURL(
+      searchPhrase,
+      recipe
+    );
 
     newOpenTabs.push(domainWithSearch);
+    newSearchKeys.push(searchKey);
 
     const wasTabOpenAlready = openedTabs.includes(domainWithSearch);
 
@@ -106,7 +111,11 @@ export const performSearch = (
   }
 
   if (didOpenNewTab && window.shoukaiSetQuery) {
-    window.shoukaiSetQuery(searchPhrase, newOpenTabs);
+    window.shoukaiSetQuery({
+      phrase: searchPhrase,
+      openedTabs: newOpenTabs,
+      searchKeys: newSearchKeys,
+    });
   }
 
   return didOpenNewTab;
