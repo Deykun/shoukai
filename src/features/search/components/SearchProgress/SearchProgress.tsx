@@ -51,7 +51,7 @@ const SearchProgress = () => {
     window.addEventListener("storage", handleStorageUpdate);
 
     return () => window.removeEventListener("storage", handleStorageUpdate);
-  }, [handleStorageUpdate]);
+  }, [handleStorageUpdate, hasResults]);
 
   if (!searchPhrase) {
     return null;
@@ -59,7 +59,7 @@ const SearchProgress = () => {
 
   return (
     <div className="flex flex-col gap-1 bg-[#f5f9ef] mb-5 py-2 p-4 rounded-md">
-      <div className="flex gap-3 items-center">
+      <div className="flex items-center">
         <div className="w-full relative bg-[#979f8a] h-2 rounded-full">
           <span
             className="absolute top-0 left-0 h-full bdg-[#075525] bg-black rounded-full duration-300"
@@ -69,17 +69,18 @@ const SearchProgress = () => {
           />
         </div>
         {status.tabsTotal > 0 && (
-          <span className="flex gap-3 min-w-[8ch] items-center justify-end whitespace-nowrap">
-            {status.tabsCompleted} / {status.tabsTotal}
+          <span className="flex gap-2 ml-3 min-w-[7ch] items-center justify-end whitespace-nowrap">
+            {status.tabsCompleted}{" "}
+            <span className="text-xs text-[#979f8a]">/</span> {status.tabsTotal}
             {status.tabsCompleted < status.tabsTotal ? (
               <IconLoaderDots className="shrink-0 size-5 text-black" />
             ) : (
-              <IconCheck className="shrink-0 size-5 text-black" />
+              <IconCheck className="shrink-0 size-5 text-[#005b46]" />
             )}
           </span>
         )}
       </div>
-      <p className="text-xs text-[#979f8a]">
+      <p className="text-xs text-[#979f8a] empty:hidden">
         {[...inputTags, ...resultTags].map((tag) => `#${tag}`).join(" ")}
       </p>
     </div>

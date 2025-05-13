@@ -35,7 +35,7 @@ const userScriptLogger = (params) => {
       console.error(error);
     }
 
-    if (window.shoukaiScript.isDevMode && error) {
+    if (unsafeWindow.shoukaiScript.isDevMode && error) {
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -112,7 +112,7 @@ const initShoukai = async () => {
     const debouncedRefresh = debounce(() => {
       parse();
 
-      const didLocationChange = location.href !== window.shoukaiScript.cache.location;
+      const didLocationChange = location.href !== unsafeWindow.shoukaiScript.cache.location;
       if (didLocationChange) {
         renderApp();
       }

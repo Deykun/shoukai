@@ -4,7 +4,7 @@
   "search.inputPlaceholder": "Szukaj...",
   "search.typeImage": "Obrazek",
   "search.typeMap": "Mapa",
-  "search.resultsFound_zero": "Znaleziono {{count}} wynik",
+  "search.resultsFound_zero": "Znaleziono {{count}} wyników",
   "search.resultsFound_one": "Znaleziono {{count}} wynik",
   "search.resultsFound_few": "Znaleziono {{count}} wyniki",
   "search.resultsFound_many": "Znaleziono {{count}} wyników",

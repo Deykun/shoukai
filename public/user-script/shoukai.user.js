@@ -67,7 +67,7 @@ const userScriptLogger = (params) => {
       console.error(error);
     }
 
-    if (window.shoukaiScript.isDevMode && error) {
+    if (unsafeWindow.shoukaiScript.isDevMode && error) {
       // eslint-disable-next-line no-console
       console.error(error);
     }
@@ -124,12 +124,12 @@ const initShoukai = async () => {
 const render = (HTML = '', source) => {
   const id = `g-wp-html-${source}`;
 
-  if (HTML === window.shoukaiScript.cache.HTML[id]) {
+  if (HTML === unsafeWindow.shoukaiScript.cache.HTML[id]) {
     /* Don't rerender if HTML is the same */
     return;
   }
 
-  window.shoukaiScript.cache.HTML[id] = HTML;
+  unsafeWindow.shoukaiScript.cache.HTML[id] = HTML;
 
   const wrapperEl = document.getElementById(id);
 
@@ -709,7 +709,7 @@ const getSourceTextToCopy = (source, value) => {
 `;
 }
 
-window.shoukaiScript.ui.eventsSubscribers.copyCode = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCode = {
   selector: '#copy-code',
   handleClick: () => {
     const source = location.href.split('#')[0];
@@ -722,7 +722,7 @@ window.shoukaiScript.ui.eventsSubscribers.copyCode = {
   },
 };
 
-window.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
   selector: '#copy-code-all',
   handleClick: () => {
     const unitsBySource = getSourcesFromLS();
@@ -737,7 +737,7 @@ window.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
   },
 };
 
-window.shoukaiScript.ui.eventsSubscribers.removeAll = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.removeAll = {
   selector: '#remove-all',
   handleClick: () => {
     // localStorage.removeItem('shoukaiparse-units');
@@ -918,14 +918,14 @@ window.shoukaiScript.ui.eventsSubscribers.removeAll = {
 `, { sourceName: 'render-app' });
 
 const renderApp = () => {
-  const content = window.shoukaiScript.ui.openedContent;
+  const content = unsafeWindow.shoukaiScript.ui.openedContent;
 
   render(`<aside class="us-nav" data-active="${content}">
     ${getAppCopy()}
   </aside>`, 'wp-app');
 };
 
-// window.shoukaiScript.ui.eventsSubscribers.content = {
+// unsafeWindow.shoukaiScript.ui.eventsSubscribers.content = {
 //   selector: '.us-nav-button',
 //   handleClick: (_, calledByElement) => {
 //     if (calledByElement) {
@@ -949,7 +949,7 @@ const renderApp = () => {
 
     try {
   document.body.addEventListener('click', (event) => {
-    const handlerData = Object.values(window.shoukaiScript.ui.eventsSubscribers).find(({ selector }) => {
+    const handlerData = Object.values(unsafeWindow.shoukaiScript.ui.eventsSubscribers).find(({ selector }) => {
       /* It checks max 4 nodes, while .closest() would look for all the nodes to body */
       const matchedHandlerData = [
         event.target,
@@ -983,7 +983,7 @@ const renderApp = () => {
     const debouncedRefresh = debounce(() => {
       parse();
 
-      const didLocationChange = location.href !== window.shoukaiScript.cache.location;
+      const didLocationChange = location.href !== unsafeWindow.shoukaiScript.cache.location;
       if (didLocationChange) {
         renderApp();
       }

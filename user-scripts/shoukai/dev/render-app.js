@@ -170,14 +170,14 @@ appendCSS(`
 `, { sourceName: 'render-app' });
 
 export const renderApp = () => {
-  const content = window.shoukaiScript.ui.openedContent;
+  const content = unsafeWindow.shoukaiScript.ui.openedContent;
 
   render(`<aside class="us-nav" data-active="${content}">
     ${getAppCopy()}
   </aside>`, 'wp-app');
 };
 
-// window.shoukaiScript.ui.eventsSubscribers.content = {
+// unsafeWindow.shoukaiScript.ui.eventsSubscribers.content = {
 //   selector: '.us-nav-button',
 //   handleClick: (_, calledByElement) => {
 //     if (calledByElement) {

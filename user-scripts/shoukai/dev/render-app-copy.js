@@ -36,7 +36,7 @@ const getSourceTextToCopy = (source, value) => {
 `;
 }
 
-window.shoukaiScript.ui.eventsSubscribers.copyCode = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCode = {
   selector: '#copy-code',
   handleClick: () => {
     const source = location.href.split('#')[0];
@@ -49,7 +49,7 @@ window.shoukaiScript.ui.eventsSubscribers.copyCode = {
   },
 };
 
-window.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
   selector: '#copy-code-all',
   handleClick: () => {
     const unitsBySource = getSourcesFromLS();
@@ -64,7 +64,7 @@ window.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
   },
 };
 
-window.shoukaiScript.ui.eventsSubscribers.removeAll = {
+unsafeWindow.shoukaiScript.ui.eventsSubscribers.removeAll = {
   selector: '#remove-all',
   handleClick: () => {
     // localStorage.removeItem('shoukaiparse-units');

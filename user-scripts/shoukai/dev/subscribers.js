@@ -1,6 +1,6 @@
 try {
   document.body.addEventListener('click', (event) => {
-    const handlerData = Object.values(window.shoukaiScript.ui.eventsSubscribers).find(({ selector }) => {
+    const handlerData = Object.values(unsafeWindow.shoukaiScript.ui.eventsSubscribers).find(({ selector }) => {
       /* It checks max 4 nodes, while .closest() would look for all the nodes to body */
       const matchedHandlerData = [
         event.target,
