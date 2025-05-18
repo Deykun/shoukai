@@ -26,6 +26,10 @@ const words: {
       "piosenkarka",
       "piosenkarz",
       "raper",
+      "muzyka",
+      "muzyki",
+      "dźwiękowa",
+      "dźwiękowej",
     ],
   },
   location: {

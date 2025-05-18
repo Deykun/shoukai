@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
 
 import useSearchStore from "@/features/search/stores/searchStore";
@@ -81,15 +82,22 @@ const SearchProgress = () => {
         )}
       </div>
       <p className="text-xs empty:hidden">
-        {[...inputTags, ...resultTags].sort((a, b) => b.status - a.status).map(({ tag, status }) => (
-          <span>
-            {" "}
-            <span className="text-[#979f8a]">#</span>
-            <strong>
-              {tag} {status}
-            </strong>
-          </span>
-        ))}
+        {[...inputTags, ...resultTags]
+          .sort((a, b) => b.status - a.status)
+          .map(({ tag, status }) => (
+            <span>
+              {" "}
+              <span className="text-[#979f8a]">#</span>
+              <strong
+                className={clsx({
+                  "opacity-100": status === 1,
+                  "opacity-50": status === 0.5,
+                })}
+              >
+                {tag}
+              </strong>
+            </span>
+          ))}
       </p>
     </div>
   );

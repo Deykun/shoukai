@@ -76,10 +76,6 @@ export const setMetaForResults = (searchPhrase: string, meta: Tag[]) => {
             return stack;
           }, state.meta.results);
 
-    console.log("meta", meta);
-    console.log("state.meta.results", state.meta.results);
-    console.log("resultTags", resultTags);
-
     return {
       ...state,
       meta: {

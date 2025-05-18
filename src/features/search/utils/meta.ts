@@ -14,10 +14,6 @@ export const getIsMetaWordMatching = (
   words: string[],
   prefixes: string[]
 ) => {
-  console.log(phrase);
-  console.log(words);
-  console.log(prefixes);
-
   if (words.includes(phrase)) {
     return true;
   }
