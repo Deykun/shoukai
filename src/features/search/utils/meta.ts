@@ -2,11 +2,22 @@ import { words as devWords, prefixes as devPrefixes } from "./tags/dev";
 import { words as imageWords } from "./tags/image";
 import { words as movieWords } from "./tags/movie";
 
+type TagStatus = 0 | 0.5 | 1;
+
+export type Tag = {
+  tag: string;
+  status: TagStatus;
+};
+
 export const getIsMetaWordMatching = (
   phrase: string,
   words: string[],
   prefixes: string[]
 ) => {
+  console.log(phrase);
+  console.log(words);
+  console.log(prefixes);
+
   if (words.includes(phrase)) {
     return true;
   }
@@ -20,6 +31,23 @@ export const getIsMetaWordMatching = (
 
 const removeDoubleSpaces = (input: string) => {
   return input.replace(/\s{2,}/g, " ");
+};
+
+export const getHasDigit = (searchPhrase: string) => {
+  return /\d/.test(searchPhrase);
+};
+
+export const getIsDecimalStatus = (searchPhrase: string) => {
+  const value = ` ${searchPhrase} `;
+  const isExactDecimal = / \d+\.\d+ /.test(value) || / \d+\,\d+ /.test(value);
+
+  if (isExactDecimal) {
+    return 1;
+  }
+
+  const isMaybeDecimal = /\d\.\d/.test(value) || /\d\,\d/.test(value);
+
+  return isMaybeDecimal ? 0.5 : 0;
 };
 
 export const getIsCapitalized = (input: string) => {
@@ -53,42 +81,78 @@ const chunkPairs = (arr: string[]) => {
   return result;
 };
 
-export const getHasName = (searchPhrase: string) => {
+export const getHasNameStatus = (searchPhrase: string) => {
   const textSanitize = searchPhrase;
 
   const sanitizedWords = textSanitize.trim().split(" ").filter(Boolean);
 
-  const hasManyWordsAndAllCapitalized = sanitizedWords.length >= 5 && sanitizedWords.every(getIsCapitalized);
+  const hasManyWordsAndAllCapitalized =
+    sanitizedWords.length >= 5 && sanitizedWords.every(getIsCapitalized);
 
   if (hasManyWordsAndAllCapitalized) {
-    return false;
+    return 0;
+  }
+
+  if (sanitizedWords.length === 2) {
+    const hasDigits = sanitizedWords.some(getHasDigit);
+
+    if (hasDigits) {
+      return 0;
+    }
+
+    if (sanitizedWords.every(getIsCapitalized)) {
+      return 1;
+    }
+
+    return 0.5;
   }
 
   const sanitizedPairs = chunkPairs(sanitizedWords);
 
-  return sanitizedPairs.some((pair) => pair.every(getIsCapitalized));
+  return sanitizedPairs.some((pair) => pair.every(getIsCapitalized)) ? 1 : 0;
 };
 
 export const getTextStructureMatching = (searchPhrase: string) => {
-  const tags: string[] = [];
+  const tags: Tag[] = [];
   const searchPhraseSanitize = removeDoubleSpaces(searchPhrase).trim();
   const words = searchPhraseSanitize.split(" ").filter(Boolean);
   const wordCount = words.length;
 
+  const hasDigits = getHasDigit(searchPhrase);
+  if (hasDigits) {
+    tags.push({
+      tag: "number",
+      status: 1,
+    });
+
+    const decimalStatus = getIsDecimalStatus(searchPhrase);
+    if (decimalStatus > 0) {
+      tags.push({
+        tag: "decimal",
+        status: decimalStatus,
+      });
+    }
+  }
+
   const hasYear = getHasYear(searchPhrase);
   if (hasYear) {
-    tags.push('year');
+    tags.push({
+      tag: "year",
+      status: 1,
+    });
   }
-  const hasName = getHasName(searchPhrase);
-  if (hasName) {
-    tags.push('person');
+
+  const nameStatus = getHasNameStatus(searchPhrase);
+  if (nameStatus > 0) {
+    tags.push({
+      tag: "person",
+      status: nameStatus,
+    });
   }
 
   return {
     tags,
     wordCount,
-    hasYear,
-    hasName,
   };
 };
 
@@ -99,10 +163,8 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
 
   const textStructure = getTextStructureMatching(searchPhrase);
 
-  console.log(textStructure);
+  const tags: Tag[] = textStructure.tags;
 
-  const tags: string[] = textStructure.tags;
-  
   const searchPhraseWords = searchPhrase
     .toLowerCase()
     .split(" ")
@@ -113,7 +175,10 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
       getIsMetaWordMatching(searchPhraseWord, devWords, devPrefixes)
     )
   ) {
-    tags.push("dev");
+    tags.push({
+      tag: "dev",
+      status: 1,
+    });
   }
 
   if (
@@ -121,7 +186,10 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
       getIsMetaWordMatching(searchPhraseWord, imageWords, [])
     )
   ) {
-    tags.push("image");
+    tags.push({
+      tag: "image",
+      status: 1,
+    });
   }
 
   if (
@@ -129,25 +197,10 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
       getIsMetaWordMatching(searchPhraseWord, movieWords, [])
     )
   ) {
-    tags.push("movie");
-  }
-
-  const isSomeKindOfDate = searchPhraseWords.some((searchPhraseWord) => {
-    const number = searchPhraseWord.match(/\d+/)?.[0];
-
-    return (
-      number &&
-      number.length === 4 &&
-      (number.startsWith("19") || number.startsWith("20"))
-    );
-  });
-
-  if (isSomeKindOfDate) {
-    if (!tags.includes("movie")) {
-      tags.push("movie");
-    }
-
-    tags.push("year");
+    tags.push({
+      tag: "movie",
+      status: 1,
+    });
   }
 
   return tags;

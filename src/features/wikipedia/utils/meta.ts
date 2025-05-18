@@ -1,53 +1,121 @@
-import { getIsMetaWordMatching } from '@/features/search/utils/meta';
+import { getIsMetaWordMatching, Tag } from "@/features/search/utils/meta";
 
 import { WikipediaResult } from "@/features/wikipedia/api/constants";
 
 const words: {
   [tag: string]: {
-    [lang: string]: string[],
-  }
+    [lang: string]: string[];
+  };
 } = {
-  movieOrBook: {
-    en: ['movie', 'series', 'book', 'actor', 'actress', 'director', 'writer'],
-    pl: ['film', 'seria', 'serial', 'książka', 'aktor', 'aktorka', 'reżyser', 'pisarz', 'pisarka'],
+  book: {
+    en: ["book", "writer"],
+    pl: ["książka", "pisarz", "pisarka", "pisarki", "pisarza"],
+  },
+  movie: {
+    en: ["movie", "series", "actor", "actress", "director"],
+    pl: ["film", "seria", "serial", "aktor", "aktorka", "reżyser"],
+  },
+  music: {
+    en: ["song", "songs"],
+    pl: [
+      "piosenka",
+      "piosenki",
+      "zespół",
+      "wokalista",
+      "wokalistka",
+      "piosenkarka",
+      "piosenkarz",
+      "raper",
+    ],
   },
   location: {
-    en: ['country', 'capital', 'city', 'town'],
-    pl: ['kraj', 'stolica', 'miasto', 'miejscowość'],
+    en: ["country", "capital", "city", "town"],
+    pl: ["kraj", "stolica", "miasto", "miejscowość"],
   },
   city: {
-    en: ['capital', 'city', 'town'],
-    pl: ['stolica', 'miasto', 'miejscowość'],
+    en: ["capital", "city", "town"],
+    pl: ["stolica", "miasto", "miejscowość"],
   },
-}
+};
 
-export const getMetaFromWikipediaResult = (data: WikipediaResult, lang: string) => {
-  if (!['en', 'pl'].includes(lang)) {
+export const getMetaFromWikipediaResult = (
+  data: WikipediaResult,
+  lang: string
+) => {
+  if (!["en", "pl"].includes(lang)) {
     return [];
   }
 
-  const descriptionWords = (data?.description || '').toLowerCase().split(' ').filter(Boolean);
+  const descriptionWords = (data?.description || "")
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.replace(",", "").replace(".", ""))
+    .filter(Boolean);
 
   if (descriptionWords.length === 0) {
     return [];
   }
 
-  const tags: string[] = [];
+  const tags: Tag[] = [];
 
-  const movieOrBookWords = words?.movieOrBook?.[lang] || [];
+  const movieWords = words?.movie?.[lang] || [];
+  const bookWords = words?.book?.[lang] || [];
+  const musicWords = words?.music?.[lang] || [];
   const locationWords = words?.location?.[lang] || [];
   const cityWords = words?.city?.[lang] || [];
 
-  if (descriptionWords.some((descriptionWord) => getIsMetaWordMatching(descriptionWord, movieOrBookWords, []))) {
-    tags.push('movie');
-    tags.push('book');
+  if (
+    descriptionWords.some((descriptionWord) =>
+      getIsMetaWordMatching(descriptionWord, bookWords, [])
+    )
+  ) {
+    tags.push({
+      tag: "book",
+      status: 1,
+    });
   }
 
-  if (descriptionWords.some((descriptionWord) => getIsMetaWordMatching(descriptionWord, locationWords, []))) {
-    tags.push('location');
+  if (
+    descriptionWords.some((descriptionWord) =>
+      getIsMetaWordMatching(descriptionWord, movieWords, [])
+    )
+  ) {
+    tags.push({
+      tag: "movie",
+      status: 1,
+    });
+  }
 
-    if (descriptionWords.some((descriptionWord) => getIsMetaWordMatching(descriptionWord, cityWords, []))) {
-      tags.push('city');
+  if (
+    descriptionWords.some((descriptionWord) =>
+      getIsMetaWordMatching(descriptionWord, musicWords, [])
+    )
+  ) {
+    tags.push({
+      tag: "music",
+      status: 1,
+    });
+  }
+
+  if (
+    descriptionWords.some((descriptionWord) =>
+      getIsMetaWordMatching(descriptionWord, locationWords, [])
+    )
+  ) {
+    tags.push({
+      tag: "location",
+      status: 1,
+    });
+
+    if (
+      descriptionWords.some((descriptionWord) =>
+        getIsMetaWordMatching(descriptionWord, cityWords, [])
+      )
+    ) {
+      tags.push({
+        tag: "city",
+        status: 1,
+      });
     }
   }
 
