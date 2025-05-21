@@ -25,25 +25,36 @@ export const supportedSearchEnginesParsers: SupportedSearchEngine[] = [
   "yandex",
 ];
 
+const getDirectShortcutsForMagicWords = (
+  magicWords: string[],
+  getter: (phrase: string) => string
+) => {
+  return magicWords.reduce(
+    (
+      stack: {
+        [id: string]: SearchDirectShortcut;
+      },
+      word
+    ) => {
+      stack[word] = {
+        magicWord: word,
+        getSearchUrl: getter,
+      };
+
+      return stack;
+    },
+    {}
+  );
+};
+
+// TODO: move to editable setting
 export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
 } = {
-  d: {
-    magicWord: "d",
-    getSearchUrl: (phrase: string) => getDuckDuckGoSearchUrl(phrase),
-  },
-  g: {
-    magicWord: "g",
-    getSearchUrl: (phrase: string) => getGoogleSearchUrl(phrase),
-  },
-  img: {
-    magicWord: "img",
-    getSearchUrl: (phrase: string) => getGoogleImagesSearchUrl(phrase),
-  },
-  gm: {
-    magicWord: "gm",
-    getSearchUrl: (phrase: string) => getGoogleMapsSearchUrl(phrase),
-  },
+  ...getDirectShortcutsForMagicWords(['d'], (phrase: string) => getDuckDuckGoSearchUrl(phrase)),
+  ...getDirectShortcutsForMagicWords(['g', 'google'], (phrase: string) => getGoogleSearchUrl(phrase)),
+  ...getDirectShortcutsForMagicWords(['img'], (phrase: string) => getGoogleImagesSearchUrl(phrase)),
+  ...getDirectShortcutsForMagicWords(['gm'], (phrase: string) => getGoogleMapsSearchUrl(phrase)),
 };
 
 export const directShortcuts = Object.values(directShortcutByKey);

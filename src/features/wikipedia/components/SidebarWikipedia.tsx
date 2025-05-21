@@ -21,7 +21,13 @@ const SidebarWikipedia = () => {
   const { t, i18n } = useTranslation();
 
   const wikipediaSearchPhrase = useMemo(() => {
-    const normalizedPhrase = searchPhrase.split("site:")[0].trim();
+    const normalizedPhrase = searchPhrase
+      .split("site:")[0]
+      .trim()
+      .split(" ")
+      .filter((word) => !["wikipedia"].includes(word.toLowerCase()))
+      .filter(Boolean)
+      .join(" ");
 
     if (normalizedPhrase.length < 4) {
       return "";
@@ -33,7 +39,7 @@ const SidebarWikipedia = () => {
       return "";
     }
 
-    if (metaInput.includes("dev") && numberOfWords > 3) {
+    if (metaInput.some(({ tag }) => tag === "dev") && numberOfWords > 3) {
       return "";
     }
 

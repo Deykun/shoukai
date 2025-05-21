@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
 
 import useSearchStore from "@/features/search/stores/searchStore";
@@ -58,7 +59,7 @@ const SearchProgress = () => {
   }
 
   return (
-    <div className="flex flex-col gap-1 bg-[#f5f9ef] mb-5 py-2 p-4 rounded-md">
+    <div className="flex flex-col gap-2 bg-[#f5f9ef] mb-5 py-3 p-4 rounded-md">
       <div className="flex items-center">
         <div className="w-full relative bg-[#979f8a] h-2 rounded-full">
           <span
@@ -80,8 +81,23 @@ const SearchProgress = () => {
           </span>
         )}
       </div>
-      <p className="text-xs text-[#979f8a] empty:hidden">
-        {[...inputTags, ...resultTags].map((tag) => `#${tag}`).join(" ")}
+      <p className="text-xs empty:hidden">
+        {[...inputTags, ...resultTags]
+          .sort((a, b) => b.status - a.status)
+          .map(({ tag, status }) => (
+            <span>
+              {" "}
+              <span className="text-[#979f8a]">#</span>
+              <strong
+                className={clsx({
+                  "opacity-100": status === 1,
+                  "opacity-50": status === 0.5,
+                })}
+              >
+                {tag}
+              </strong>
+            </span>
+          ))}
       </p>
     </div>
   );

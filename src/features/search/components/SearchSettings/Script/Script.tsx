@@ -23,7 +23,7 @@ const Script = () => {
       </ButtonText>
       <p className="text-xs font-[600] text-[#979f8a]">
         <span>Script version: </span>
-        <strong id="" shoukai-version className="text-[#005b46]">
+        <strong id="shoukai-version" className="text-[#005b46]">
           {window?.shoukaiScript?.version ? (
             window.shoukaiScript.version
           ) : (
