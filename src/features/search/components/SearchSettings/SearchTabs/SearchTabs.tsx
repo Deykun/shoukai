@@ -7,13 +7,14 @@ import IconBookWithBookmark from "@/components/Icons/IconBookWithBookmark";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 import IconTag from "@/components/Icons/IconTag";
 import IconPaint from "@/components/Icons/IconPaint";
+import IconMergeUserScript from "@/components/Icons/IconMergeUserScript";
+import IconArrowForward from "@/components/Icons/IconArrowForward";
 
 import General from "../General/General";
 import Recipes from "../Recipes/Recipes";
 import Script from "../Script/Script";
-import IconMergeUserScript from "@/components/Icons/IconMergeUserScript";
 
-type Tab = "general" | "tags" | "recipes" | "design" | "script";
+type Tab = "general" | "shortcuts" | "tags" | "recipes" | "design" | "script";
 
 const getClassNameForTab = (tab: Tab, activeTab: Tab) =>
   clsx("col-start-1 row-start-1", "duration-500", {
@@ -40,6 +41,13 @@ const SearchTabs = () => {
         >
           <IconPaint />
           <span>Design</span>
+        </ButtonText>
+        <ButtonText
+          onClick={() => setActiveTab("shortcuts")}
+          isActive={activeTab === "shortcuts"}
+        >
+          <IconArrowForward />
+          <span>Shortcuts</span>
         </ButtonText>
         <ButtonText
           onClick={() => setActiveTab("tags")}
@@ -74,6 +82,9 @@ const SearchTabs = () => {
             WiP: After you make a request, the text of the prompt is validated
             to determine tags.
           </p>
+        </div>
+        <div className={getClassNameForTab("shortcuts", activeTab)}>
+          <p className="text-sm font-[600] text-[#979f8a]">WiP: Shortcuts.</p>
         </div>
         <div className={getClassNameForTab("design", activeTab)}>
           <p className="text-sm font-[600] text-[#979f8a]">WiP: Theme.</p>
