@@ -25,8 +25,6 @@ const HistoryModalSection = ({ stamp, items, refreshMap }: Props) => {
 
   const handleRemove = useCallback(
     ({ stamp, item }: { stamp: string; item: ShoukaiQuery }) => {
-      console.log({ stamp, phrase: item.phrase });
-      console.log(window.shoukaiRemoveHistoryItem);
       if (window.shoukaiRemoveHistoryItem) {
         window.shoukaiRemoveHistoryItem({ stamp, phrase: item.phrase });
       }
