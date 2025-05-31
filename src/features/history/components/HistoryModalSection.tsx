@@ -8,18 +8,35 @@ import { formatToHourMinute } from "@/utils/date";
 
 import { setSearchPhrase } from "@/features/search/stores/searchStore";
 
+import IconErase from "@/components/Icons/IconErase";
+import ButtonIcon from "@/components/UI/ButtonIcon";
+
 type Props = {
   stamp: string;
   items: ShoukaiQuery[];
+  refreshMap?: () => void,
 };
 
-const HistoryModalSection = ({ stamp, items }: Props) => {
-  const { t } = useTranslation();
-
+const HistoryModalSection = ({ stamp, items, refreshMap }: Props) => {
   const handleGoToQuery = useCallback((searchPhrase: string) => {
     setSearchPhrase(searchPhrase);
     closeModal();
   }, []);
+
+  const handleRemove = useCallback(
+    ({ stamp, item }: { stamp: string; item: ShoukaiQuery }) => {
+      console.log({ stamp, phrase: item.phrase });
+      console.log(window.shoukaiRemoveHistoryItem);
+      if (window.shoukaiRemoveHistoryItem) {
+        window.shoukaiRemoveHistoryItem({ stamp, phrase: item.phrase });
+      }
+
+      if (refreshMap) {
+        refreshMap();
+      }
+    },
+    [refreshMap]
+  );
 
   return (
     <section className="flex flex-col gap-2">
@@ -34,6 +51,16 @@ const HistoryModalSection = ({ stamp, items }: Props) => {
       </h2>
       {items.map((item) => (
         <div key={item.phrase} className="flex gap-5 items-center px-4">
+          <span>
+            <ButtonIcon
+              onClick={() => handleRemove({ stamp, item })}
+              label="Remove"
+              labelPosition="bottom"
+              size="small"
+            >
+              <IconErase />
+            </ButtonIcon>
+          </span>
           <span className="mr-auto text-body-contrast--50 text-xs">
             {formatToHourMinute(item.date)}
           </span>
