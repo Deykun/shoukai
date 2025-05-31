@@ -39,15 +39,21 @@ const HistoryModalSection = ({ stamp, items }: Props) => {
           </span>
           <span className="flex items-center gap-1 text-body-contrast--50 text-xs">
             Opened tabs:{" "}
-            <strong className="text-[#005b46] text-sm">{item.openedTabs.length}</strong>
+            <strong className="text-[#005b46] text-sm">
+              {item.openedTabs.length}
+            </strong>
           </span>
           <span className="text-body-contrast opacity-20 text-sm">|</span>
-          <button
-            onClick={() => handleGoToQuery(item.phrase)}
-            className="text-sm font-[600] text-[#005b46]"
-          >
-            “{item.phrase}”
-          </button>
+          <span>
+            “
+            <button
+              onClick={() => handleGoToQuery(item.phrase)}
+              className="text-sm font-[600] text-[#005b46] max-w-[300px] truncate text-ellipsis"
+            >
+              {item.phrase}
+            </button>
+            ”
+          </span>
         </div>
       ))}
     </section>
