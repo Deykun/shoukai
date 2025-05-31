@@ -20,6 +20,7 @@ import { openInNewTab } from "@/utils/url";
 declare global {
   interface Window {
     shoukaiReset?: () => void;
+    shoukaiRemoveHistoryItem?: (params: { stamp: string, phrase: string }) => void;
     shoukaiGetResultsByKey?: () => {
       [key: string]: {
         date: string;

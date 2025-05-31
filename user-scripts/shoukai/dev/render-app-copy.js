@@ -67,7 +67,6 @@ unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
 unsafeWindow.shoukaiScript.ui.eventsSubscribers.removeAll = {
   selector: '#remove-all',
   handleClick: () => {
-    // localStorage.removeItem('shoukaiparse-units');
     localStorage.clear();
     console.log('Removed!');
   },

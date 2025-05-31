@@ -361,16 +361,41 @@ const getRadiobox = (params) => {
 unsafeWindow.shoukaiGetResultsByKey = getResultsByKey;
 
 const resetResults = () => {
-  GM_setValue("queryByPhrase", {});
+  GM_setValue("queryByStampByPhrase", {});
   GM_setValue("resultsByKey", {});
 };
 
 unsafeWindow.shoukaiReset = resetResults;
 
-const getQueries = () => {
-  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+const shoukaiRemoveHistoryItem = ({ stamp, phrase } = {}) => {
+  const queryByStampByPhrase = GM_getValue("queryByStampByPhrase") || {};
 
-  return queryByPhrase;
+  const query = queryByStampByPhrase?.[stamp]?.[phrase.toLowerCase()];
+  if (query) {
+    const { searchKeys = [] } = query;
+
+    if (searchKeys.length > 0) {
+      const resultsByKey = GM_getValue("resultsByKey") || {};
+
+      searchKeys.forEach((key) => {
+        resultsByKey[key] = undefined;
+      });
+
+      GM_setValue("resultsByKey", resultsByKey);
+    }
+
+    queryByStampByPhrase[stamp][phrase.toLowerCase()] = undefined;
+
+    GM_setValue("queryByStampByPhrase", queryByStampByPhrase);
+  }
+};
+
+unsafeWindow.shoukaiRemoveHistoryItem = shoukaiRemoveHistoryItem;
+
+const getQueries = () => {
+  const queryByStampByPhrase = GM_getValue("queryByStampByPhrase") || {};
+
+  return queryByStampByPhrase;
 };
 
 unsafeWindow.shoukaiGetQueries = getQueries;
@@ -380,11 +405,11 @@ const getQuery = (phrase) => {
     return;
   }
 
-  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+  const queryByStampByPhrase = GM_getValue("queryByStampByPhrase") || {};
   const date = new Date().toString();
   const stamp = getDayStampFromDate(date);
 
-  return queryByPhrase?.[stamp]?.[phrase.toLowerCase()];
+  return queryByStampByPhrase?.[stamp]?.[phrase.toLowerCase()];
 };
 
 unsafeWindow.shoukaiGetQuery = getQuery;
@@ -394,22 +419,22 @@ const setQuery = ({ phrase, openedTabs = [], searchKeys = [] }) => {
     return;
   }
 
-  const queryByPhrase = GM_getValue("queryByPhrase") || {};
+  const queryByStampByPhrase = GM_getValue("queryByStampByPhrase") || {};
   const date = new Date().toString();
   const stamp = getDayStampFromDate(date);
 
-  if (!queryByPhrase[stamp]) {
-    queryByPhrase[stamp] = {};
+  if (!queryByStampByPhrase[stamp]) {
+    queryByStampByPhrase[stamp] = {};
   }
 
-  queryByPhrase[stamp][phrase.toLowerCase()] = {
+  queryByStampByPhrase[stamp][phrase.toLowerCase()] = {
     phrase,
     date,
     openedTabs,
     searchKeys,
   };
 
-  GM_setValue("queryByPhrase", queryByPhrase);
+  GM_setValue("queryByStampByPhrase", queryByStampByPhrase);
 };
 
 unsafeWindow.shoukaiSetQuery = setQuery;
@@ -740,7 +765,6 @@ unsafeWindow.shoukaiScript.ui.eventsSubscribers.copyCodeAll = {
 unsafeWindow.shoukaiScript.ui.eventsSubscribers.removeAll = {
   selector: '#remove-all',
   handleClick: () => {
-    // localStorage.removeItem('shoukaiparse-units');
     localStorage.clear();
     console.log('Removed!');
   },
