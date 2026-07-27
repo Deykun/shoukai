@@ -14,6 +14,7 @@ type Props = {
 
 const ModalAsContentWrapper = ({ children }: Props) => {
   const isModalOpen = useAppStore((state) => !!state.modal.type);
+    const areSettingsOpen = useAppStore((state) => state.topPane === "settings");
 
   return (
     <div className="grid">
@@ -27,7 +28,8 @@ const ModalAsContentWrapper = ({ children }: Props) => {
       <div
         className={clsx("col-start-1 row-start-1", "duration-500", {
           "opacity-100": !isModalOpen,
-          "opacity-0 translate-y-6 pointer-events-none": isModalOpen,
+          "opacity-0 translate-y-6 pointer-events-none": isModalOpen && areSettingsOpen,
+          "opacity-0 -translate-y-6 pointer-events-none": isModalOpen && !areSettingsOpen,
         })}
       >
         {children}

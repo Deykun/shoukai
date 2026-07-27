@@ -12,6 +12,8 @@ import { recipe as programmingRecipe } from "@/recipes/programming";
 
 export type SupportedSearchEngine = "bing" | "duckduckgo" | "google" | "yandex";
 
+export type ShoukaiSearchEngine = SupportedSearchEngine | 'default';
+
 export const supportedSearchEngines: SupportedSearchEngine[] = [
   "bing",
   "duckduckgo",

@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.52.1",
+    "@xyflow/react": "^12.11.2",
     "i18next": "^23.12.2",
     "i18next-intervalplural-postprocessor": "^3.0.0",
     "lodash": "^4.17.21",

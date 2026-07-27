@@ -29,19 +29,27 @@ const MODAL_EMPTY: ModalWithoutState = {
 
 const INIT_STATE: AppStoreState = {
   topPane: "",
-  modal: MODAL_EMPTY,
+  // modal: MODAL_EMPTY,
+  modal: {
+    type: "logic",
+    data: {},
+  },
 };
 
 export const useAppStore = create<AppStoreState>()(
   devtools((_get, _set) => INIT_STATE, { name: "appStore" }),
 );
 
+const MODALS_WITH_OWN_CLOSE = ["logic"];
+
 export const toggleSettingsPane = () => {
   useAppStore.setState((state) => {
     if (state.topPane === "settings") {
       return {
         topPane: "",
-        modal: MODAL_EMPTY,
+        modal: MODALS_WITH_OWN_CLOSE.includes(state.modal.type)
+          ? state.modal
+          : MODAL_EMPTY,
       };
     }
 
