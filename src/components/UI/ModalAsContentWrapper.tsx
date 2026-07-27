@@ -6,6 +6,7 @@ import OverviewModal from "@/features/documentation/components/OverviewModal";
 import HistoryModal from "@/features/history/components/HistoryModal";
 import LanguageModal from "@/features/search/components/SearchSettings/Language/LanguageModal";
 import RecipesItemModal from "@/features/search/components/SearchSettings/Recipes/RecipesItemModal";
+import ModalLogic from "@/features/logic/modals/ModalLogic";
 
 type Props = {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ const ModalAsContentWrapper = ({ children }: Props) => {
         <LanguageModal />
         <OverviewModal />
         <RecipesItemModal />
+        <ModalLogic />
       </div>
       <div
         className={clsx("col-start-1 row-start-1", "duration-500", {

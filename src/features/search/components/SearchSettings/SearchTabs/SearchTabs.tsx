@@ -13,6 +13,7 @@ import IconArrowForward from "@/components/Icons/IconArrowForward";
 import General from "../General/General";
 import Recipes from "../Recipes/Recipes";
 import Script from "../Script/Script";
+import ToggleLogic from "@/features/logic/components/ToggleLogic";
 
 type Tab = "general" | "shortcuts" | "tags" | "recipes" | "design" | "script";
 
@@ -85,9 +86,13 @@ const SearchTabs = () => {
         </div>
         <div className={getClassNameForTab("shortcuts", activeTab)}>
           <p className="text-sm font-[600] text-[#979f8a]">WiP: Shortcuts.</p>
+          <br />
+          <ToggleLogic />
         </div>
         <div className={getClassNameForTab("design", activeTab)}>
           <p className="text-sm font-[600] text-[#979f8a]">WiP: Theme.</p>
+          <br />
+          <ToggleLogic />
         </div>
         <div className={getClassNameForTab("recipes", activeTab)}>
           <Recipes />

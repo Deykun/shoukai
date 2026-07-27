@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 type TopPane = "" | "settings";
 
 type ModalWithoutState = {
-  type: "" | "language" | "documentationOverview" | "history";
+  type: "" | "language" | "documentationOverview" | "history" | "logic";
   data: {};
 };
 
@@ -33,7 +33,7 @@ const INIT_STATE: AppStoreState = {
 };
 
 export const useAppStore = create<AppStoreState>()(
-  devtools((_get, _set) => INIT_STATE, { name: "appStore" })
+  devtools((_get, _set) => INIT_STATE, { name: "appStore" }),
 );
 
 export const toggleSettingsPane = () => {
@@ -59,11 +59,9 @@ export const closeModal = () => {
   });
 };
 
-export const toggleModalWithoutState = (
-  modal: "language" | "documentationOverview" | "history"
-) => {
+export const toggleModalWithoutState = (type: ModalWithoutState["type"]) => {
   useAppStore.setState((state) => {
-    const isOpenAlready = state.modal.type === modal;
+    const isOpenAlready = state.modal.type === type;
 
     if (isOpenAlready) {
       return {
@@ -73,7 +71,7 @@ export const toggleModalWithoutState = (
 
     return {
       modal: {
-        type: modal,
+        type,
         data: {},
       },
     };
@@ -86,6 +84,8 @@ export const toggleLanguageModal = () => toggleModalWithoutState("language");
 
 export const toggleDocumentationOverviewModal = () =>
   toggleModalWithoutState("documentationOverview");
+
+export const toggleLogicModal = () => toggleModalWithoutState("logic");
 
 export const toggleRecipeModal = (recipeId: string) => {
   useAppStore.setState((state) => {
