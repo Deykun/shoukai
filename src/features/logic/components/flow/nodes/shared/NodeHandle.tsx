@@ -10,8 +10,9 @@ export const NodeHandle = (props: Props) => {
       style={{
         width: 10,
         height: 10,
-        backgroundColor: "#518601",
-        borderColor: "#518601",
+        backgroundColor: "#005b46",
+        borderColor: "#005b46",
+        top: 25,
       }}
       {...props}
     />

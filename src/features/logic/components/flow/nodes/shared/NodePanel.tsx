@@ -11,16 +11,16 @@ const NodePanel = ({ children, className = "", isSelected = false }: Props) => {
     <div
       className={cn(
         "w-[220px] relative",
-        "py-3 px-5",
+        "py-2 px-4",
         "rounded-[18px] shadow-sm",
         "border-[#f5f9ef] border",
         "mx-auto font-[500] text-[16px]",
         "hover:border-[#f5f9ef] hover:shadow-md",
         "duration-500",
-        "bg-white rounded-[24px] tracking-wider",
+        "bg-white rounded-[8px] tracking-wider",
         className,
         {
-          "outline-[red] outline-2": isSelected,
+          "border-[#d1dc80] hover:border-[#d1dc80]": isSelected,
         },
       )}
     >

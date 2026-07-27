@@ -4,6 +4,7 @@ import NodeTitle from "./shared/NodeTitle";
 import NodeIcon from "./shared/NodeIcon";
 import { NodeHandle } from "./shared/NodeHandle";
 import { TypeNodeRecipe } from "@/features/logic/types";
+import NodeHeader from "./shared/NodeHeader";
 
 type Props = NodeProps<TypeNodeRecipe>;
 
@@ -16,9 +17,11 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
     <NodePanel className="" isSelected={selected}>
       <NodeHandle type="target" position={Position.Left} />
       <NodeHandle type="source" position={Position.Right} />
-      <NodeIcon type={type} />
-      <NodeTitle>{data.label}</NodeTitle>
-      <p>{data.description}</p>
+      <NodeHeader
+        type={type}
+        label={data.label}
+        description={data.description}
+      />
     </NodePanel>
   );
 }

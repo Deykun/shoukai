@@ -26,17 +26,18 @@ const NodeIcon = ({ type }: Props) => {
     <span
       className={cn(
         // "absolute top-0 left-2 -translate-y-1/2",
-        "size-6 inline-flex flex-col items-center justify-center",
+        "flex-shrink-0",
+        "size-7 inline-flex flex-col items-center justify-center",
         "bg-[#f5f9ef]",
         "border-[#f5f9ef] border",
         "mx-auto font-[500] text-[16px]",
         "hover:border-[#f5f9ef] hover:shadow-md",
         "duration-500",
         "bg-white rounded-[8px] tracking-wider",
-        "text-[#424242] bg-[#f0fdeb] border-[#d1dc80]",
+        "text-primary-contrast bg-[#f0fdeb] border-[#d1dc80]",
       )}
     >
-      <Icon className="size-3" />
+      <Icon className="size-4" />
     </span>
   );
 };
