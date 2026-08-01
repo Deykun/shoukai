@@ -48,7 +48,6 @@ export function NodeIf({ id, type, selected, data }: Props) {
           dataPath="y"
           value={data.y}
         />
-        .
       </NodeRichMessage>
       <div className="text-[8px]">
         <div className="flex justify-center gap-0.5">

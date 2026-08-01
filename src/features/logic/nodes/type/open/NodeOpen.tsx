@@ -29,7 +29,7 @@ export function NodeOpen({ id, type, selected, data }: Props) {
       <NodeRichMessage>
         Open <FlowSelect value={["Google"]} setValue={() => {}} />
         with
-        <FlowSelect value={["{phrase}"]} setValue={() => {}} />.
+        <FlowSelect value={["{phrase}"]} setValue={() => {}} />
       </NodeRichMessage>
     </NodePanel>
   );

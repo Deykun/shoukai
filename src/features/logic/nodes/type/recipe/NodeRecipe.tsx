@@ -43,7 +43,7 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
         <FlowSelect value={["{phraseLocation}"]} setValue={() => {}} />
         on
         <FlowSelect value={["weather.com"]} setValue={() => {}} />
-        with <FlowSelectSearchEngine value={["google"]} setValue={() => {}} />.
+        with <FlowSelectSearchEngine value={["google"]} setValue={() => {}} />
       </NodeRichMessage>
       <div className="flex justify-center gap-0.5">
         <NodeHandle

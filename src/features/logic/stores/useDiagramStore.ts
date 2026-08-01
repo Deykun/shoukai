@@ -54,7 +54,7 @@ export const onEdgesChange = (changes: EdgeChange<Edge>[]) => {
 
 export const onConnect = (edge: Edge | Connection) => {
   useDiagramStore.setState((state) => ({
-    edges: addEdge(edge, state.edges),
+    edges: addEdge({ ...edge, type: "smoothstep" }, state.edges),
   }));
 };
 
