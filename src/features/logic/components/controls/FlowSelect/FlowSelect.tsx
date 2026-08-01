@@ -1,15 +1,25 @@
 import ButtonText from "@/components/UI/ButtonText";
+import { updateNode } from "@/features/logic/stores/useDiagramStore";
 
-// Easier to deal with 1 element array thank type control for bot
 type Props = {
-  value: string[];
-  setValue: (value: string[]) => void;
+  nodeId: string;
+  dataPath: string;
+  value: string | string[];
+  // setValue: (value: string[]) => void;
 };
 
-export const FlowSelect = ({ value, setValue }: Props) => {
+export const FlowSelect = ({ nodeId, value, setValue }: Props) => {
+  const valueAsArray = Array.isArray(value) ? value : [value];
+
+  const handleClick = () => {
+    updateNode(nodeId, {
+      compare: value === "equals" ? "contains" : "equals",
+    });
+  };
+
   return (
-    <ButtonText onClick={() => setValue(value)} size="small">
-      <span>{value.join(" / ")}</span>
+    <ButtonText onClick={handleClick} size="small">
+      <span>{valueAsArray.join(" / ")}</span>
     </ButtonText>
   );
 };

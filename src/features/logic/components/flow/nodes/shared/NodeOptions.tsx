@@ -35,7 +35,7 @@ const NodeOptions = ({
         className,
       )}
     >
-      {onEdit && (
+      {/* {onEdit && (
         <ButtonIcon
           size="small"
           onClick={onEdit}
@@ -45,7 +45,7 @@ const NodeOptions = ({
         >
           <IconSearchSettings />
         </ButtonIcon>
-      )}
+      )} */}
     </aside>
   );
 };

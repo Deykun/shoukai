@@ -9,9 +9,23 @@ import { FlowSelect } from "../../controls/FlowSelect/FlowSelect";
 import { cn } from "@/utils/tailwind";
 import NodeRichMessage from "./shared/NodeRichMessage";
 
+export const COMPARE_OPERATOR = {
+  CONTAINS: "contains",
+  EQUALS: "equals",
+  STARTS_WITH: "startsWith",
+  ENDS_WITH: "endsWith",
+} as const;
+
+export type CompareOperator =
+  (typeof COMPARE_OPERATOR)[keyof typeof COMPARE_OPERATOR];
+
+const COMPARE_OPERATORS = Object.values(COMPARE_OPERATOR);
+
 export type TypeNode = Node<
   {
-    type: "todo";
+    x: string[];
+    compare: CompareOperator;
+    y: string[];
   } & NodeSharedData,
   "if"
 >;
@@ -19,7 +33,9 @@ export type TypeNode = Node<
 export const defaultData: TypeNode["data"] = {
   label: "if",
   description: "Description",
-  type: "todo",
+  x: ["{phrase}"],
+  compare: "contains",
+  y: ["something"],
 };
 
 type Props = NodeProps<TypeNode>;
@@ -46,10 +62,23 @@ export function NodeIf({ id, type, selected, data }: Props) {
       />
       <NodeRichMessage>
         If
-        <FlowSelect value={["{phrase}"]} setValue={() => {}} />
-        <FlowSelect value={["contains"]} setValue={() => {}} />
-        <FlowSelect value={["d", "duckduckgo"]} setValue={() => {}} />
-          .
+        <FlowSelect
+          nodeId={id}
+          dataPath="x"
+          value={data.x}
+        />
+        <FlowSelect
+          nodeId={id}
+          dataPath="compare"
+          value={data.compare}
+          options={COMPARE_OPERATORS}
+        />
+        <FlowSelect
+          nodeId={id}
+          dataPath="y"
+          value={data.y}
+        />
+        .
       </NodeRichMessage>
       <div className="text-[8px]">
         <div className="flex justify-center gap-0.5">
