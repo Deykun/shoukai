@@ -1,4 +1,4 @@
-import { ShoukaiNodeType } from "@/features/logic/types";
+import { ShoukaiNodeType } from "@/features/logic/components/flow/nodes/type/types";
 import { cn } from "@/utils/tailwind";
 import NodeIcon from "./NodeIcon";
 import { PropsWithChildren } from "react";

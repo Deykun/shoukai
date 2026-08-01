@@ -1,28 +1,11 @@
-import { NodeProps, Position, type Node } from "@xyflow/react";
-import NodePanel from "./shared/NodePanel";
-import { NodeHandle } from "./shared/NodeHandle";
-import { NodeSharedData } from "@/features/logic/types";
-import NodeHeader from "./shared/NodeHeader";
-import NodeOptions from "./shared/NodeOptions";
-import ButtonIcon from "@/components/UI/ButtonIcon";
-import IconSearchSettings from "@/components/Icons/IconSearchSettings";
+import { NodeProps, Position } from "@xyflow/react";
 import { useTranslation } from "react-i18next";
-import IconArrowForward from "@/components/Icons/IconArrowForward";
-import { cn } from "@/utils/tailwind";
-import NodeRichMessage from "./shared/NodeRichMessage";
-
-export type TypeNode = Node<
-  {
-    shortcuts: string[];
-  } & NodeSharedData,
-  "shortcut"
->;
-
-export const defaultData: TypeNode["data"] = {
-  label: "Start",
-  description: "Recipe",
-  shortcuts: ["d", "g", "img", "gm"],
-};
+import NodePanel from "../../shared/NodePanel";
+import NodeHeader from "../../shared/NodeHeader";
+import NodeOptions from "../../shared/NodeOptions";
+import NodeRichMessage from "../../shared/NodeRichMessage";
+import { NodeHandle } from "../../shared/NodeHandle";
+import { TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 

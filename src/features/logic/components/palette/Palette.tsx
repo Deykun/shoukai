@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
 import { setDraggedType } from "../../stores/useDragAndDropStore";
-import { PALETTE_NODES_TYPES, ShoukaiNodeType } from "../../types";
 import { cn } from "@/utils/tailwind";
-import NodeIcon from "../flow/nodes/shared/NodeIcon";
+import { PALETTE_NODES_TYPES, ShoukaiNodeType } from "../../nodes/type/types";
+import NodeIcon from "../../nodes/shared/NodeIcon";
 
 const Palette = () => {
   const onDragStart = useCallback(

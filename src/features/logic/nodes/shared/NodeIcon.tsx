@@ -4,7 +4,7 @@ import IconArrowsSplit from "@/components/Icons/IconArrowsSplit";
 import IconBookWithBookmark from "@/components/Icons/IconBookWithBookmark";
 import IconNewTab from "@/components/Icons/IconNewTab";
 import IconSearchInput from "@/components/Icons/IconSearchInput";
-import { ShoukaiNodeType } from "@/features/logic/types";
+import { ShoukaiNodeType } from "@/features/logic/components/flow/nodes/type/types";
 import { cn } from "@/utils/tailwind";
 
 type Props = {

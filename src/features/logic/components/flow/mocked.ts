@@ -1,4 +1,4 @@
-import { ShoukaiNode } from "../../types";
+import { ShoukaiNode } from "./nodes/type/types";
 
 export const initialNodes: ShoukaiNode[] = [
   {

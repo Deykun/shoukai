@@ -8,7 +8,7 @@ import {
   type NodeChange,
   type Connection,
 } from "@xyflow/react";
-import { ShoukaiNode } from "../types";
+import { ShoukaiNode } from "../components/flow/nodes/type/types";
 import { persist, devtools } from "zustand/middleware";
 import { getNodeFromCacheIfPossible } from "./cache/getNodeFromCacheIfPossible";
 

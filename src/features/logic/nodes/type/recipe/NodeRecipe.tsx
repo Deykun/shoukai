@@ -1,37 +1,15 @@
-import { NodeProps, Position, type Node } from "@xyflow/react";
-import NodePanel from "./shared/NodePanel";
-import { NodeHandle } from "./shared/NodeHandle";
-import { NodeSharedData } from "@/features/logic/types";
-import NodeHeader from "./shared/NodeHeader";
+import { NodeProps, Position } from "@xyflow/react";
+import NodePanel from "../../shared/NodePanel";
+import { NodeHandle } from "../../shared/NodeHandle";
+import NodeHeader from "../../shared/NodeHeader";
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 import { useTranslation } from "react-i18next";
-import NodeOptions from "./shared/NodeOptions";
-import { ShoukaiSearchEngine } from "@/constants";
-import NodeRichMessage from "./shared/NodeRichMessage";
-import { FlowSelect } from "../../controls/FlowSelect/FlowSelect";
-import { FlowSelectSearchEngine } from "../../controls/FlowSelect/FlowSelectSearchEngine";
-
-export type TypeNode = Node<
-  {
-    search: {
-      phrase: string;
-      domain: string;
-      engine: ShoukaiSearchEngine;
-    };
-  } & NodeSharedData,
-  "recipe"
->;
-
-export const defaultData: TypeNode["data"] = {
-  label: "Recipe",
-  description: "Recipe",
-  search: {
-    phrase: "",
-    domain: "",
-    engine: "default",
-  },
-};
+import NodeOptions from "../../shared/NodeOptions";
+import NodeRichMessage from "../../shared/NodeRichMessage";
+import { FlowSelectSearchEngine } from "@/features/logic/components/controls/FlowSelect/FlowSelectSearchEngine";
+import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
+import { TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 

@@ -1,7 +1,6 @@
 import { ReactFlow, Background, BackgroundVariant } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { nodeTypes } from "./nodeTypes";
 import { cn } from "@/utils/tailwind";
 import useDiagramStore, {
   onConnect,
@@ -10,6 +9,7 @@ import useDiagramStore, {
 } from "../../stores/useDiagramStore";
 import { useOnDragEvents } from "../../hooks/useOnDragEvents";
 import Palette from "../palette/Palette";
+import { nodeTypes } from "../../nodes/type/nodeTypes";
 
 export default function FlowLogic() {
   const edges = useDiagramStore((store) => store.edges);

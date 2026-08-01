@@ -1,42 +1,12 @@
-import { NodeProps, Position, type Node } from "@xyflow/react";
-import NodePanel from "./shared/NodePanel";
-import { NodeHandle } from "./shared/NodeHandle";
-import { NodeSharedData } from "@/features/logic/types";
-import NodeHeader from "./shared/NodeHeader";
+import { NodeProps, Position } from "@xyflow/react";
+import NodePanel from "../../shared/NodePanel";
+import { NodeHandle } from "../../shared/NodeHandle";
+import NodeHeader from "../../shared/NodeHeader";
 import { useTranslation } from "react-i18next";
-import NodeOptions from "./shared/NodeOptions";
-import { FlowSelect } from "../../controls/FlowSelect/FlowSelect";
-import { cn } from "@/utils/tailwind";
-import NodeRichMessage from "./shared/NodeRichMessage";
-
-export const COMPARE_OPERATOR = {
-  CONTAINS: "contains",
-  EQUALS: "equals",
-  STARTS_WITH: "startsWith",
-  ENDS_WITH: "endsWith",
-} as const;
-
-export type CompareOperator =
-  (typeof COMPARE_OPERATOR)[keyof typeof COMPARE_OPERATOR];
-
-const COMPARE_OPERATORS = Object.values(COMPARE_OPERATOR);
-
-export type TypeNode = Node<
-  {
-    x: string[];
-    compare: CompareOperator;
-    y: string[];
-  } & NodeSharedData,
-  "if"
->;
-
-export const defaultData: TypeNode["data"] = {
-  label: "if",
-  description: "Description",
-  x: ["{phrase}"],
-  compare: "contains",
-  y: ["something"],
-};
+import NodeOptions from "../../shared/NodeOptions";
+import NodeRichMessage from "../../shared/NodeRichMessage";
+import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
+import { COMPARE_OPERATORS, TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 
