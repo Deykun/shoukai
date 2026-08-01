@@ -13,7 +13,7 @@ export const FlowSelect = ({ nodeId, value, setValue }: Props) => {
 
   const handleClick = () => {
     updateNode(nodeId, {
-      compare: value === "equals" ? "contains" : "equals",
+      compare: value === "equals" ? "startsWith" : "equals",
     });
   };
 

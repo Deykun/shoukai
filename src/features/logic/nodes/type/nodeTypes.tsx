@@ -1,5 +1,5 @@
 import { NodeTypes } from "@xyflow/react";
-import { ZodType } from "zod";
+import z from "zod";
 import { NodeRecipe } from "./recipe/NodeRecipe";
 import { NodeStart } from "./start/NodeStart";
 import { NodeOpen } from "./open/NodeOpen";
@@ -41,7 +41,7 @@ export const defaultDataByNodeType: Record<
   if: defaultDataNodeIf,
 };
 
-export const nodeSchemaByNodeType: Record<ShoukaiNodeType, ZodType> = {
+export const nodeSchemaByNodeType: Record<ShoukaiNodeType, z.ZodObject> = {
   start: nodeSchemaNodeStart,
   recipe: nodeSchemaNodeRecipe,
   open: nodeSchemaNodeOpen,

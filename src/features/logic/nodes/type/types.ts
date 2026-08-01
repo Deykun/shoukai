@@ -21,3 +21,9 @@ export type ShoukaiNode =
   | TypeNodeRecipe
   | TypeNodeOpen
   | TypeNodeIf;
+
+export type ShoukaiNodeDataByType = {
+  [T in ShoukaiNodeType]: Extract<ShoukaiNode, { type?: T }>["data"];
+};
+
+export type ShoukaiNodeData = ShoukaiNode["data"];

@@ -11,6 +11,7 @@ import {
 import { ShoukaiNode } from "../components/flow/nodes/type/types";
 import { persist, devtools } from "zustand/middleware";
 import { getNodeFromCacheIfPossible } from "./cache/getNodeFromCacheIfPossible";
+import { getIsNodeDataValid } from "../nodes/utils/getIsNodeDataValid";
 
 export type DiagramStore = {
   nodes: ShoukaiNode[];
@@ -77,34 +78,39 @@ export const setEdges = (edges: Edge[]) => {
 
 export const updateNode = (
   nodeId: string,
-  updatedNode: Partial<ShoukaiNode>,
+  dataToUpdate: Partial<ShoukaiNode>,
 ) => {
   useDiagramStore.setState((state) => {
-    const nodeData = getNodeFromCacheIfPossible({
+    const pickedNode = getNodeFromCacheIfPossible({
       nodeId,
       store: state,
     });
 
-    if (!nodeData) {
+    if (!pickedNode) {
       console.error(`Node with id ${nodeId} not found in store.`);
       return state;
     }
 
-    console.log({
-      node: nodeData.node,
+    const validation = getIsNodeDataValid(pickedNode.node.type, dataToUpdate, {
+      isPartial: true,
     });
+
+    if (!validation.success) {
+      console.error(`Invalid data for node with id ${nodeId}.`);
+      return state;
+    }
 
     return {
       ...state,
       // nodes: ,
-      cache: nodeData.cache,
+      cache: pickedNode.cache,
       nodes: state.nodes.map((node, index) =>
-        index === nodeData.nodeIndex
+        index === pickedNode.nodeIndex
           ? {
               ...node,
               data: {
                 ...node.data,
-                ...updatedNode,
+                ...validation.data,
               },
             }
           : node,
