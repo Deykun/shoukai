@@ -1,11 +1,14 @@
 import IconArrowForward from "@/components/Icons/IconArrowForward";
+import IconArrowsSplit from "@/components/Icons/IconArrowsSplit";
 
 import IconBookWithBookmark from "@/components/Icons/IconBookWithBookmark";
+import IconNewTab from "@/components/Icons/IconNewTab";
 import IconSearchInput from "@/components/Icons/IconSearchInput";
 import { ShoukaiNodeType } from "@/features/logic/types";
 import { cn } from "@/utils/tailwind";
 
 type Props = {
+  className?: string;
   type: ShoukaiNodeType | (string & {});
 };
 
@@ -16,29 +19,23 @@ const ICON_BY_TYPE: Record<
   recipe: IconBookWithBookmark,
   shortcut: IconArrowForward,
   start: IconSearchInput,
+  if: IconArrowsSplit,
+  open: IconNewTab,
   default: IconBookWithBookmark,
 };
 
-const NodeIcon = ({ type }: Props) => {
+const NodeIcon = ({ className, type }: Props) => {
   const Icon = ICON_BY_TYPE[type as ShoukaiNodeType] || ICON_BY_TYPE.default;
 
   return (
-    <span
+    <Icon
       className={cn(
-        // "absolute top-0 left-2 -translate-y-1/2",
+        "size-4",
         "flex-shrink-0",
-        "size-7 inline-flex flex-col items-center justify-center",
-        "bg-[#f5f9ef]",
-        "border-[#f5f9ef] border",
-        "mx-auto font-[500] text-[16px]",
-        "hover:border-[#f5f9ef] hover:shadow-md",
-        "duration-500",
-        "bg-white rounded-[8px] tracking-wider",
-        "text-primary-contrast bg-[#f0fdeb] border-[#d1dc80]",
+        "text-primary-contrast",
+        className,
       )}
-    >
-      <Icon className="size-4" />
-    </span>
+    />
   );
 };
 

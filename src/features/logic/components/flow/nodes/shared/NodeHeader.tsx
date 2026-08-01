@@ -1,25 +1,23 @@
-import IconArrowForward from "@/components/Icons/IconArrowForward";
-
-import IconBookWithBookmark from "@/components/Icons/IconBookWithBookmark";
-import IconSearchInput from "@/components/Icons/IconSearchInput";
 import { ShoukaiNodeType } from "@/features/logic/types";
 import { cn } from "@/utils/tailwind";
 import NodeIcon from "./NodeIcon";
+import { PropsWithChildren } from "react";
 
 type Props = {
   type: ShoukaiNodeType | (string & {});
   label: string;
-  description: string;
 };
 
-const NodeHeader = ({ type, label, description }: Props) => {
+const NodeHeader = ({ type, label, children }: PropsWithChildren<Props>) => {
   return (
-    <header className="flex gap-3">
-      <NodeIcon type={type} />
+    <header className={cn("flex items-center gap-1.5", "px-1")}>
       <div className="w-full">
-        <h2 className="text-primary-contrast font-[600] text-sm leading-4 mb-1 mt-1">{label}</h2>
-        <p className="text-xs text-[#42424280]">{description}</p>
+        <h2 className="text-primary-contrast font-[600] text-md leading-0">
+          {label}
+        </h2>
+        {children}
       </div>
+      <NodeIcon type={type} className="size-8" />
     </header>
   );
 };

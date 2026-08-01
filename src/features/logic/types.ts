@@ -1,32 +1,23 @@
-import { ShoukaiSearchEngine } from "@/constants";
-import { type Node } from "@xyflow/react";
+import { TypeNode as TypeNodeStart } from "./components/flow/nodes/NodeStart";
+import { TypeNode as TypeNodeRecipe } from "./components/flow/nodes/NodeRecipe";
+import { TypeNode as TypeNodeOpen } from "./components/flow/nodes/NodeOpen";
+import { TypeNode as TypeNodeIf } from "./components/flow/nodes/NodeIf";
 
 export const NODE_TYPE = {
   START: "start",
-  SHORTCUT: "shortcut",
   RECIPE: "recipe",
+  OPEN: "open",
+  IF: "if",
 } as const;
 
 export type ShoukaiNodeType = (typeof NODE_TYPE)[keyof typeof NODE_TYPE];
 
-type SharedData = { label: string, description: string; };
+export const PALETTE_NODES_TYPES: ShoukaiNodeType[] = Object.values(NODE_TYPE);
 
-export type TypeNodeStart = Node<SharedData, "start">;
-export type TypeNodeShortcut = Node<
-  {
-    phrase: string;
-  } & SharedData,
-  "shortcut"
->;
-export type TypeNodeRecipe = Node<
-  {
-    search: {
-      phrase: string;
-      domain: string;
-      engine: ShoukaiSearchEngine;
-    };
-  } & SharedData,
-  "recipe"
->;
+export type NodeSharedData = { label: string; description: string };
 
-export type ShoukaiNode = TypeNodeStart | TypeNodeShortcut | TypeNodeRecipe;
+export type ShoukaiNode =
+  | TypeNodeStart
+  | TypeNodeRecipe
+  | TypeNodeOpen
+  | TypeNodeIf;

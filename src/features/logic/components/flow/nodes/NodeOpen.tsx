@@ -7,26 +7,28 @@ import NodeOptions from "./shared/NodeOptions";
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 import { useTranslation } from "react-i18next";
-import IconArrowForward from "@/components/Icons/IconArrowForward";
-import { cn } from "@/utils/tailwind";
+import { ShoukaiSearchEngine } from "@/constants";
+import { FlowSelect } from "../../controls/FlowSelect/FlowSelect";
 import NodeRichMessage from "./shared/NodeRichMessage";
 
 export type TypeNode = Node<
   {
-    shortcuts: string[];
+    type: "search" | "img" | "map";
+    engine: ShoukaiSearchEngine;
   } & NodeSharedData,
-  "shortcut"
+  "open"
 >;
 
 export const defaultData: TypeNode["data"] = {
-  label: "Start",
+  label: "Open",
   description: "Recipe",
-  shortcuts: ["d", "g", "img", "gm"],
+  type: "search",
+  engine: "default",
 };
 
 type Props = NodeProps<TypeNode>;
 
-export function NodeStart({ id, type, selected, data }: Props) {
+export function NodeOpen({ id, type, selected, data }: Props) {
   const { t } = useTranslation();
   //   const onChange = useCallback((evt) => {
   //     console.log(evt.target.value);
@@ -34,24 +36,20 @@ export function NodeStart({ id, type, selected, data }: Props) {
 
   return (
     <NodePanel className="" isSelected={selected}>
-      <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
+      <NodeHandle type="target" position={Position.Top} />
       <NodeHeader
         type={type}
-        // label={data.label}
-        label="Shoukai"
+        label={data.label}
         // description={data.description}
       />
-      <NodeRichMessage>All new queries start here.</NodeRichMessage>
-      <div className="flex justify-center gap-0.5">
-        <NodeHandle
-          id="success"
-          variant="horizontal"
-          type="source"
-          position={Position.Bottom}
-        >
-          New search
-        </NodeHandle>
-      </div>
+      <NodeOptions isSelected={selected}></NodeOptions>
+
+      <NodeRichMessage>
+        Open <FlowSelect value={["Google"]} setValue={() => {}} />
+        with
+        <FlowSelect value={["{phrase}"]} setValue={() => {}} />
+          .
+      </NodeRichMessage>
     </NodePanel>
   );
 }

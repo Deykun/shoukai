@@ -1,41 +1,24 @@
-import { useState, useCallback } from "react";
-import {
-  ReactFlow,
-  applyNodeChanges,
-  applyEdgeChanges,
-  addEdge,
-  Background,
-  BackgroundVariant,
-  OnNodesChange,
-  OnEdgesChange,
-  OnConnect,
-  Edge,
-} from "@xyflow/react";
+import { ReactFlow, Background, BackgroundVariant } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { nodeTypes } from "./nodeTypes";
-import { initialEdges, initialNodes } from "./mocked";
-import { ShoukaiNode } from "../../types";
+import { cn } from "@/utils/tailwind";
+import useDiagramStore, {
+  onConnect,
+  onEdgesChange,
+  onNodesChange,
+} from "../../stores/useDiagramStore";
+import { useOnDragEvents } from "../../hooks/useOnDragEvents";
+import Palette from "../palette/Palette";
 
 export default function FlowLogic() {
-  const [nodes, setNodes] = useState<ShoukaiNode[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const edges = useDiagramStore((store) => store.edges);
+  const nodes = useDiagramStore((store) => store.nodes);
 
-  const onNodesChange: OnNodesChange<ShoukaiNode> = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes],
-  );
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges],
-  );
-  const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges],
-  );
+  const { onDragOver, onDrop } = useOnDragEvents();
 
   return (
-    <div className="w-full h-[100dvh]">
+    <div className={cn("w-full h-[100dvh] bg-white")}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -43,12 +26,15 @@ export default function FlowLogic() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
         fitView
         // maxZoom={0.5}
-        maxZoom={1}
+        maxZoom={3}
       >
-        <Background color="#ccc" variant={BackgroundVariant.Dots} />
+        <Background color="#f5f9ef" variant={BackgroundVariant.Dots} size={4} />
       </ReactFlow>
+      <Palette />
     </div>
   );
 }
