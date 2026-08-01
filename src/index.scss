@@ -6,6 +6,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --xy-edge-stroke: #82a849;
+  --xy-edge-stroke-width: 1px;
+}
+
 body {
   @apply tracking-wide bg-body;
 
