@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import NodeOptions from "../../shared/NodeOptions";
 import NodeRichMessage from "../../shared/NodeRichMessage";
 import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
-import { COMPARE_OPERATORS, TypeNode } from "./setup";
+import { COMPARE_OPERATORS, nodeSchema, TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 
@@ -41,7 +41,7 @@ export function NodeIf({ id, type, selected, data }: Props) {
           nodeId={id}
           dataPath="compare"
           value={data.compare}
-          options={COMPARE_OPERATORS}
+          schema={nodeSchema}
         />
         <FlowSelect
           nodeId={id}

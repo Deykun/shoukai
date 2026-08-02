@@ -9,7 +9,7 @@ import NodeOptions from "../../shared/NodeOptions";
 import NodeRichMessage from "../../shared/NodeRichMessage";
 import { FlowSelectSearchEngine } from "@/features/logic/components/controls/FlowSelect/FlowSelectSearchEngine";
 import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
-import { TypeNode } from "./setup";
+import { nodeSchema, TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 
@@ -40,10 +40,20 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
       </NodeOptions>
       <NodeRichMessage>
         Looking up
-        <FlowSelect value={["{phraseLocation}"]} setValue={() => {}} />
+        <FlowSelect
+          nodeId={id}
+          dataPath="search.phrase"
+          value={data.search.phrase}
+          schema={nodeSchema}
+        />
         on
-        <FlowSelect value={["weather.com"]} setValue={() => {}} />
-        with <FlowSelectSearchEngine value={["google"]} setValue={() => {}} />
+        <FlowSelect
+          nodeId={id}
+          dataPath="search.domain"
+          value={data.search.domain}
+          schema={nodeSchema}
+        />
+        with <FlowSelectSearchEngine value={"google"} />
       </NodeRichMessage>
       <div className="flex justify-center gap-0.5">
         <NodeHandle
