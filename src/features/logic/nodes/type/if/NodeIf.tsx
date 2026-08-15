@@ -4,9 +4,8 @@ import { NodeHandle } from "../../shared/NodeHandle";
 import NodeHeader from "../../shared/NodeHeader";
 import { useTranslation } from "react-i18next";
 import NodeOptions from "../../shared/NodeOptions";
-import NodeRichMessage from "../../shared/NodeRichMessage";
-import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
-import { COMPARE_OPERATORS, nodeSchema, TypeNode } from "./setup";
+import NodeIfContent from "./NodeIfContent";
+import { TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 
@@ -30,25 +29,7 @@ export function NodeIf({ id, type, selected, data }: Props) {
         label="If"
         // description={data.description}
       />
-      <NodeRichMessage>
-        If
-        <FlowSelect
-          nodeId={id}
-          dataPath="x"
-          value={data.x}
-        />
-        <FlowSelect
-          nodeId={id}
-          dataPath="compare"
-          value={data.compare}
-          schema={nodeSchema}
-        />
-        <FlowSelect
-          nodeId={id}
-          dataPath="y"
-          value={data.y}
-        />
-      </NodeRichMessage>
+      <NodeIfContent id={id} data={data} />
       <div className="text-[8px]">
         <div className="flex justify-center gap-0.5">
           <NodeHandle

@@ -8,7 +8,9 @@ import {
   type NodeChange,
   type Connection,
 } from "@xyflow/react";
-import { ShoukaiNode } from "../components/flow/nodes/type/types";
+import { ShoukaiNode, ShoukaiNodeData } from "../nodes/type/types";
+import { getDeepMerged } from "../utils/object";
+import type { DeepPartial } from "../utils/typescript";
 import { persist, devtools } from "zustand/middleware";
 import { getNodeFromCacheIfPossible } from "./cache/getNodeFromCacheIfPossible";
 import { getIsNodeDataValid } from "../nodes/utils/getIsNodeDataValid";
@@ -78,7 +80,7 @@ export const setEdges = (edges: Edge[]) => {
 
 export const updateNode = (
   nodeId: string,
-  dataToUpdate: Partial<ShoukaiNode>,
+  dataToUpdate: DeepPartial<ShoukaiNodeData>,
 ) => {
   useDiagramStore.setState((state) => {
     const pickedNode = getNodeFromCacheIfPossible({
@@ -91,27 +93,23 @@ export const updateNode = (
       return state;
     }
 
-    const validation = getIsNodeDataValid(pickedNode.node.type, dataToUpdate, {
-      isPartial: true,
-    });
+    // merge first, then validate the whole data — nested updates are partial by nature
+    const mergedData = getDeepMerged(pickedNode.node.data, dataToUpdate);
+    const validated = getIsNodeDataValid(pickedNode.node.type, mergedData);
 
-    if (!validation.success) {
+    if (!validated.success) {
       console.error(`Invalid data for node with id ${nodeId}.`);
       return state;
     }
 
     return {
       ...state,
-      // nodes: ,
       cache: pickedNode.cache,
       nodes: state.nodes.map((node, index) =>
         index === pickedNode.nodeIndex
           ? {
               ...node,
-              data: {
-                ...node.data,
-                ...validation.data,
-              },
+              data: validated.data,
             }
           : node,
       ),

@@ -6,10 +6,8 @@ import ButtonIcon from "@/components/UI/ButtonIcon";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
 import { useTranslation } from "react-i18next";
 import NodeOptions from "../../shared/NodeOptions";
-import NodeRichMessage from "../../shared/NodeRichMessage";
-import { FlowSelectSearchEngine } from "@/features/logic/components/controls/FlowSelect/FlowSelectSearchEngine";
-import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
-import { nodeSchema, TypeNode } from "./setup";
+import NodeRecipeContent from "./NodeRecipeContent";
+import { TypeNode } from "./setup";
 
 type Props = NodeProps<TypeNode>;
 
@@ -38,23 +36,7 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
           <IconSearchSettings />
         </ButtonIcon>
       </NodeOptions>
-      <NodeRichMessage>
-        Looking up
-        <FlowSelect
-          nodeId={id}
-          dataPath="search.phrase"
-          value={data.search.phrase}
-          schema={nodeSchema}
-        />
-        on
-        <FlowSelect
-          nodeId={id}
-          dataPath="search.domain"
-          value={data.search.domain}
-          schema={nodeSchema}
-        />
-        with <FlowSelectSearchEngine value={"google"} />
-      </NodeRichMessage>
+      <NodeRecipeContent id={id} data={data} />
       <div className="flex justify-center gap-0.5">
         <NodeHandle
           id="source"

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import NodePanel from "../../shared/NodePanel";
 import NodeHeader from "../../shared/NodeHeader";
 import NodeOptions from "../../shared/NodeOptions";
-import NodeRichMessage from "../../shared/NodeRichMessage";
+import NodeStartContent from "./NodeStartContent";
 import { NodeHandle } from "../../shared/NodeHandle";
 import { TypeNode } from "./setup";
 
@@ -24,7 +24,7 @@ export function NodeStart({ id, type, selected, data }: Props) {
         label="Shoukai"
         // description={data.description}
       />
-      <NodeRichMessage>All new queries start here.</NodeRichMessage>
+      <NodeStartContent id={id} data={data} />
       <div className="flex justify-center gap-0.5">
         <NodeHandle
           id="success"

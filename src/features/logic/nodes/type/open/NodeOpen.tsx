@@ -4,9 +4,8 @@ import { NodeHandle } from "../../shared/NodeHandle";
 import NodeHeader from "../../shared/NodeHeader";
 import NodeOptions from "../../shared/NodeOptions";
 import { useTranslation } from "react-i18next";
-import NodeRichMessage from "../../shared/NodeRichMessage";
+import NodeOpenContent from "./NodeOpenContent";
 import { TypeNode } from "./setup";
-import { FlowSelect } from "@/features/logic/components/controls/FlowSelect/FlowSelect";
 
 type Props = NodeProps<TypeNode>;
 
@@ -26,11 +25,7 @@ export function NodeOpen({ id, type, selected, data }: Props) {
       />
       <NodeOptions isSelected={selected}></NodeOptions>
 
-      <NodeRichMessage>
-        Open <FlowSelect value={["Google"]} setValue={() => {}} />
-        with
-        <FlowSelect value={["{phrase}"]} setValue={() => {}} />
-      </NodeRichMessage>
+      <NodeOpenContent id={id} data={data} />
     </NodePanel>
   );
 }
