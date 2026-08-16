@@ -6,8 +6,9 @@ import type {
   ObjectPath,
   ObjectPathValue,
 } from "@/features/logic/utils/typescript";
+import useOutsideClick from "@/hooks/useOutsideClick";
 import { cn } from "@/utils/tailwind";
-import { memo, useState } from "react";
+import { memo } from "react";
 import z from "zod";
 
 type Props<
@@ -44,13 +45,13 @@ function FlowSelectComponent<
   value,
   schema,
 }: Props<TSchema, TPath>) {
-  const [isOpen, setIsOpen] = useState(false);
+  const { outsideRef, isOpen, setIsOpen } = useOutsideClick(false);
   const valueAsArray = Array.isArray(value) ? value : [value];
   const options = getOptions(schema, dataPath);
 
   return (
     <div className="relative">
-      <ButtonText onClick={() => setIsOpen(!isOpen)} size="small">
+      <ButtonText onClick={() => setIsOpen(true)} size="small">
         {type === "engine" ? (
           <IconLogoSearch engine={value as string} />
         ) : (
@@ -59,6 +60,7 @@ function FlowSelectComponent<
       </ButtonText>
       {isOpen && (
         <div
+          ref={outsideRef}
           className={cn(
             "absolute top-full left-1/2 -translate-x-1/2 z-[100]",
             "p-1",

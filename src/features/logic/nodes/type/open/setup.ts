@@ -5,7 +5,7 @@ import { nodeSharedDataSchema, shoukaiSearchEngineSchema } from "../schema";
 export const nodeSchema = nodeSharedDataSchema.extend({
   type: z.enum(["search", "img", "map"]),
   engine: shoukaiSearchEngineSchema,
-  domain: z.string(),
+  phrase: z.string(),
 });
 
 export type TypeNodeData = z.infer<typeof nodeSchema>;
@@ -17,5 +17,5 @@ export const defaultData: TypeNode["data"] = {
   description: "Open a search engine or map",
   type: "search",
   engine: "default",
-  domain: "filmweb.com",
+  phrase: "{phrase}",
 };

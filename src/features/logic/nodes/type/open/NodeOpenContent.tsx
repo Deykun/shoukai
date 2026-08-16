@@ -21,8 +21,8 @@ export function NodeOpenContent({ id, data }: Props) {
       with
       <FlowSelect
         nodeId={id}
-        dataPath="domain"
-        value={data.domain}
+        dataPath="phrase"
+        value={data.phrase}
         schema={nodeSchema}
       />
     </NodeRichMessage>
