@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export default function useOutsideClick(initialIsOpen = false) {
+export default function useOpenWithOutsideClick(initialIsOpen = false) {
   const elementRef = useRef<HTMLElement | null>(null);
   const [isOpen, setIsOpen] = useState(initialIsOpen);
 

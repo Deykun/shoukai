@@ -28,7 +28,7 @@ export const initialNodes: ShoukaiNode[] = [
       search: {
         phrase: "phrase",
         domain: "filmweb.pl",
-        engine: "default",
+        engine: "defaultSearch",
       },
     },
   },

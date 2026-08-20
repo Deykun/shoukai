@@ -9,7 +9,7 @@ export const nodeSharedDataSchema = z.object({
 export type NodeSharedData = z.infer<typeof nodeSharedDataSchema>;
 
 export const shoukaiSearchEngineSchema = z.enum([
-  "default",
+  "defaultSearch",
   "bing",
   "duckduckgo",
   "google",

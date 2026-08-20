@@ -18,9 +18,9 @@ export const defaultData: TypeNode["data"] = {
   label: "Recipe",
   description: "Recipe",
   search: {
-    phrase: "{phrase}}",
+    phrase: "{phrase}",
     domain: "pogoda.pl",
-    engine: "default",
+    engine: "defaultSearch",
   },
 };
 

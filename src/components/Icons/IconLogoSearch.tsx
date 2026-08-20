@@ -9,7 +9,8 @@ const Icon = ({ engine, className }: Props) => {
   return (
     <IconLogo
       className={className}
-      id={engine === "default" ? "google" : (engine as string)}
+      // TODO: add storing of default
+      id={engine === "defaultSearch" ? "google" : (engine as string)}
     />
   );
 };

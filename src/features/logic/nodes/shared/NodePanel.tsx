@@ -16,10 +16,12 @@ const NodePanel = ({ children, className = "", isSelected = false }: Props) => {
         "bg-[#f5f9ef] rounded-md",
         "duration-500",
         "group",
-        className,
+        "border-[1px] border-[#f5f9ef]",
+        "hover:border-[#d1dc80]",
         {
-          "border-[#d1dc80] hover:border-[#d1dc80]": isSelected,
+          "border-[#d1dc80]": isSelected,
         },
+        className,
       )}
     >
       {children}
