@@ -4,7 +4,6 @@ import { setDraggedType } from "../../stores/useDragAndDropStore";
 import { cn } from "@/utils/tailwind";
 import { PALETTE_NODES_TYPES, ShoukaiNodeType } from "../../nodes/type/types";
 import NodeIcon from "../../nodes/shared/NodeIcon";
-import FormulaInput from "@/features/formula-input/components/FormulaInput";
 
 const Palette = () => {
   const onDragStart = useCallback(
@@ -47,10 +46,6 @@ const Palette = () => {
             <span className="capitalize">{type} node</span>
           </div>
         ))}
-        <p>Example recpies</p>
-        <div className="p-3 bg-[#f5f9ef]">
-          <FormulaInput />
-        </div>
       </div>
     </aside>
   );

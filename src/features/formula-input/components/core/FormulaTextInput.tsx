@@ -1,15 +1,28 @@
-import { forwardRef, memo, type KeyboardEvent } from "react";
+import {
+  forwardRef,
+  memo,
+  type KeyboardEvent,
+  type SyntheticEvent,
+} from "react";
 import { cn } from "@/utils/tailwind";
 
 type Props = {
   value: string;
   onUpdate: (value: string, caretPosition: number) => void;
+  onCaretChange: (caretPosition: number) => void;
   onCaretExit: (direction: -1 | 1) => void;
   onMergePrevious: () => void;
 };
 
 const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
-  ({ value, onUpdate, onCaretExit, onMergePrevious }, ref) => {
+  ({ value, onUpdate, onCaretChange, onCaretExit, onMergePrevious }, ref) => {
+    // Clicks, arrows and focus all move the caret without changing the value.
+    const handleCaretChange = (event: SyntheticEvent<HTMLInputElement>) => {
+      const { selectionStart, value: current } = event.currentTarget;
+
+      onCaretChange(selectionStart ?? current.length);
+    };
+
     // Arrows at the edges of the text hop to the neighbouring input.
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
       const { selectionStart, selectionEnd } = event.currentTarget;
@@ -51,6 +64,9 @@ const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
           )
         }
         onKeyDown={handleKeyDown}
+        onSelect={handleCaretChange}
+        onKeyUp={handleCaretChange}
+        onFocus={handleCaretChange}
         className={cn(
             "py-0.5",
           "field-sizing-content",
