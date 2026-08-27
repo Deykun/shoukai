@@ -57,8 +57,8 @@ const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
           "outline-none",
           "bg-transparent ",
           "caret-[#82a849] tracking-wider",
-          "hover:bg-[#f5f9ef] rounded-[8px]",
-          "duration-200",
+          "rounded-[8px]",
+        //   "hover:bg-[#f5f9ef] duration-200",
           "min-w-1",
         //   "border-[1px] border-[red]"
         )}
