@@ -9,6 +9,8 @@ import { FlowSelectOptions } from "./core/FlowSelectOptions";
 import { FlowSelectValue } from "./core/FlowSelectValue";
 import { memo } from "react";
 import z from "zod";
+import PanelControls from "../PanelControls";
+import FormulaInput from "@/features/formula-input/components/FormulaInput";
 
 type Props<
   TSchema extends z.ZodObject,
@@ -55,15 +57,19 @@ function FlowSelectComponent<
         onClick={() => setIsOpen(true)}
       />
       {isOpen && (
-        <FlowSelectOptions
-          outsideRef={outsideRef}
-          options={options}
-          value={value}
-          onSelect={(option) => {
-            updateNode(nodeId, getObjectFromPath(dataPath, option));
-            setIsOpen(false);
-          }}
-        />
+        <PanelControls outsideRef={outsideRef}>
+          {options.length > 0 && (
+            <FlowSelectOptions
+              options={options}
+              value={value}
+              onSelect={(option) => {
+                updateNode(nodeId, getObjectFromPath(dataPath, option));
+                setIsOpen(false);
+              }}
+            />
+          )}
+          {options.length === 0 && <FormulaInput />}
+        </PanelControls>
       )}
     </div>
   );

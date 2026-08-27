@@ -5,6 +5,8 @@ import useFormulaInputHelpers from "@/features/formula-input/hooks/useFormulaInp
 
 import FormulaTextInput from "./core/FormulaTextInput";
 import FormulaButtonAddReference from "./core/FormulaAddReference";
+import FormulaReference from "./core/FormulaReference";
+import FormulaInputDropdown from "./dropdown/FormulaInputDropdown";
 
 const FormulaInput = () => {
   const {
@@ -36,7 +38,7 @@ const FormulaInput = () => {
     >
       {chunks.map((chunk, index) => {
         if (chunk.type === "variable") {
-          return <span key={index}>{chunk.reference}</span>;
+          return <FormulaReference key={index} reference={chunk.reference} />;
         }
 
         return (
@@ -58,6 +60,7 @@ const FormulaInput = () => {
           </>
         );
       })}
+      <FormulaInputDropdown />
     </div>
   );
 };

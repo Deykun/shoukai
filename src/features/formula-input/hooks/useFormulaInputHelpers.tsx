@@ -23,7 +23,11 @@ const findInputIndex = (chunks: Chunk[], from: number, direction: -1 | 1) => {
 };
 
 const useFormulaInputHelpers = () => {
-  const [chunks, setChunks] = useState<Chunk[]>([{ type: "input", value: "" }]);
+  const [chunks, setChunks] = useState<Chunk[]>([
+    { type: "input", value: "look" },
+    { type: "variable", reference: "{phrase}" },
+    { type: "input", value: "site:filmweb.pl" },
+  ]);
 
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const caretRef = useRef<{ index: number; offset: number } | null>(null);
