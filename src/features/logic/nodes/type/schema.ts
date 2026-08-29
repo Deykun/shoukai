@@ -3,7 +3,6 @@ import { ShoukaiSearchEngine } from "@/constants";
 
 export const nodeSharedDataSchema = z.object({
   label: z.string(),
-  description: z.string(),
 });
 
 export type NodeSharedData = z.infer<typeof nodeSharedDataSchema>;

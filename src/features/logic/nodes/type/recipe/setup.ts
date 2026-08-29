@@ -16,7 +16,6 @@ export type TypeNode = Node<TypeNodeData, "recipe">;
 
 export const defaultData: TypeNode["data"] = {
   label: "Recipe",
-  description: "Recipe",
   search: {
     phrase: "{{phrase}}",
     domain: "pogoda.pl",
