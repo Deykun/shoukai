@@ -24,9 +24,10 @@ export function NodeIf({ id, type, selected, data }: Props) {
         className="bottom-full left-1/2"
       />
       <NodeHeader
+        id={id}
         type={type}
-        // label={data.label}
-        label="If"
+        label={data.label}
+        // label="If"
         // description={data.description}
       />
       <NodeIfContent id={id} data={data} />

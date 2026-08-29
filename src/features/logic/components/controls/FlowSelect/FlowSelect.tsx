@@ -11,12 +11,16 @@ import { memo } from "react";
 import z from "zod";
 import PanelControls from "../PanelControls";
 import FormulaInput from "@/features/formula-input/components/FormulaInput";
+import { cn } from "@/utils/tailwind";
 
 type Props<
   TSchema extends z.ZodObject,
   TPath extends ObjectPath<z.infer<TSchema>>,
 > = {
   type?: "default" | "engine";
+  className?: string;
+  wrapperClassName?: string;
+  size?: "small" | "normal" | "large";
   nodeId: string;
   schema: TSchema;
   dataPath: TPath;
@@ -40,6 +44,9 @@ function FlowSelectComponent<
   TSchema extends z.ZodObject,
   TPath extends ObjectPath<z.infer<TSchema>>,
 >({
+  className,
+  wrapperClassName,
+  size,
   type = "default",
   nodeId,
   dataPath,
@@ -50,8 +57,10 @@ function FlowSelectComponent<
   const options = getOptions(schema, dataPath);
 
   return (
-    <div className="relative">
+    <div className={cn("relative", wrapperClassName)}>
       <FlowSelectValue
+        className={className}
+        size={size}
         type={type}
         value={value}
         onClick={() => setIsOpen(true)}

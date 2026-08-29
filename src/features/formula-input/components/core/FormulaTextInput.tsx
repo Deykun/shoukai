@@ -1,6 +1,7 @@
 import {
   forwardRef,
   memo,
+  type ChangeEvent,
   type KeyboardEvent,
   type SyntheticEvent,
 } from "react";
@@ -12,10 +13,39 @@ type Props = {
   onCaretChange: (caretPosition: number) => void;
   onCaretExit: (direction: -1 | 1) => void;
   onMergePrevious: () => void;
+  onVariableTrigger: (value: string, caretPosition: number) => void;
 };
 
+const VARIABLE_TRIGGER = "{{";
+
 const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
-  ({ value, onUpdate, onCaretChange, onCaretExit, onMergePrevious }, ref) => {
+  (
+    {
+      value,
+      onUpdate,
+      onCaretChange,
+      onCaretExit,
+      onMergePrevious,
+      onVariableTrigger,
+    },
+    ref,
+  ) => {
+    // Typing "{{" is a shortcut for the add-variable button: the braces are
+    // dropped and the caller gets the value without them, caret in place.
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const next = event.target.value || "";
+      const caretPosition = event.target.selectionStart ?? next.length;
+      const start = caretPosition - VARIABLE_TRIGGER.length;
+
+      if (start >= 0 && next.slice(start, caretPosition) === VARIABLE_TRIGGER) {
+        onVariableTrigger(next.slice(0, start) + next.slice(caretPosition), start);
+
+        return;
+      }
+
+      onUpdate(next, caretPosition);
+    };
+
     // Clicks, arrows and focus all move the caret without changing the value.
     const handleCaretChange = (event: SyntheticEvent<HTMLInputElement>) => {
       const { selectionStart, value: current } = event.currentTarget;
@@ -57,12 +87,7 @@ const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
       <input
         ref={ref}
         value={value}
-        onChange={(e) =>
-          onUpdate(
-            e.target.value || "",
-            e.target.selectionStart ?? (e.target.value || "").length,
-          )
-        }
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
         onSelect={handleCaretChange}
         onKeyUp={handleCaretChange}

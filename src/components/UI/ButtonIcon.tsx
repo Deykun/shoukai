@@ -5,7 +5,7 @@ import "./ButtonIcon.scss";
 
 type Props = {
   id?: string;
-  size?: "small" | "large" | "normal";
+  size?: "small" | "normal" | "large";
   className?: string;
   wrapperClassName?: string;
   children: React.ReactNode;

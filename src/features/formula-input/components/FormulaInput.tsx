@@ -4,44 +4,78 @@ import { cn } from "@/utils/tailwind";
 import useFormulaInputHelpers from "@/features/formula-input/hooks/useFormulaInputHelpers";
 
 import FormulaTextInput from "./core/FormulaTextInput";
-import FormulaButtonAddReference from "./core/FormulaButtonAddVariable";
-import FormulaReference from "./core/FormulaReference";
+import FormulaButtonReference from "./core/FormulaButtonReference";
 import FormulaInputDropdown from "./dropdown/FormulaInputDropdown";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
-import ButtonIcon from "@/components/UI/ButtonIcon";
-import FormulaButtonAddVariable from "./core/FormulaButtonAddVariable";
 import FormulaButtonClear from "./core/FormulaButtonClear";
+import FormulaButtonAddVariable from "./core/FormulaButtonAddVariable";
 
 const FormulaInput = () => {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   const {
     chunks,
-    lastCaret,
     inputsRef,
     handleCaretChange,
     handleInputUpdate,
     handleInsertReference,
+    handleReplaceReference,
+    handleVariableTrigger,
     handleClear,
     handleMergePrevious,
     handleCaretExit,
     handleContainerClick,
   } = useFormulaInputHelpers();
 
+  // Chunk index of the reference being edited; null = adding at the caret.
+  const [editedIndex, setEditedIndex] = useState<number | null>(null);
+  const activeIndex = isOpen ? editedIndex : null;
+  const activeChunk = activeIndex === null ? undefined : chunks[activeIndex];
+  const activeReference =
+    activeChunk?.type === "variable" ? activeChunk.reference : undefined;
+
+  const handleAddClick = useCallback(() => {
+    setEditedIndex(null);
+    setIsOpen(!isOpen);
+  }, [isOpen, setIsOpen]);
+
+  const handleReferenceClick = useCallback(
+    (index: number) => {
+      setEditedIndex(index);
+      setIsOpen(true);
+    },
+    [setIsOpen],
+  );
+
+  const handleTrigger = useCallback(
+    (index: number, value: string, caretPosition: number) => {
+      handleVariableTrigger(index, value, caretPosition);
+      setEditedIndex(null);
+      setIsOpen(true);
+    },
+    [handleVariableTrigger, setIsOpen],
+  );
+
   const handleSelect = useCallback(
-    (...args: Parameters<typeof handleInsertReference>) => {
-      handleInsertReference(...args);
+    (reference: string) => {
+      if (activeIndex === null) {
+        handleInsertReference(reference);
+      } else {
+        handleReplaceReference(activeIndex, reference);
+      }
+
+      setEditedIndex(null);
       setIsOpen(false);
     },
-    [handleInsertReference, setIsOpen],
+    [activeIndex, handleInsertReference, handleReplaceReference, setIsOpen],
   );
 
   return (
     <div className={cn("flex gap-6")}>
       <FormulaButtonAddVariable
         className="mt-3"
-        onClick={() => setIsOpen(!isOpen)}
-        isActive={isOpen}
+        onClick={handleAddClick}
+        isActive={isOpen && activeIndex === null}
       />
       <div
         onClick={handleContainerClick}
@@ -58,12 +92,18 @@ const FormulaInput = () => {
           "mx-auto font-[500] text-[14px]",
           "hover:border-[#f5f9ef] hover:shadow-lg",
           "duration-500",
-          "ui-tooltip-wrapper",
         )}
       >
         {chunks.map((chunk, index) => {
           if (chunk.type === "variable") {
-            return <FormulaReference key={index} reference={chunk.reference} />;
+            return (
+              <FormulaButtonReference
+                key={index}
+                reference={chunk.reference}
+                onClick={() => handleReferenceClick(index)}
+                isActive={activeIndex === index}
+              />
+            );
           }
 
           return (
@@ -81,6 +121,9 @@ const FormulaInput = () => {
               }
               onCaretExit={(direction) => handleCaretExit(index, direction)}
               onMergePrevious={() => handleMergePrevious(index)}
+              onVariableTrigger={(value, caretPosition) =>
+                handleTrigger(index, value, caretPosition)
+              }
             />
           );
         })}
@@ -88,6 +131,7 @@ const FormulaInput = () => {
           <FormulaInputDropdown
             outsideRef={outsideRef}
             onSelect={handleSelect}
+            activeReference={activeReference}
           />
         )}
       </div>

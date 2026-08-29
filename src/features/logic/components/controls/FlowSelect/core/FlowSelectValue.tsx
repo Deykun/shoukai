@@ -4,12 +4,16 @@ import ButtonText from "@/components/UI/ButtonText";
 import { useTranslation } from "react-i18next";
 
 type Props = {
+  className?: string;
+  size?: "small" | "normal" | "large";
   type?: "default" | "engine";
   value: unknown;
   onClick: () => void;
 };
 
 export const FlowSelectValue = ({
+  className,
+  size = "small",
   type = "default",
   value,
   onClick,
@@ -20,7 +24,8 @@ export const FlowSelectValue = ({
   if (type === "engine") {
     return (
       <ButtonIcon
-        size="small"
+        className={className}
+        size={size}
         onClick={onClick}
         label={t(`search.${value}`)}
         labelPosition="bottom"
@@ -31,7 +36,7 @@ export const FlowSelectValue = ({
   }
 
   return (
-    <ButtonText onClick={onClick} size="small">
+    <ButtonText className={className} size={size} onClick={onClick}>
       <span>{valueAsArray.join(" / ")}</span>
     </ButtonText>
   );

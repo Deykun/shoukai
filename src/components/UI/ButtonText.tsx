@@ -4,7 +4,7 @@ import "./ButtonText.scss";
 
 type Props = {
   className?: string;
-  size?: "small" | "large" | "normal";
+  size?: "small" | "normal" | "large";
   wrapperClassName?: string;
   children: React.ReactNode;
   onClick?: () => void;

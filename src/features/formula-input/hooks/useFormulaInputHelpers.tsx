@@ -205,6 +205,41 @@ const useFormulaInputHelpers = () => {
     [chunks, lastCaret, commitChunks],
   );
 
+  // "{{" typed: store the value with the braces stripped and pin the caret
+  // where they were, so the variable picked next is inserted right there.
+  const handleVariableTrigger = useCallback(
+    (index: number, value: string, caretPosition: number) => {
+      commitChunks(
+        [
+          ...chunks.slice(0, index),
+          { type: "input", value },
+          ...chunks.slice(index + 1),
+        ],
+        { index, offset: caretPosition },
+      );
+    },
+    [chunks, commitChunks],
+  );
+
+  // Swap the variable at `index` for another one; caret lands right after it.
+  const handleReplaceReference = useCallback(
+    (index: number, reference: string) => {
+      if (chunks[index]?.type !== "variable") {
+        return;
+      }
+
+      commitChunks(
+        [
+          ...chunks.slice(0, index),
+          { type: "variable", reference },
+          ...chunks.slice(index + 1),
+        ],
+        { index: index + 1, offset: 0 },
+      );
+    },
+    [chunks, commitChunks],
+  );
+
   // Backspace at the start of an input glues it onto the one before it, caret
   // sitting on the seam. A variable before it is deleted instead, like a
   // character would be — the caret stays where it is.
@@ -300,6 +335,8 @@ const useFormulaInputHelpers = () => {
     handleCaretChange,
     handleInputUpdate,
     handleInsertReference,
+    handleReplaceReference,
+    handleVariableTrigger,
     handleClear,
     handleMergePrevious,
     handleCaretExit,
