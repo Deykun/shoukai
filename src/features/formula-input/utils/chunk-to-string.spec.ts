@@ -3,7 +3,7 @@ import { chunkToString, chunksToString } from "./chunk-to-string";
 
 describe("chunkToString", () => {
   it("should return input value as is", () => {
-    expect(chunkToString({ type: "input", value: "a + 1" })).toBe("a + 1");
+    expect(chunkToString({ type: "input", value: "abc" })).toBe("abc");
   });
 
   it("should return empty string for empty input", () => {
@@ -22,23 +22,37 @@ describe("chunksToString", () => {
     expect(chunksToString([])).toBe("");
   });
 
-  it("should join mixed chunks in order", () => {
+  it("should join mixed chunks with a space", () => {
     expect(
       chunksToString([
-        { type: "input", value: "a + " },
+        { type: "input", value: "a" },
+        { type: "input", value: "+" },
         { type: "variable", reference: "x" },
-        { type: "input", value: " * 2" },
+        { type: "input", value: "*" },
+        { type: "input", value: "2" },
         { type: "variable", reference: "y.z" },
       ]),
-    ).toBe("a + <reference>x</reference> * 2<reference>y.z</reference>");
+    ).toBe("a + <reference>x</reference> * 2 <reference>y.z</reference>");
   });
 
-  it("should join adjacent variables without separator", () => {
+  it("should join adjacent variables with a space", () => {
     expect(
       chunksToString([
         { type: "variable", reference: "a" },
         { type: "variable", reference: "b" },
       ]),
-    ).toBe("<reference>a</reference><reference>b</reference>");
+    ).toBe("<reference>a</reference> <reference>b</reference>");
+  });
+
+  it("should skip empty input chunks", () => {
+    expect(
+      chunksToString([
+        { type: "input", value: "" },
+        { type: "variable", reference: "a" },
+        { type: "input", value: "" },
+        { type: "variable", reference: "b" },
+        { type: "input", value: "" },
+      ]),
+    ).toBe("<reference>a</reference> <reference>b</reference>");
   });
 });

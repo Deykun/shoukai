@@ -7,8 +7,23 @@ describe("stringToChunks", () => {
     expect(stringToChunks("")).toEqual([]);
   });
 
-  it("should return single input chunk for plain text", () => {
-    expect(stringToChunks("a + 1")).toEqual([{ type: "input", value: "a + 1" }]);
+  it("should return single input chunk for plain word", () => {
+    expect(stringToChunks("abc")).toEqual([{ type: "input", value: "abc" }]);
+  });
+
+  it("should split plain text on spaces", () => {
+    expect(stringToChunks("a + 1")).toEqual([
+      { type: "input", value: "a" },
+      { type: "input", value: "+" },
+      { type: "input", value: "1" },
+    ]);
+  });
+
+  it("should not emit empty chunks for repeated, leading or trailing spaces", () => {
+    expect(stringToChunks("  a   b ")).toEqual([
+      { type: "input", value: "a" },
+      { type: "input", value: "b" },
+    ]);
   });
 
   it("should return single variable chunk for lone ref", () => {
@@ -18,10 +33,14 @@ describe("stringToChunks", () => {
   });
 
   it("should split mixed text into input and variable chunks", () => {
-    expect(stringToChunks("a + <reference>x.y</reference> * 2<reference>z</reference>")).toEqual([
-      { type: "input", value: "a + " },
+    expect(
+      stringToChunks("a + <reference>x.y</reference> * 2<reference>z</reference>"),
+    ).toEqual([
+      { type: "input", value: "a" },
+      { type: "input", value: "+" },
       { type: "variable", reference: "x.y" },
-      { type: "input", value: " * 2" },
+      { type: "input", value: "*" },
+      { type: "input", value: "2" },
       { type: "variable", reference: "z" },
     ]);
   });
@@ -33,22 +52,31 @@ describe("stringToChunks", () => {
     ]);
   });
 
+  it("should not emit empty input chunk between space-separated refs", () => {
+    expect(stringToChunks("<reference>a</reference> <reference>b</reference>")).toEqual([
+      { type: "variable", reference: "a" },
+      { type: "variable", reference: "b" },
+    ]);
+  });
+
   it("should keep trailing text after last ref", () => {
     expect(stringToChunks("<reference>a</reference> end")).toEqual([
       { type: "variable", reference: "a" },
-      { type: "input", value: " end" },
+      { type: "input", value: "end" },
     ]);
   });
 
   it("should treat unterminated ref as plain input", () => {
     expect(stringToChunks("a <reference>b")).toEqual([
-      { type: "input", value: "a <reference>b" },
+      { type: "input", value: "a" },
+      { type: "input", value: "<reference>b" },
     ]);
   });
 
   it("should treat stray end tag as plain input", () => {
     expect(stringToChunks("a</reference> b")).toEqual([
-      { type: "input", value: "a</reference> b" },
+      { type: "input", value: "a</reference>" },
+      { type: "input", value: "b" },
     ]);
   });
 
@@ -59,7 +87,7 @@ describe("stringToChunks", () => {
   });
 
   it("should round-trip with chunksToString", () => {
-    const source = "sum(<reference>a.b</reference>, <reference>c</reference>) / 2";
+    const source = "sum( <reference>a.b</reference> , <reference>c</reference> ) / 2";
     expect(chunksToString(stringToChunks(source))).toBe(source);
   });
 });

@@ -9,8 +9,14 @@ import FormulaInputDropdown from "./dropdown/FormulaInputDropdown";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
 import FormulaButtonClear from "./core/FormulaButtonClear";
 import FormulaButtonAddVariable from "./core/FormulaButtonAddVariable";
+import type { Chunk } from "@/features/formula-input/types";
 
-const FormulaInput = () => {
+type Props = {
+  value: Chunk[];
+  onChange: (chunks: Chunk[]) => void;
+};
+
+const FormulaInput = ({ value, onChange }: Props) => {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   const {
@@ -25,7 +31,7 @@ const FormulaInput = () => {
     handleMergePrevious,
     handleCaretExit,
     handleContainerClick,
-  } = useFormulaInputHelpers();
+  } = useFormulaInputHelpers({ value, onChange });
 
   // Chunk index of the reference being edited; null = adding at the caret.
   const [editedIndex, setEditedIndex] = useState<number | null>(null);

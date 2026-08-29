@@ -7,10 +7,13 @@ import type {
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
 import { FlowSelectOptions } from "./core/FlowSelectOptions";
 import { FlowSelectValue } from "./core/FlowSelectValue";
-import { memo } from "react";
+import { memo, useCallback, useState } from "react";
 import z from "zod";
 import PanelControls from "../PanelControls";
 import FormulaInput from "@/features/formula-input/components/FormulaInput";
+import { stringToChunks } from "@/features/formula-input/utils/string-to-chunk";
+import { chunksToString } from "@/features/formula-input/utils/chunk-to-string";
+import type { Chunk } from "@/features/formula-input/types";
 import { cn } from "@/utils/tailwind";
 
 type Props<
@@ -55,11 +58,23 @@ function FlowSelectComponent<
 }: Props<TSchema, TPath>) {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
   const options = getOptions(schema, dataPath);
+  const [chunks, setChunks] = useState<Chunk[]>(() =>
+    stringToChunks(typeof value === "string" ? value : ""),
+  );
+
+  const handleChunksChange = useCallback(
+    (next: Chunk[]) => {
+      setChunks(next);
+      updateNode(nodeId, getObjectFromPath(dataPath, chunksToString(next)));
+    },
+    [nodeId, dataPath],
+  );
 
   return (
-    <div className={cn("relative", wrapperClassName)}>
+    <div className={cn("relative", "max-w-full", wrapperClassName)}>
       <FlowSelectValue
-        className={className}
+        wrapperClassName={"max-w-full"}
+        className={cn("max-w-full", className)}
         size={size}
         type={type}
         value={value}
@@ -77,7 +92,9 @@ function FlowSelectComponent<
               }}
             />
           )}
-          {options.length === 0 && <FormulaInput />}
+          {options.length === 0 && (
+            <FormulaInput value={chunks} onChange={handleChunksChange} />
+          )}
         </PanelControls>
       )}
     </div>

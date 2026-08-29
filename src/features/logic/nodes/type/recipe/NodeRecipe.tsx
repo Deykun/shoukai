@@ -13,9 +13,7 @@ type Props = NodeProps<TypeNode>;
 
 export function NodeRecipe({ id, type, selected, data }: Props) {
   const { t } = useTranslation();
-  //   const onChange = useCallback((evt) => {
-  //     console.log(evt.target.value);
-  //   }, []);
+
 
   return (
     <NodePanel className="" isSelected={selected}>
@@ -23,9 +21,7 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
       <NodeHeader
         id={id}
         type={type}
-        // label={data.label}
-        // description={data.description}
-        label="Pogoda"
+        label={data.label}
       />
       <NodeOptions isSelected={selected}>
         <ButtonIcon

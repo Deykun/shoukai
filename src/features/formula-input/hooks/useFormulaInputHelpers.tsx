@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type MouseEvent,
@@ -55,12 +56,15 @@ const normalizeChunks = (chunks: Chunk[]) => {
 const isInputRequired = (chunks: Chunk[], index: number) =>
   chunks[index - 1]?.type !== "input" && chunks[index + 1]?.type !== "input";
 
-const useFormulaInputHelpers = () => {
-  const [chunks, setChunks] = useState<Chunk[]>([
-    { type: "input", value: "look" },
-    { type: "variable", reference: "{{phrase}}" },
-    { type: "input", value: "site:filmweb.pl" },
-  ]);
+type Params = {
+  value: Chunk[];
+  onChange: (chunks: Chunk[]) => void;
+};
+
+const useFormulaInputHelpers = ({ value, onChange }: Params) => {
+  // Controlled: the parent owns the chunks. Incoming value is normalized so the
+  // invariant holds regardless of what was passed in.
+  const chunks = useMemo(() => normalizeChunks(value).chunks, [value]);
 
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const caretRef = useRef<CaretPosition | null>(null);
@@ -101,9 +105,9 @@ const useFormulaInputHelpers = () => {
         index: normalized.indexMap[caret.index] ?? caret.index,
       };
 
-      setChunks(normalized.chunks);
+      onChange(normalized.chunks);
     },
-    [],
+    [onChange],
   );
 
   const handleInputUpdate = useCallback(

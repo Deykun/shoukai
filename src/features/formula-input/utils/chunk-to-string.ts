@@ -6,5 +6,13 @@ export const chunkToString = (chunk: Chunk): string =>
     ? chunk.value
     : `${REFERENCE_START}${chunk.reference}${REFERENCE_END}`;
 
+// Chunks are space-separated; empty inputs (padding around variables) are
+// skipped so they never leave stray spaces behind.
 export const chunksToString = (chunks: Chunk[]): string =>
-  chunks.map(chunkToString).join("");
+  chunks
+    .filter((chunk) => chunk.type !== "input" || chunk.value !== "")
+    .map(chunkToString)
+    .join(" ");
+
+export const stringWithoutReferences = (value: string): string =>
+  value.replaceAll(REFERENCE_START, "").replaceAll(REFERENCE_END, "");
