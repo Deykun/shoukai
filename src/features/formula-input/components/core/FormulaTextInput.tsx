@@ -68,15 +68,14 @@ const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
         onKeyUp={handleCaretChange}
         onFocus={handleCaretChange}
         className={cn(
-            "py-0.5",
+          "py-0.5",
+          "text-center",
           "field-sizing-content",
           "outline-none",
           "bg-transparent ",
-          "caret-[#82a849] tracking-wider",
+          "caret-[#005b46] tracking-wider",
           "rounded-[8px]",
-        //   "hover:bg-[#f5f9ef] duration-200",
           "min-w-1",
-        //   "border-[1px] border-[red]"
         )}
         style={{
           fieldSizing: "content",

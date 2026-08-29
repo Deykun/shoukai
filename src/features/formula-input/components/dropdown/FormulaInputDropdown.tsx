@@ -24,7 +24,7 @@ const FormulaInputDropdown = ({ outsideRef, onSelect }: Props) => {
         "items-stretch",
       )}
     >
-      {["{phrase}", "{lang}"].map((option) => (
+      {["{{phrase}}", "{{lang}}"].map((option) => (
         <ButtonText
           className="w-full"
           key={option}

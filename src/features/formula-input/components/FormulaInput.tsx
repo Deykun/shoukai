@@ -1,15 +1,16 @@
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { cn } from "@/utils/tailwind";
 
 import useFormulaInputHelpers from "@/features/formula-input/hooks/useFormulaInputHelpers";
 
 import FormulaTextInput from "./core/FormulaTextInput";
-import FormulaButtonAddReference from "./core/FormulaAddVariableButton";
+import FormulaButtonAddReference from "./core/FormulaButtonAddVariable";
 import FormulaReference from "./core/FormulaReference";
 import FormulaInputDropdown from "./dropdown/FormulaInputDropdown";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
 import ButtonIcon from "@/components/UI/ButtonIcon";
-import FormulaAddVariableButton from "./core/FormulaAddVariableButton";
+import FormulaButtonAddVariable from "./core/FormulaButtonAddVariable";
+import FormulaButtonClear from "./core/FormulaButtonClear";
 
 const FormulaInput = () => {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
@@ -21,14 +22,23 @@ const FormulaInput = () => {
     handleCaretChange,
     handleInputUpdate,
     handleInsertReference,
+    handleClear,
     handleMergePrevious,
     handleCaretExit,
     handleContainerClick,
   } = useFormulaInputHelpers();
 
+  const handleSelect = useCallback(
+    (...args: Parameters<typeof handleInsertReference>) => {
+      handleInsertReference(...args);
+      setIsOpen(false);
+    },
+    [handleInsertReference, setIsOpen],
+  );
+
   return (
     <div className={cn("flex gap-6")}>
-      <FormulaAddVariableButton
+      <FormulaButtonAddVariable
         className="mt-3"
         onClick={() => setIsOpen(!isOpen)}
         isActive={isOpen}
@@ -77,10 +87,19 @@ const FormulaInput = () => {
         {isOpen && (
           <FormulaInputDropdown
             outsideRef={outsideRef}
-            onSelect={handleInsertReference}
+            onSelect={handleSelect}
           />
         )}
       </div>
+      <FormulaButtonClear
+        className="mt-3"
+        onClick={handleClear}
+        isDisabled={
+          chunks.length === 1 &&
+          chunks[0].type === "input" &&
+          chunks[0].value.length === 0
+        }
+      />
     </div>
   );
 };

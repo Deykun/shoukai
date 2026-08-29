@@ -17,5 +17,5 @@ export const defaultData: TypeNode["data"] = {
   description: "Open a search engine or map",
   type: "search",
   engine: "defaultSearch",
-  phrase: "{phrase}",
+  phrase: "{{phrase}}",
 };

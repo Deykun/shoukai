@@ -27,7 +27,7 @@ export type TypeNode = Node<TypeNodeData, "if">;
 export const defaultData: TypeNode["data"] = {
   label: "If",
   description: "Description",
-  x: ["{phrase}"],
+  x: ["{{phrase}}"],
   compare: "contains",
   y: ["something"],
 };

@@ -26,7 +26,7 @@ const updateTranslationProgress = () => {
   const langs = window.appLangs || [];
 
   langs.forEach((lang) => {
-    const fields = Array.from(document.querySelectorAll(`[data-field-lang="${lang}"]`));
+    const fields = Array.from(document.querySelectorAll(`[data-field-lang="${{lang}}"]`));
     const total = fields.length;
 
     const value = fields.reduce((stack, el) => {
@@ -41,12 +41,12 @@ const updateTranslationProgress = () => {
     marker.setAttribute('class', 'marker-progress');
     marker.innerText = `${(100 * (value / total)).toFixed(1)}%`;
 
-    document.querySelector(`[data-lang-header="${lang}"]`)?.appendChild(marker);
+    document.querySelector(`[data-lang-header="${{lang}}"]`)?.appendChild(marker);
   });
 };
 
 const copyTranslation = (lang) => {
-  const fields = Array.from(document.querySelectorAll(`[data-field-lang="${lang}"]`));
+  const fields = Array.from(document.querySelectorAll(`[data-field-lang="${{lang}}"]`));
 
   const translatons = fields.reduce((stack, el) => {
     if (el.value.trim().length > 0) {

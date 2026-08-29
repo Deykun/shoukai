@@ -58,7 +58,7 @@ const isInputRequired = (chunks: Chunk[], index: number) =>
 const useFormulaInputHelpers = () => {
   const [chunks, setChunks] = useState<Chunk[]>([
     { type: "input", value: "look" },
-    { type: "variable", reference: "{phrase}" },
+    { type: "variable", reference: "{{phrase}}" },
     { type: "input", value: "site:filmweb.pl" },
   ]);
 
@@ -288,6 +288,11 @@ const useFormulaInputHelpers = () => {
     [chunks.length],
   );
 
+  // Back to a single empty input, caret sitting in it.
+  const handleClear = useCallback(() => {
+    commitChunks([{ type: "input", value: "" }], { index: 0, offset: 0 });
+  }, [commitChunks]);
+
   return {
     chunks,
     inputsRef,
@@ -295,6 +300,7 @@ const useFormulaInputHelpers = () => {
     handleCaretChange,
     handleInputUpdate,
     handleInsertReference,
+    handleClear,
     handleMergePrevious,
     handleCaretExit,
     handleContainerClick,

@@ -8,7 +8,7 @@ type Props = {
   isActive?: boolean;
 };
 
-const FormulaAddVariableButton = ({ className, onClick, isActive }: Props) => {
+const FormulaButtonAddVariable = ({ className, onClick, isActive }: Props) => {
   return (
     <ButtonIcon
       wrapperClassName={className}
@@ -22,6 +22,6 @@ const FormulaAddVariableButton = ({ className, onClick, isActive }: Props) => {
   );
 };
 
-FormulaAddVariableButton.displayName = "FormulaAddVariable";
+FormulaButtonAddVariable.displayName = "FormulaButtonAddVariable";
 
-export default memo(FormulaAddVariableButton);
+export default memo(FormulaButtonAddVariable);

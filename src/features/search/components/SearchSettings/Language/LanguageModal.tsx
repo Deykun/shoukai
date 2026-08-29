@@ -44,11 +44,11 @@ const LanguageModal = () => {
             wrapperClassName="block w-full"
             className="block w-full"
             size="large"
-            key={lang}
+            key={{lang}}
             onClick={() => changeLanguage(lang)}
             isActive={i18n.language === lang}
           >
-            <IconFlag code={lang} />
+            <IconFlag code={{lang}} />
             <span>{t("main.currentLanguage", { lng: lang })}</span>
           </ButtonText>
         ))}
