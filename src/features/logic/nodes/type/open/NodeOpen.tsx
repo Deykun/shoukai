@@ -19,6 +19,7 @@ export function NodeOpen({ id, type, selected, data }: Props) {
     <NodePanel className="" isSelected={selected}>
       <NodeHandle type="target" position={Position.Top} />
       <NodeHeader
+        id={id}
         type={type}
         label={data.label}
         // description={data.description}

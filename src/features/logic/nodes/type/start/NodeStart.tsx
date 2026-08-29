@@ -19,6 +19,7 @@ export function NodeStart({ id, type, selected, data }: Props) {
     <NodePanel className="" isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
       <NodeHeader
+        id={id}
         type={type}
         // label={data.label}
         label="Shoukai"
