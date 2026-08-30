@@ -1,4 +1,9 @@
-import { ReactFlow, Background, BackgroundVariant } from "@xyflow/react";
+import {
+  ReactFlow,
+  Background,
+  BackgroundVariant,
+  ConnectionLineType,
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { cn } from "@/utils/tailwind";
@@ -28,6 +33,7 @@ export default function FlowLogic() {
         onConnect={onConnect}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        connectionLineType={ConnectionLineType.SmoothStep}
         fitView
         // maxZoom={0.5}
         maxZoom={3}

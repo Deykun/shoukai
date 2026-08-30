@@ -2,6 +2,7 @@ import IconLogoSearch from "@/components/Icons/IconLogoSearch";
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import ButtonText from "@/components/UI/ButtonText";
 import { stringWithoutReferences } from "@/features/formula-input/utils/chunk-to-string";
+import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -39,6 +40,8 @@ export const FlowSelectValue = ({
     );
   }
 
+  const valueToShow = stringWithoutReferences(valueAsArray.join(" / "));
+
   return (
     <ButtonText
       wrapperClassName={wrapperClassName}
@@ -47,7 +50,9 @@ export const FlowSelectValue = ({
       onClick={onClick}
       canWrap
     >
-      <span>{stringWithoutReferences(valueAsArray.join(" / "))}</span>
+      <span className={cn({ "opacity-50": !valueToShow })}>
+        {valueToShow || "empty"}
+      </span>
     </ButtonText>
   );
 };

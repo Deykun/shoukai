@@ -6,9 +6,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+.react-flow {
+  --xy-edge-stroke-default: #82a849;
   --xy-edge-stroke: #82a849;
   --xy-edge-stroke-width: 1px;
+  --xy-connectionline-stroke-default: #82a849;
+  --xy-connectionline-stroke-width-default: 1px;
 }
 
 body {
