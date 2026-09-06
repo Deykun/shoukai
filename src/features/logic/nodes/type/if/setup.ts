@@ -29,4 +29,6 @@ export const defaultData: TypeNode["data"] = {
   x: ["{{phrase}}"],
   compare: "contains",
   y: ["something"],
+  targetHandles: [{ id: "target" }],
+  sourceHandles: [{ id: "success" }, { id: "error" }],
 };

@@ -21,5 +21,6 @@ export const defaultData: TypeNode["data"] = {
     domain: "pogoda.pl",
     engine: "defaultSearch",
   },
+  targetHandles: [{ id: "target" }],
+  sourceHandles: [{ id: "success" }, { id: "error" }],
 };
-

@@ -16,7 +16,7 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
 
 
   return (
-    <NodePanel className="" isSelected={selected}>
+    <NodePanel nodeId={id} isSelected={selected}>
       <NodeHandle type="target" position={Position.Top} />
       <NodeHeader
         id={id}
@@ -36,7 +36,7 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
       <NodeRecipeContent id={id} data={data} />
       <div className="flex justify-center gap-0.5">
         <NodeHandle
-          id="source"
+          id="success"
           variant="horizontal"
           type="source"
           position={Position.Bottom}

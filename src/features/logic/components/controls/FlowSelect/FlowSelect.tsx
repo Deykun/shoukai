@@ -9,7 +9,7 @@ import { FlowSelectOptions } from "./core/FlowSelectOptions";
 import { FlowSelectValue } from "./core/FlowSelectValue";
 import { memo, useCallback, useState } from "react";
 import z from "zod";
-import PanelControls from "../PanelControls";
+import PanelFlow from "../../panel/PanelFlow";
 import FormulaInput from "@/features/formula-input/components/FormulaInput";
 import { stringToChunks } from "@/features/formula-input/utils/string-to-chunk";
 import { chunksToString } from "@/features/formula-input/utils/chunk-to-string";
@@ -81,7 +81,7 @@ function FlowSelectComponent<
         onClick={() => setIsOpen(true)}
       />
       {isOpen && (
-        <PanelControls outsideRef={outsideRef}>
+        <PanelFlow outsideRef={outsideRef}>
           {options.length > 0 && (
             <FlowSelectOptions
               options={options}
@@ -93,9 +93,13 @@ function FlowSelectComponent<
             />
           )}
           {options.length === 0 && (
-            <FormulaInput value={chunks} onChange={handleChunksChange} />
+            <FormulaInput
+              value={chunks}
+              onChange={handleChunksChange}
+              autoFocus
+            />
           )}
-        </PanelControls>
+        </PanelFlow>
       )}
     </div>
   );

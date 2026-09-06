@@ -6,7 +6,7 @@ import { FlowSelect } from "../../components/controls/FlowSelect/FlowSelect";
 import { ShoukaiNodeType } from "../type/types";
 
 type Props = {
-  id: string;
+  id: string | undefined;
   type: ShoukaiNodeType | (string & {});
   label: string;
 };
@@ -21,14 +21,18 @@ const NodeHeader = ({
     <header className={cn("flex items-center gap-1.5", "px-1")}>
       <div className="w-full">
         <h2 className="text-primary-contrast">
-          <FlowSelect
-            size="large"
-            className="!py-1 !px-1"
-            nodeId={id}
-            dataPath="label"
-            value={label}
-            schema={nodeSharedDataSchema}
-          />
+          {id ? (
+            <FlowSelect
+              size="large"
+              className="!py-1 !px-1"
+              nodeId={id}
+              dataPath="label"
+              value={label}
+              schema={nodeSharedDataSchema}
+            />
+          ) : (
+            label
+          )}
         </h2>
         {children}
       </div>

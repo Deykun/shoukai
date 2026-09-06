@@ -13,4 +13,6 @@ export type TypeNode = Node<TypeNodeData, "start">;
 export const defaultData: TypeNode["data"] = {
   label: "Start",
   shortcuts: ["d", "g", "img", "gm"],
+  targetHandles: [],
+  sourceHandles: [{ id: "success" }],
 };

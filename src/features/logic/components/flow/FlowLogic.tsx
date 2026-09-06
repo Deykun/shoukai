@@ -13,8 +13,8 @@ import useDiagramStore, {
   onNodesChange,
 } from "../../stores/useDiagramStore";
 import { useOnDragEvents } from "../../hooks/useOnDragEvents";
-import Palette from "../palette/Palette";
 import { nodeTypes } from "../../nodes/type/nodeTypes";
+import SidebarFlow from "../sidebar/SidebarFlow";
 
 export default function FlowLogic() {
   const edges = useDiagramStore((store) => store.edges);
@@ -40,7 +40,7 @@ export default function FlowLogic() {
       >
         <Background color="#f5f9ef" variant={BackgroundVariant.Dots} size={4} />
       </ReactFlow>
-      <Palette />
+      <SidebarFlow />
     </div>
   );
 }

@@ -10,7 +10,7 @@ type Props = NodeProps<TypeNode>;
 
 export function NodeStart({ id, type, selected, data }: Props) {
   return (
-    <NodePanel className="" isSelected={selected}>
+    <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
       <NodeHeader id={id} type={type} label={data.label} />
       <NodeStartContent id={id} data={data} />

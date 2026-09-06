@@ -10,7 +10,7 @@ type Props = NodeProps<TypeNode>;
 
 export function NodeIf({ id, type, selected, data }: Props) {
   return (
-    <NodePanel className="" isSelected={selected}>
+    <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
       <NodeHandle
         type="target"
@@ -22,7 +22,7 @@ export function NodeIf({ id, type, selected, data }: Props) {
       <div className="text-[8px]">
         <div className="flex justify-center gap-0.5">
           <NodeHandle
-            id="source"
+            id="success"
             variant="horizontal"
             type="source"
             position={Position.Bottom}

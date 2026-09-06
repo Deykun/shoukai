@@ -17,4 +17,6 @@ export const defaultData: TypeNode["data"] = {
   type: "search",
   engine: "defaultSearch",
   phrase: "{{phrase}}",
+  targetHandles: [{ id: "target" }],
+  sourceHandles: [],
 };

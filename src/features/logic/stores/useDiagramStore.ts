@@ -56,7 +56,7 @@ export const onEdgesChange = (changes: EdgeChange<Edge>[]) => {
 
 export const onConnect = (edge: Edge | Connection) => {
   useDiagramStore.setState((state) => ({
-    edges: addEdge({ ...edge, type: "smoothstep" }, state.edges),
+    edges: addEdge({ ...edge, type222: "smoothstep" }, state.edges),
   }));
 };
 
@@ -64,6 +64,10 @@ export const setNodes = (nodes: ShoukaiNode[]) => {
   useDiagramStore.setState({
     nodes,
   });
+};
+
+export const getNodes = () => {
+  return useDiagramStore.getState().nodes;
 };
 
 export const addNode = (node: ShoukaiNode) => {
@@ -76,6 +80,10 @@ export const setEdges = (edges: Edge[]) => {
   useDiagramStore.setState({
     edges,
   });
+};
+
+export const getEdges = () => {
+  return useDiagramStore.getState().edges;
 };
 
 export const updateNode = (

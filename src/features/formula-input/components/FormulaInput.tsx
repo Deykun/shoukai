@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { cn } from "@/utils/tailwind";
 
 import useFormulaInputHelpers from "@/features/formula-input/hooks/useFormulaInputHelpers";
@@ -14,9 +14,10 @@ import type { Chunk } from "@/features/formula-input/types";
 type Props = {
   value: Chunk[];
   onChange: (chunks: Chunk[]) => void;
+  autoFocus?: boolean;
 };
 
-const FormulaInput = ({ value, onChange }: Props) => {
+const FormulaInput = ({ value, onChange, autoFocus = false }: Props) => {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   const {
@@ -31,7 +32,15 @@ const FormulaInput = ({ value, onChange }: Props) => {
     handleMergePrevious,
     handleCaretExit,
     handleContainerClick,
+    focusEnd,
   } = useFormulaInputHelpers({ value, onChange });
+
+  // Mount only: caret at the end of the formula, like clicking the container.
+  useEffect(() => {
+    if (autoFocus) {
+      focusEnd();
+    }
+  }, []);
 
   // Chunk index of the reference being edited; null = adding at the caret.
   const [editedIndex, setEditedIndex] = useState<number | null>(null);
@@ -77,7 +86,7 @@ const FormulaInput = ({ value, onChange }: Props) => {
   );
 
   return (
-    <div className={cn("flex gap-6")}>
+    <div className={cn("flex items-start gap-6")}>
       <FormulaButtonAddVariable
         className="mt-3"
         onClick={handleAddClick}

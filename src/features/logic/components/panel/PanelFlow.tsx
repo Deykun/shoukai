@@ -7,7 +7,7 @@ type Props = {
   className?: string;
 };
 
-const PanelControls = ({
+const PanelFlow = ({
   outsideRef,
   className = "",
   children,
@@ -30,4 +30,4 @@ const PanelControls = ({
   );
 };
 
-export default PanelControls;
+export default PanelFlow;

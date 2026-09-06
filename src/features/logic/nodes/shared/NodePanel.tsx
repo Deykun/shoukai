@@ -1,14 +1,25 @@
 import { cn } from "@/utils/tailwind";
 
 type Props = {
+  nodeId: string | undefined;
   className?: string;
   children: React.ReactNode;
   isSelected?: boolean;
-};
+} & React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
 
-const NodePanel = ({ children, className = "", isSelected = false }: Props) => {
+const NodePanel = ({
+  nodeId,
+  className = "",
+  children,
+  isSelected = false,
+  ...props
+}: Props) => {
   return (
     <div
+      data-node-id={nodeId}
       className={cn(
         "min-w-[140px] relative",
         "p-1",
@@ -23,6 +34,7 @@ const NodePanel = ({ children, className = "", isSelected = false }: Props) => {
         },
         className,
       )}
+      {...props}
     >
       {children}
     </div>

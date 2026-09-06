@@ -305,6 +305,20 @@ const useFormulaInputHelpers = ({ value, onChange }: Params) => {
     [chunks.length],
   );
 
+  // Caret at the very end of the formula.
+  const focusEnd = useCallback(() => {
+    for (let index = chunks.length - 1; index >= 0; index -= 1) {
+      const input = inputsRef.current[index];
+
+      if (input) {
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+
+        return;
+      }
+    }
+  }, [chunks.length]);
+
   // Clicking the padding/gaps around the chunks behaves like clicking the end
   // of the formula.
   const handleContainerClick = useCallback(
@@ -313,18 +327,9 @@ const useFormulaInputHelpers = ({ value, onChange }: Params) => {
         return;
       }
 
-      for (let index = chunks.length - 1; index >= 0; index -= 1) {
-        const input = inputsRef.current[index];
-
-        if (input) {
-          input.focus();
-          input.setSelectionRange(input.value.length, input.value.length);
-
-          return;
-        }
-      }
+      focusEnd();
     },
-    [chunks.length],
+    [focusEnd],
   );
 
   // Back to a single empty input, caret sitting in it.
@@ -345,6 +350,7 @@ const useFormulaInputHelpers = ({ value, onChange }: Params) => {
     handleMergePrevious,
     handleCaretExit,
     handleContainerClick,
+    focusEnd,
   };
 };
 
