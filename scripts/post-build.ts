@@ -5,7 +5,7 @@ PATHS_DATA.forEach(({ path, title, social, lang = "en" }) => {
   let html = fs.readFileSync("./dist/index.html", "utf-8");
 
   if (lang) {
-    html = html.replace('lang="en"', `lang="${{lang}}"`);
+    html = html.replace('lang="en"', `lang="${lang}"`);
   }
   if (title) {
     html = html.replace(

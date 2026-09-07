@@ -35,9 +35,9 @@ app.get('/', (req: Request, res: Response) => {
                 <img src="/admin/images/translate.svg" />
               </td>
               ${langs.map((lang) => {
-                return `<th data-lang-header="${{lang}}">
-                  ${{lang}}
-                  <button class="button-copy" data-copy="${{lang}}">
+                return `<th data-lang-header="${lang}">
+                  ${lang}
+                  <button class="button-copy" data-copy="${lang}">
                     <span>Copy</span>
                     <img src="/admin/images/copy.svg" />
                   </button>
@@ -51,7 +51,7 @@ app.get('/', (req: Request, res: Response) => {
                 ${langs.map((lang) => {
                   return `<td>            
                     <textarea
-                      data-field-lang="${{lang}}"
+                      data-field-lang="${lang}"
                       data-field-key="${key}"
                     >${resources[lang].translation[key] || ''}</textarea>
                   </td>

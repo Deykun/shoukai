@@ -13,7 +13,7 @@ const fetchFromWikipedia = async (
   try {
     // https://www.mediawiki.org/wiki/API:Page_info_in_search_results
     const response = await fetch(
-      `https://${{lang}}.wikipedia.org/w/api.php?action=query&titles=${encodeURI(
+      `https://${lang}.wikipedia.org/w/api.php?action=query&titles=${encodeURI(
         searchPhrase
       )}&prop=pageimages|pageterms&piprop=thumbnail&pithumbsize=600${commonParams}`,
       {
@@ -56,7 +56,7 @@ const fetchFromWikipedia = async (
     // https://www.mediawiki.org/wiki/API%3aOpensearch
     try {
       const response = await fetch(
-        `https://${{lang}}.wikipedia.org/w/api.php?action=opensearch&search=${encodeURI(
+        `https://${lang}.wikipedia.org/w/api.php?action=opensearch&search=${encodeURI(
           searchPhrase
         )}${commonParams}`,
         {
@@ -106,7 +106,7 @@ export const getWikipediaResult = async (
     return null;
   }
 
-  const cacheKey = `${{lang}} ${searchPhrase}`;
+  const cacheKey = `${lang} ${searchPhrase}`;
 
   if (cachedResults[cacheKey]) {
     return cachedResults[cacheKey];

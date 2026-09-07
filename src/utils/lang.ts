@@ -9,8 +9,8 @@ export const isLanguageSupported = (lang: string) => {
 
    return browserLanguages.some(
       oneOfBrowserLanguages => oneOfBrowserLanguages === lang
-        || oneOfBrowserLanguages.startsWith(`${{lang}}-`)
-        || oneOfBrowserLanguages.startsWith(`${{lang}}_`)
+        || oneOfBrowserLanguages.startsWith(`${lang}-`)
+        || oneOfBrowserLanguages.startsWith(`${lang}_`)
   );
 };
 
