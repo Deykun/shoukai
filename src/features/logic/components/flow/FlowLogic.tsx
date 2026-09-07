@@ -33,7 +33,6 @@ export default function FlowLogic() {
         onConnect={onConnect}
         onDrop={onDrop}
         onDragOver={onDragOver}
-        connectionLineType={ConnectionLineType.SmoothStep}
         fitView
         // maxZoom={0.5}
         maxZoom={3}

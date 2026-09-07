@@ -35,8 +35,8 @@ const Palette = () => {
       >
         <IconLibrary />
       </ButtonIcon>
-      {isOpen && (
-        <PanelFlow outsideRef={outsideRef}>
+        <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
+          <h3 className="mb-3">Palette</h3>
           <div
             className={cn(
               "container",
@@ -63,7 +63,6 @@ const Palette = () => {
             ))}
           </div>
         </PanelFlow>
-      )}
     </>
   );
 };

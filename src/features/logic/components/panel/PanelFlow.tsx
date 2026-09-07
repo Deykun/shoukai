@@ -1,17 +1,44 @@
+import useEffectChange from "@/hooks/useEffectChange";
 import { cn } from "@/utils/tailwind";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
   outsideRef: (element: HTMLElement | null) => void;
   className?: string;
+  isOpen: boolean;
 };
 
 const PanelFlow = ({
   outsideRef,
   className = "",
   children,
+  isOpen,
 }: PropsWithChildren<Props>) => {
+  const closingTimeoutRef = useRef<number | null>(null);
+  const [isOpenDeferred, setIsOpenDeferred] = useState(isOpen);
+
+  useEffectChange(() => {
+    // Clear previous timeout
+    if (closingTimeoutRef.current) {
+      clearTimeout(closingTimeoutRef.current);
+    }
+
+    if (isOpen) {
+      setIsOpenDeferred(true);
+
+      return;
+    }
+
+    closingTimeoutRef.current = window.setTimeout(() => {
+      setIsOpenDeferred(false);
+    }, 500);
+  }, [isOpen]);
+
+  if (!isOpenDeferred) {
+    return null;
+  }
+
   return createPortal(
     <div
       ref={outsideRef}
@@ -21,6 +48,9 @@ const PanelFlow = ({
         "bg-[#f5f9ef] rounded-t-xl",
         "translate-y-0 starting:translate-y-full",
         "transition-transform duration-300 ease-in-out",
+        {
+          "translate-y-full": !isOpen,
+        },
         className,
       )}
     >

@@ -6,11 +6,11 @@ export default function SidebarFlow() {
   return (
     <div
       className={cn(
-        "fixed top-1/2 left-0 -translate-y-1/2 z-10",
+        "fixed top-4 left-0 z-10",
         "bg-[#f5f9ef] rounded-r-xl",
         "p-4",
         "translate-x-0 starting:-translate-x-full",
-        "transition-transform duration-300 ease-in-out",
+        "transition-transform duration-500 delay-500 ease-in-out",
         "flex flex-col gap-2 justify-center items-center",
       )}
     >

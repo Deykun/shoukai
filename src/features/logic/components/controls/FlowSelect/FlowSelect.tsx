@@ -9,12 +9,12 @@ import { FlowSelectOptions } from "./core/FlowSelectOptions";
 import { FlowSelectValue } from "./core/FlowSelectValue";
 import { memo, useCallback, useState } from "react";
 import z from "zod";
-import PanelFlow from "../../panel/PanelFlow";
 import FormulaInput from "@/features/formula-input/components/FormulaInput";
 import { stringToChunks } from "@/features/formula-input/utils/string-to-chunk";
 import { chunksToString } from "@/features/formula-input/utils/chunk-to-string";
 import type { Chunk } from "@/features/formula-input/types";
 import { cn } from "@/utils/tailwind";
+import PanelFlow from "../../panel/PanelFlow";
 
 type Props<
   TSchema extends z.ZodObject,
@@ -80,27 +80,25 @@ function FlowSelectComponent<
         value={value}
         onClick={() => setIsOpen(true)}
       />
-      {isOpen && (
-        <PanelFlow outsideRef={outsideRef}>
-          {options.length > 0 && (
-            <FlowSelectOptions
-              options={options}
-              value={value}
-              onSelect={(option) => {
-                updateNode(nodeId, getObjectFromPath(dataPath, option));
-                setIsOpen(false);
-              }}
-            />
-          )}
-          {options.length === 0 && (
-            <FormulaInput
-              value={chunks}
-              onChange={handleChunksChange}
-              autoFocus
-            />
-          )}
-        </PanelFlow>
-      )}
+      <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
+        {options.length > 0 && (
+          <FlowSelectOptions
+            options={options}
+            value={value}
+            onSelect={(option) => {
+              updateNode(nodeId, getObjectFromPath(dataPath, option));
+              setIsOpen(false);
+            }}
+          />
+        )}
+        {options.length === 0 && (
+          <FormulaInput
+            value={chunks}
+            onChange={handleChunksChange}
+            autoFocus
+          />
+        )}
+      </PanelFlow>
     </div>
   );
 }

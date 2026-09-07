@@ -15,7 +15,9 @@ export default function useLayout() {
     const layoutedNodes = await getLayoutedNodes(getNodes(), getEdges());
 
     setNodes(layoutedNodes);
-    fitView();
+    fitView({
+      padding: 0.25,
+    });
   }, [fitView]);
 
   return layout;

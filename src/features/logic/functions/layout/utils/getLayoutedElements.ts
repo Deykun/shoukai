@@ -8,17 +8,30 @@ import { getNodeSize } from "./getNodeSize";
 const layoutOptions = {
   "elk.algorithm": "layered",
   "elk.direction": "DOWN",
-  // "elk.edgeRouting": "SPLINES",
-  // "elk.layered.edgeRouting.splines.mode": "CONSERVATIVE",
-  // "elk.layered.layering.strategy": "NETWORK_SIMPLEX",
-  "elk.layered.spacing.nodeNodeBetweenLayers": '130',
-  "elk.spacing.nodeNodeBetweenLayers": '130',
-  "elk.spacing.nodeNode": '30',
-  "elk.spacing.edgeEdge": '20',
-  "elk.spacing.edgeNode": '50',
+  "elk.layered.spacing.nodeNodeBetweenLayers": "80",
+  "elk.spacing.nodeNodeBetweenLayers": "80",
+  "elk.spacing.nodeNode": "50",
+  "elk.spacing.edgeEdge": "50",
+  "elk.spacing.edgeNode": "50",
+  // https://github.com/xyflow/xyflow/discussions/4248#discussioncomment-12840414
+  "elk.layered.nodePlacement.strategy": "BRANDES_KOEPF",
+  "elk.layered.nodePlacement.bk.fixedAlignment": "BALANCED",
+  "elk.layered.considerModelOrder.portModelOrder": "true",
+  "elk.layered.considerModelOrder.strategy": "NODES_AND_EDGES",
+  "elk.layered.crossingMinimization.forceNodeModelOrder": "true",
+  "elk.layered.compaction.connectedComponents": "true",
+  "elk.layered.compaction.postCompaction.strategy": "EDGE_LENGTH",
+  "elk.layered.cycleBreaking.strategy": "MODEL_ORDER",
+  "elk.separateConnectedComponents": "false", // Keeps them bound to global direction rules
+  "elk.aspectRatio": "0.1", // Forces a very tall, narrow layout if components separate
 };
 
 const elk = new ELK();
+
+// handle ids ("target", "success", "error") repeat across nodes,
+// elk needs globally unique port ids
+const getPortId = (nodeId: string, handleId?: string | null) =>
+  handleId ? `${nodeId}__${handleId}` : nodeId;
 
 // uses elkjs to give each node a layouted position
 export const getLayoutedNodes = async (
@@ -29,18 +42,16 @@ export const getLayoutedNodes = async (
     id: "root",
     layoutOptions,
     children: nodes.map((node) => {
+      // targets on top (NORTH), sources on bottom (SOUTH)
       const targetPorts = node.data.targetHandles.map((target) => ({
-        id: target.id,
-
-        // ⚠️ it's important to let elk know on which side the port is
-        // in this example targets are on the left (WEST) and sources on the right (EAST)
+        id: getPortId(node.id, target.id),
         properties: {
           side: "NORTH",
         },
       }));
 
       const sourcePorts = node.data.sourceHandles.map((source) => ({
-        id: source.id,
+        id: getPortId(node.id, source.id),
         properties: {
           side: "SOUTH",
         },
@@ -56,14 +67,19 @@ export const getLayoutedNodes = async (
         properties: {
           "org.eclipse.elk.portConstraints": "FIXED_ORDER",
         },
-        // we are also passing the id, so we can also handle edges without a sourceHandle or targetHandle option
-        ports: [{ id: node.id }, ...targetPorts, ...sourcePorts],
+        // fallback port for edges without sourceHandle/targetHandle
+        // (target handles have no id in JSX, so it's used as a target -> NORTH)
+        ports: [
+          { id: node.id, properties: { side: "NORTH" } },
+          ...targetPorts,
+          ...sourcePorts,
+        ],
       };
     }),
     edges: edges.map((edge) => ({
       id: edge.id,
-      sources: [edge.sourceHandle || edge.source],
-      targets: [edge.targetHandle || edge.target],
+      sources: [getPortId(edge.source, edge.sourceHandle)],
+      targets: [getPortId(edge.target, edge.targetHandle)],
     })),
   };
 
