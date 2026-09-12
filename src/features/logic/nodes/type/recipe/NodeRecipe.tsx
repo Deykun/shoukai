@@ -18,7 +18,12 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
   return (
     <NodePanel nodeId={id} isSelected={selected}>
       <NodeHandle type="target" position={Position.Left} />
-      <NodeHeader id={id} type={type} label={data.label} />
+      <NodeHeader
+        id={id}
+        isSelected={selected}
+        type={type}
+        label={data.label}
+      />
       <NodeOptions isSelected={selected}>
         <ButtonIcon
           // onClick={() => toggleRecipeModal(id)}

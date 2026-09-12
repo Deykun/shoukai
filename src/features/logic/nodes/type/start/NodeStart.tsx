@@ -13,7 +13,12 @@ export function NodeStart({ id, type, selected, data }: Props) {
   return (
     <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
-      <NodeHeader id={id} type={type} label={data.label} />
+      <NodeHeader
+        id={id}
+        isSelected={selected}
+        type={type}
+        label={data.label}
+      />
       <NodeStartContent id={id} data={data} />
       <NodeHandlesWrapper>
         <NodeHandle

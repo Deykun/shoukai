@@ -13,7 +13,9 @@ const NodeHandlesWrapper = ({
     <div
       className={cn(
         "flex flex-col justify-center gap-0.5",
-        "w-full max-w-[100px] ml-auto",
+        "ml-auto",
+        "divide-y divide-border divide-[#d1dc80]",
+        "text-right",
         className,
       )}
     >

@@ -9,6 +9,7 @@ type Props = {
   id: string | undefined;
   type: ShoukaiNodeType | (string & {});
   label: string;
+  isSelected?: boolean;
 };
 
 const NodeHeader = ({
@@ -16,6 +17,7 @@ const NodeHeader = ({
   type,
   label,
   children,
+  isSelected = false,
 }: PropsWithChildren<Props>) => {
   return (
     <header className={cn("flex items-center gap-1.5", "px-1")}>
@@ -36,7 +38,7 @@ const NodeHeader = ({
         </h2>
         {children}
       </div>
-      <NodeIcon type={type} className="size-8" />
+      <NodeIcon type={type} className="size-8 -mt-8" isSelected={isSelected} />
     </header>
   );
 };

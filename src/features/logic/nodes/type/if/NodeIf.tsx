@@ -14,7 +14,12 @@ export function NodeIf({ id, type, selected, data }: Props) {
     <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
       <NodeHandle type="target" position={Position.Left} />
-      <NodeHeader id={id} type={type} label={data.label} />
+      <NodeHeader
+        id={id}
+        isSelected={selected}
+        type={type}
+        label={data.label}
+      />
       <NodeIfContent id={id} data={data} />
       <NodeHandlesWrapper>
         <NodeHandle

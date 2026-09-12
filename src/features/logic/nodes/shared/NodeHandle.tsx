@@ -17,16 +17,17 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
     return (
       <div
         className={cn(
+          "group",
           "relative z-1 flex",
-          "p-1 px-2",
-          "duration-500",
-          "bg-[#82a849] rounded-[4px] tracking-wider",
+          "p-1 pr-3 -mr-1",
+          "tracking-wider",
         )}
       >
         <span
           className={cn(
-            "text-[12px] text-white leading-0",
             "flex gap-1 items-center ml-auto",
+            "text-[12px] leading-0 font-[600]",
+            "text-primary-contrast",
           )}
         >
           {children}
@@ -34,7 +35,7 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
         <NodeHandle
           {...props}
           variant="default"
-          className="left-auto -right-1 top-1/2"
+          className="left-auto -right-0 top-1/2"
         />
       </div>
     );
