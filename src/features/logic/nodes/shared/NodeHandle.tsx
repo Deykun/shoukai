@@ -23,14 +23,18 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
           "bg-[#82a849] rounded-[4px] tracking-wider",
         )}
       >
-        <span className={cn("text-[12px] text-white leading-0", "flex gap-1 items-center")}>
+        <span
+          className={cn(
+            "text-[12px] text-white leading-0",
+            "flex gap-1 items-center ml-auto",
+          )}
+        >
           {children}
         </span>
         <NodeHandle
           {...props}
           variant="default"
-          right={0}
-          className="-right-4"
+          className="left-auto -right-1 top-1/2"
         />
       </div>
     );
@@ -49,6 +53,8 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
         "bg-white rounded-[8px] tracking-wider",
         "bg-primary-contrast",
         "border-[#82a849] border-[3px]",
+        // "top-0"
+        "left-0 top-5",
         className,
       )}
     />

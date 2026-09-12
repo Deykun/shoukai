@@ -16,7 +16,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: "modern",
-       silenceDeprecations: ['import'],
+        silenceDeprecations: ["import"],
       },
     },
   },

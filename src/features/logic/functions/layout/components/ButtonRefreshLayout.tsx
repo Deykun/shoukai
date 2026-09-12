@@ -1,14 +1,14 @@
 import ButtonIcon from "@/components/UI/ButtonIcon";
 
 import useLayout from "../hooks/useLayout";
-import IconFlowVertical from "@/components/Icons/IconFlowVertical";
+import IconFlowHorizontal from "@/components/Icons/IconFlowHorizontal";
 
 const ButtonRefreshLayout = () => {
   const layout = useLayout();
 
   return (
     <ButtonIcon label="Refresh layout" labelPosition="right" onClick={layout}>
-      <IconFlowVertical />
+      <IconFlowHorizontal />
     </ButtonIcon>
   );
 };

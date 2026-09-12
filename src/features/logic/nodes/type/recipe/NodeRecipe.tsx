@@ -8,21 +8,17 @@ import { useTranslation } from "react-i18next";
 import NodeOptions from "../../shared/NodeOptions";
 import NodeRecipeContent from "./NodeRecipeContent";
 import { TypeNode } from "./setup";
+import NodeHandlesWrapper from "../../shared/NodeHandlesWrapper";
 
 type Props = NodeProps<TypeNode>;
 
 export function NodeRecipe({ id, type, selected, data }: Props) {
   const { t } = useTranslation();
 
-
   return (
     <NodePanel nodeId={id} isSelected={selected}>
-      <NodeHandle type="target" position={Position.Top} />
-      <NodeHeader
-        id={id}
-        type={type}
-        label={data.label}
-      />
+      <NodeHandle type="target" position={Position.Left} />
+      <NodeHeader id={id} type={type} label={data.label} />
       <NodeOptions isSelected={selected}>
         <ButtonIcon
           // onClick={() => toggleRecipeModal(id)}
@@ -34,12 +30,12 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
         </ButtonIcon>
       </NodeOptions>
       <NodeRecipeContent id={id} data={data} />
-      <div className="flex justify-center gap-0.5">
+      <NodeHandlesWrapper>
         <NodeHandle
           id="success"
           variant="horizontal"
           type="source"
-          position={Position.Bottom}
+          position={Position.Right}
         >
           Has results
         </NodeHandle>
@@ -47,11 +43,11 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
           id="error"
           variant="horizontal"
           type="source"
-          position={Position.Bottom}
+          position={Position.Right}
         >
           No results
         </NodeHandle>
-      </div>
+      </NodeHandlesWrapper>
     </NodePanel>
   );
 }

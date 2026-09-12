@@ -7,7 +7,7 @@ import { getNodeSize } from "./getNodeSize";
 // https://www.eclipse.org/elk/reference/algorithms/org-eclipse-elk-layered.html
 const layoutOptions = {
   "elk.algorithm": "layered",
-  "elk.direction": "DOWN",
+  "elk.direction": "RIGHT",
   "elk.layered.spacing.nodeNodeBetweenLayers": "80",
   "elk.spacing.nodeNodeBetweenLayers": "80",
   "elk.spacing.nodeNode": "50",
@@ -46,14 +46,14 @@ export const getLayoutedNodes = async (
       const targetPorts = node.data.targetHandles.map((target) => ({
         id: getPortId(node.id, target.id),
         properties: {
-          side: "NORTH",
+          side: "WEST",
         },
       }));
 
       const sourcePorts = node.data.sourceHandles.map((source) => ({
         id: getPortId(node.id, source.id),
         properties: {
-          side: "SOUTH",
+          side: "EAST",
         },
       }));
 

@@ -5,6 +5,7 @@ import NodeHeader from "../../shared/NodeHeader";
 import NodeOptions from "../../shared/NodeOptions";
 import NodeIfContent from "./NodeIfContent";
 import { TypeNode } from "./setup";
+import NodeHandlesWrapper from "../../shared/NodeHandlesWrapper";
 
 type Props = NodeProps<TypeNode>;
 
@@ -12,33 +13,27 @@ export function NodeIf({ id, type, selected, data }: Props) {
   return (
     <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
-      <NodeHandle
-        type="target"
-        position={Position.Top}
-        className="bottom-full left-1/2"
-      />
+      <NodeHandle type="target" position={Position.Left} />
       <NodeHeader id={id} type={type} label={data.label} />
       <NodeIfContent id={id} data={data} />
-      <div className="text-[8px]">
-        <div className="flex justify-center gap-0.5">
-          <NodeHandle
-            id="success"
-            variant="horizontal"
-            type="source"
-            position={Position.Bottom}
-          >
-            True
-          </NodeHandle>
-          <NodeHandle
-            id="error"
-            variant="horizontal"
-            type="source"
-            position={Position.Bottom}
-          >
-            False
-          </NodeHandle>
-        </div>
-      </div>
+      <NodeHandlesWrapper>
+        <NodeHandle
+          id="success"
+          variant="horizontal"
+          type="source"
+          position={Position.Right}
+        >
+          True
+        </NodeHandle>
+        <NodeHandle
+          id="error"
+          variant="horizontal"
+          type="source"
+          position={Position.Right}
+        >
+          False
+        </NodeHandle>
+      </NodeHandlesWrapper>
     </NodePanel>
   );
 }
