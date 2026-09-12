@@ -42,7 +42,6 @@ export const getLayoutedNodes = async (
     id: "root",
     layoutOptions,
     children: nodes.map((node) => {
-      // targets on top (NORTH), sources on bottom (SOUTH)
       const targetPorts = node.data.targetHandles.map((target) => ({
         id: getPortId(node.id, target.id),
         properties: {

@@ -20,7 +20,36 @@ export function NodeStart({ id, type, selected, data }: Props) {
         label={data.label}
       />
       <NodeStartContent id={id} data={data} />
-      <NodeHandlesWrapper>
+      <NodeHandlesWrapper
+        label="Shortcuts"
+        about="If a phrase starts or ends with a keyword, the shortcut is activated and the default flow is stopped. For example, typing 'g' will open Google with the phrase and skip the entire flow."
+      >
+        <NodeHandle
+          id="action"
+          variant="horizontal"
+          type="source"
+          position={Position.Right}
+        >
+          <span className="text-[8px] mr-auto">gm</span> Open map
+        </NodeHandle>
+        <NodeHandle
+          id="action"
+          variant="horizontal"
+          type="source"
+          position={Position.Right}
+        >
+          <span className="text-[8px] mr-auto">?</span> Ask chat
+        </NodeHandle>
+        <NodeHandle
+          id="action"
+          variant="horizontal"
+          type="source"
+          position={Position.Right}
+        >
+          <span className="text-[8px] mr-auto">pl</span> Translate
+        </NodeHandle>
+      </NodeHandlesWrapper>
+      <NodeHandlesWrapper label="Default">
         <NodeHandle
           id="success"
           variant="horizontal"
