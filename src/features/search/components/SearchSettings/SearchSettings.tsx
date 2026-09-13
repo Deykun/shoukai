@@ -22,7 +22,7 @@ const SearchSettings = () => {
   return (
     <div
       className={clsx(
-        "bg-[#f5f9ef] rounded-b-md",
+        "bg-[#f5f9ef] rounded-b-xl",
         "overflow-auto no-scrollbar",
         "duration-1000 ease-in-out",
         {

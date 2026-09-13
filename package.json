@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.52.1",
+    "@xyflow/react": "^12.11.2",
+    "elkjs": "^0.12.0",
     "i18next": "^23.12.2",
     "i18next-intervalplural-postprocessor": "^3.0.0",
     "lodash": "^4.17.21",
@@ -25,6 +27,7 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^15.0.1",
     "react-use-draggable-scroll": "^0.4.7",
+    "zod": "^4.4.3",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
@@ -43,7 +46,7 @@
     "autoprefixer": "^10.4.19",
     "chalk": "^5.3.0",
     "clsx": "^2.1.1",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",

@@ -4,13 +4,14 @@ import "./ButtonText.scss";
 
 type Props = {
   className?: string;
-  size?: "small" | "large" | "normal";
+  size?: "small" | "normal" | "large";
   wrapperClassName?: string;
   children: React.ReactNode;
   onClick?: () => void;
   href?: string;
   target?: string;
   rel?: string;
+  canWrap?: boolean;
   isDisabled?: boolean;
   isActive?: boolean;
   isOnLight?: boolean;
@@ -27,6 +28,7 @@ const ButtonText = ({
   href,
   target,
   rel,
+  canWrap = false,
   isDisabled = false,
   isActive = false,
   isOnLight = false,
@@ -39,6 +41,7 @@ const ButtonText = ({
     <span
       className={clsx("relative ui-button-text", {
         [wrapperClassName || ""]: wrapperClassName,
+        "ui-button-text--can-wrap": canWrap,
         "ui-button-text--active": isActive,
         "ui-button-text--on-light": isOnLight,
         "ui-button-text--promoted": isPromoted,
