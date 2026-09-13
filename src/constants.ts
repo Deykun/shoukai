@@ -9,10 +9,11 @@ import {
 
 import { recipe as moviesProgramming } from "@/recipes/movies";
 import { recipe as programmingRecipe } from "@/recipes/programming";
+import { getChatGPTAskUrl } from "./features/search/utils/ask";
 
 export type SupportedSearchEngine = "bing" | "duckduckgo" | "google" | "yandex";
 
-export type ShoukaiSearchEngine = SupportedSearchEngine | 'defaultSearch';
+export type ShoukaiSearchEngine = SupportedSearchEngine | "defaultSearch";
 
 export const supportedSearchEngines: SupportedSearchEngine[] = [
   "bing",
@@ -29,14 +30,14 @@ export const supportedSearchEnginesParsers: SupportedSearchEngine[] = [
 
 const getDirectShortcutsForMagicWords = (
   magicWords: string[],
-  getter: (phrase: string) => string
+  getter: (phrase: string) => string,
 ) => {
   return magicWords.reduce(
     (
       stack: {
         [id: string]: SearchDirectShortcut;
       },
-      word
+      word,
     ) => {
       stack[word] = {
         magicWord: word,
@@ -45,7 +46,7 @@ const getDirectShortcutsForMagicWords = (
 
       return stack;
     },
-    {}
+    {},
   );
 };
 
@@ -53,13 +54,26 @@ const getDirectShortcutsForMagicWords = (
 export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
 } = {
-  ...getDirectShortcutsForMagicWords(['d'], (phrase: string) => getDuckDuckGoSearchUrl(phrase)),
-  ...getDirectShortcutsForMagicWords(['g', 'google'], (phrase: string) => getGoogleSearchUrl(phrase)),
-  ...getDirectShortcutsForMagicWords(['img'], (phrase: string) => getGoogleImagesSearchUrl(phrase)),
-  ...getDirectShortcutsForMagicWords(['gm'], (phrase: string) => getGoogleMapsSearchUrl(phrase)),
+  ...getDirectShortcutsForMagicWords(["d"], (phrase: string) =>
+    getDuckDuckGoSearchUrl(phrase),
+  ),
+  ...getDirectShortcutsForMagicWords(["g", "google"], (phrase: string) =>
+    getGoogleSearchUrl(phrase),
+  ),
+  ...getDirectShortcutsForMagicWords(["img"], (phrase: string) =>
+    getGoogleImagesSearchUrl(phrase),
+  ),
+  ...getDirectShortcutsForMagicWords(["?"], (phrase: string) =>
+    getChatGPTAskUrl(phrase),
+  ),
+  ...getDirectShortcutsForMagicWords(["gm"], (phrase: string) =>
+    getGoogleMapsSearchUrl(phrase),
+  ),
 };
 
 export const directShortcuts = Object.values(directShortcutByKey);
+
+console.log("directShortcuts", directShortcuts);
 
 export const recipeById: {
   [id: string]: SearchRecipe;
@@ -79,13 +93,13 @@ export const initRecipes = Object.values(recipeById).reduce(
     stack: {
       [id: string]: UserSearchRecipe;
     },
-    { id }
+    { id },
   ) => {
     stack[id] = { id, isActive: true };
 
     return stack;
   },
-  {}
+  {},
 );
 
 export const PATHS_DATA: {

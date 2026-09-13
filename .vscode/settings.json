@@ -1,8 +1,6 @@
 {
   "liveServer.settings.root": "/dist",
-  "liveServer.settings.mount": [
-      ["/maps", "./dist"]
-  ],
+  "liveServer.settings.mount": [["/maps", "./dist"]],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#9bbd67",
     "activityBar.background": "#9bbd67",
@@ -31,5 +29,5 @@
     "activityBar.activeBorder": "#15202b",
     "activityBarTop.activeBorder": "#15202b"
   },
-  "peacock.color": "#82a849",
+  "peacock.color": "#82a849"
 }
