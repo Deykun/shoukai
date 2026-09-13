@@ -1,166 +1,42 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import { cn } from "@/utils/tailwind";
+import { ComponentProps, memo, useCallback, useState } from "react";
 
-import useFormulaInputHelpers from "@/features/formula-input/hooks/useFormulaInputHelpers";
-
-import FormulaTextInput from "./core/FormulaTextInput";
-import FormulaButtonReference from "./core/FormulaButtonReference";
-import FormulaInputDropdown from "./dropdown/FormulaInputDropdown";
-import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
-import FormulaButtonClear from "./core/FormulaButtonClear";
-import FormulaButtonAddVariable from "./core/FormulaButtonAddVariable";
+import { stringToChunks } from "@/features/formula-input/utils/string-to-chunk";
+import { chunksToString } from "@/features/formula-input/utils/chunk-to-string";
 import type { Chunk } from "@/features/formula-input/types";
 
-type Props = {
-  value: Chunk[];
-  onChange: (chunks: Chunk[]) => void;
-  autoFocus?: boolean;
+import FormulaInputRaw from "@/features/formula-input/components/FormulaInputRaw";
+
+type Props = Omit<
+  ComponentProps<typeof FormulaInputRaw>,
+  "value" | "onChange"
+> & {
+  value: string;
+  onChange: (value: string) => void;
 };
 
-const FormulaInput = ({ value, onChange, autoFocus = false }: Props) => {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+function FormulaInputComponent({
+  value,
+  onChange,
+  references,
+  autoFocus = false,
+}: Props) {
+  const [chunks, setChunks] = useState<Chunk[]>(() =>
+    stringToChunks(typeof value === "string" ? value : ""),
+  );
 
-  const {
-    chunks,
-    inputsRef,
-    handleCaretChange,
-    handleInputUpdate,
-    handleInsertReference,
-    handleReplaceReference,
-    handleVariableTrigger,
-    handleClear,
-    handleMergePrevious,
-    handleCaretExit,
-    handleContainerClick,
-    focusEnd,
-  } = useFormulaInputHelpers({ value, onChange });
-
-  // Mount only: caret at the end of the formula, like clicking the container.
-  useEffect(() => {
-    if (autoFocus) {
-      focusEnd();
-    }
+  const handleChunksChange = useCallback((next: Chunk[]) => {
+    setChunks(next);
+    onChange(chunksToString(next));
   }, []);
 
-  // Chunk index of the reference being edited; null = adding at the caret.
-  const [editedIndex, setEditedIndex] = useState<number | null>(null);
-  const activeIndex = isOpen ? editedIndex : null;
-  const activeChunk = activeIndex === null ? undefined : chunks[activeIndex];
-  const activeReference =
-    activeChunk?.type === "variable" ? activeChunk.reference : undefined;
-
-  const handleAddClick = useCallback(() => {
-    setEditedIndex(null);
-    setIsOpen(!isOpen);
-  }, [isOpen, setIsOpen]);
-
-  const handleReferenceClick = useCallback(
-    (index: number) => {
-      setEditedIndex(index);
-      setIsOpen(true);
-    },
-    [setIsOpen],
-  );
-
-  const handleTrigger = useCallback(
-    (index: number, value: string, caretPosition: number) => {
-      handleVariableTrigger(index, value, caretPosition);
-      setEditedIndex(null);
-      setIsOpen(true);
-    },
-    [handleVariableTrigger, setIsOpen],
-  );
-
-  const handleSelect = useCallback(
-    (reference: string) => {
-      if (activeIndex === null) {
-        handleInsertReference(reference);
-      } else {
-        handleReplaceReference(activeIndex, reference);
-      }
-
-      setEditedIndex(null);
-      setIsOpen(false);
-    },
-    [activeIndex, handleInsertReference, handleReplaceReference, setIsOpen],
-  );
-
   return (
-    <div className={cn("flex items-start gap-6")}>
-      <FormulaButtonAddVariable
-        className="mt-3"
-        onClick={handleAddClick}
-        isActive={isOpen && activeIndex === null}
-      />
-      <div
-        onClick={handleContainerClick}
-        className={cn(
-          "relative",
-          "w-full",
-          "flex flex-row flex-wrap gap-[0.325em]",
-          "justify-center items-center",
-          "rounded-[18px]",
-          "py-4 px-6",
-          "bg-white",
-          "rounded-[24px] shadow-md",
-          "border-[#f5f9ef] border",
-          "mx-auto font-[500] text-[14px]",
-          "hover:border-[#f5f9ef] hover:shadow-lg",
-          "duration-500",
-        )}
-      >
-        {chunks.map((chunk, index) => {
-          if (chunk.type === "variable") {
-            return (
-              <FormulaButtonReference
-                key={index}
-                reference={chunk.reference}
-                onClick={() => handleReferenceClick(index)}
-                isActive={activeIndex === index}
-              />
-            );
-          }
-
-          return (
-            <FormulaTextInput
-              key={index}
-              ref={(element) => {
-                inputsRef.current[index] = element;
-              }}
-              value={chunk.value}
-              onUpdate={(value, caretPosition) =>
-                handleInputUpdate(index, value, caretPosition)
-              }
-              onCaretChange={(caretPosition) =>
-                handleCaretChange(index, caretPosition)
-              }
-              onCaretExit={(direction) => handleCaretExit(index, direction)}
-              onMergePrevious={() => handleMergePrevious(index)}
-              onVariableTrigger={(value, caretPosition) =>
-                handleTrigger(index, value, caretPosition)
-              }
-            />
-          );
-        })}
-        {isOpen && (
-          <FormulaInputDropdown
-            outsideRef={outsideRef}
-            onSelect={handleSelect}
-            activeReference={activeReference}
-          />
-        )}
-      </div>
-      <FormulaButtonClear
-        className="mt-3"
-        onClick={handleClear}
-        isDisabled={
-          chunks.length === 1 &&
-          chunks[0].type === "input" &&
-          chunks[0].value.length === 0
-        }
-      />
-    </div>
+    <FormulaInputRaw
+      value={chunks}
+      onChange={handleChunksChange}
+      references={references}
+      autoFocus={autoFocus}
+    />
   );
-};
+}
 
-export default memo(FormulaInput);
+export const FormulaInput = memo(FormulaInputComponent);

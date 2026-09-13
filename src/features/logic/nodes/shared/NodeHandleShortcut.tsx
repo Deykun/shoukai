@@ -1,16 +1,15 @@
 import { Position } from "@xyflow/react";
 
-import { shortcutSchema, ShoukaiShortcut } from "../type/schema";
+import { ShoukaiShortcut } from "../type/schema";
 import { NodeHandle } from "./NodeHandle";
-import IconNewTab from "@/components/Icons/IconNewTab";
 import PanelFlow from "../../components/panel/PanelFlow";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
-import { FlowSelect } from "../../components/controls/FlowSelect/FlowSelect";
-import FormulaInput from "@/features/formula-input/components/FormulaInput";
-import { stringToChunks } from "@/features/formula-input/utils/string-to-chunk";
 import { updateNode } from "../../stores/useDiagramStore";
 import { getObjectFromPath } from "../../utils/object";
-import { chunksToString } from "@/features/formula-input/utils/chunk-to-string";
+import { FormulaInput } from "@/features/formula-input/components/FormulaInput";
+import { VARIABLE_REFERENCES } from "../../constants";
+import Field from "@/components/UI/Field";
+import { NO_BREAK_SPACE } from "@/utils/text";
 
 type Props = {
   nodeId: string;
@@ -21,7 +20,7 @@ type Props = {
 
 export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
-  const { name, triggers, type, searchEngine, phrase } = shortcut;
+
   return (
     <>
       <NodeHandle
@@ -31,33 +30,59 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
         isDisabled
       >
-        <span className="text-[8px] mr-auto">{triggers.join(",")}</span>{" "}
-        <span>{name}</span>
+        <span className="text-[8px] mr-auto">
+          {shortcut.triggers.join(", ")}
+        </span>{" "}
+        <span>{shortcut.name || NO_BREAK_SPACE}</span>
         {/* <IconNewTab className="size-3" /> */}
       </NodeHandle>
       <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
-        <h4>Shortcut name</h4>
-        {shortcut.name}
-        <h4>When query starts or ends with:</h4>
-        {shortcut.triggers.map((trigger) => (
-          <span>{trigger}</span>
-        ))}
-        <h4>Open search</h4>
-        {shortcut.type}
-        <h4>In engine</h4>
-        {shortcut.searchEngine}
-        <h4>With phrase (without a trigger):</h4>
-        <FormulaInput
-          value={stringToChunks(
-            typeof shortcut.phrase === "string" ? shortcut.phrase : "",
-          )}
-          onChange={(next) => {
-            updateNode(
-              nodeId,
-              getObjectFromPath(`${dataPath}.phrase`, chunksToString(next)),
-            );
-          }}
-        />
+        <Field.Wrapper>
+          <Field label="Shortcut name">
+            <FormulaInput
+              value={shortcut.name}
+              onChange={(next) => {
+                updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
+              }}
+              references={VARIABLE_REFERENCES.EMPTY}
+            />
+          </Field>
+          <Field
+            label="Triggers"
+            valueDescription="When query starts or ends with."
+          >
+            <FormulaInput
+              value={shortcut.triggers.join(" ")}
+              onChange={(next) => {
+                updateNode(
+                  nodeId,
+                  getObjectFromPath(
+                    `${dataPath}.triggers`,
+                    next.split(" ").filter(Boolean),
+                  ),
+                );
+              }}
+              references={VARIABLE_REFERENCES.EMPTY}
+            />
+          </Field>
+          <Field label="Open">
+            {shortcut.type}
+            {" - "}
+            {shortcut.searchEngine}
+          </Field>
+          <Field label="With phrase">
+            <FormulaInput
+              value={shortcut.phrase}
+              onChange={(next) => {
+                updateNode(
+                  nodeId,
+                  getObjectFromPath(`${dataPath}.phrase`, next),
+                );
+              }}
+              references={VARIABLE_REFERENCES.DEFAULT}
+            />
+          </Field>
+        </Field.Wrapper>
       </PanelFlow>
     </>
   );

@@ -7,14 +7,14 @@ import type {
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
 import { FlowSelectOptions } from "./core/FlowSelectOptions";
 import { FlowSelectValue } from "./core/FlowSelectValue";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback } from "react";
 import z from "zod";
-import FormulaInput from "@/features/formula-input/components/FormulaInput";
-import { stringToChunks } from "@/features/formula-input/utils/string-to-chunk";
-import { chunksToString } from "@/features/formula-input/utils/chunk-to-string";
-import type { Chunk } from "@/features/formula-input/types";
+
 import { cn } from "@/utils/tailwind";
 import PanelFlow from "../../panel/PanelFlow";
+import { FormulaInput } from "@/features/formula-input/components/FormulaInput";
+import { VARIABLE_REFERENCES } from "@/features/logic/constants";
+import Field from "@/components/UI/Field";
 
 type Props<
   TSchema extends z.ZodObject,
@@ -58,14 +58,10 @@ function FlowSelectComponent<
 }: Props<TSchema, TPath>) {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
   const options = getOptions(schema, dataPath);
-  const [chunks, setChunks] = useState<Chunk[]>(() =>
-    stringToChunks(typeof value === "string" ? value : ""),
-  );
 
   const handleChunksChange = useCallback(
-    (next: Chunk[]) => {
-      setChunks(next);
-      updateNode(nodeId, getObjectFromPath(dataPath, chunksToString(next)));
+    (next: string) => {
+      updateNode(nodeId, getObjectFromPath(dataPath, next));
     },
     [nodeId, dataPath],
   );
@@ -81,23 +77,28 @@ function FlowSelectComponent<
         onClick={() => setIsOpen(true)}
       />
       <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
-        {options.length > 0 && (
-          <FlowSelectOptions
-            options={options}
-            value={value}
-            onSelect={(option) => {
-              updateNode(nodeId, getObjectFromPath(dataPath, option));
-              setIsOpen(false);
-            }}
-          />
-        )}
-        {options.length === 0 && (
-          <FormulaInput
-            value={chunks}
-            onChange={handleChunksChange}
-            autoFocus
-          />
-        )}
+        <Field.Wrapper>
+          <Field label="Field">
+            {options.length > 0 && (
+              <FlowSelectOptions
+                options={options}
+                value={value}
+                onSelect={(option) => {
+                  updateNode(nodeId, getObjectFromPath(dataPath, option));
+                  setIsOpen(false);
+                }}
+              />
+            )}
+            {options.length === 0 && (
+              <FormulaInput
+                references={VARIABLE_REFERENCES.DEFAULT}
+                value={typeof value === "string" ? value : ""}
+                onChange={handleChunksChange}
+                autoFocus
+              />
+            )}
+          </Field>
+        </Field.Wrapper>
       </PanelFlow>
     </div>
   );

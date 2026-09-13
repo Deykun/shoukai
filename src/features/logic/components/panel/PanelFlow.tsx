@@ -5,12 +5,14 @@ import { createPortal } from "react-dom";
 
 type Props = {
   outsideRef: (element: HTMLElement | null) => void;
+  classNameWrapper?: string;
   className?: string;
   isOpen: boolean;
 };
 
 const PanelFlow = ({
   outsideRef,
+  classNameWrapper = "",
   className = "",
   children,
   isOpen,
@@ -52,10 +54,13 @@ const PanelFlow = ({
         {
           "translate-y-full": !isOpen,
         },
-        className,
+
+        classNameWrapper,
       )}
     >
-      <div className={cn("max-w-screen-md mx-auto p-4")}>{children}</div>
+      <div className={cn("max-w-screen-md mx-auto p-4", className)}>
+        {children}
+      </div>
     </div>,
     document.body,
   );

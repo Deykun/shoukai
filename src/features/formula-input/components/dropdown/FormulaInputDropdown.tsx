@@ -5,12 +5,14 @@ import { memo } from "react";
 type Props = {
   outsideRef: (element: HTMLElement | null) => void;
   onSelect: (reference: string) => void;
+  references: string[];
   activeReference?: string;
 };
 
 const FormulaInputDropdown = ({
   outsideRef,
   onSelect,
+  references,
   activeReference,
 }: Props) => {
   return (
@@ -31,7 +33,8 @@ const FormulaInputDropdown = ({
         "items-stretch",
       )}
     >
-      {["{{phrase}}", "{{lang}}"].map((option) => (
+      {references.length === 0 && "No variables to pick"}
+      {references.map((option) => (
         <ButtonText
           className="w-full"
           key={option}

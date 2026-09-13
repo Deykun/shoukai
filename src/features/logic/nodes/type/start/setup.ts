@@ -47,7 +47,7 @@ export const defaultData: TypeNode["data"] = {
     },
     pl: {
       id: "pl",
-      name: "Translate",
+      name: "Tłumacz",
       triggers: ["pl"],
       phrase: "Przetłumacz na polski: <reference>{{phrase}}</reference>",
       type: "ask-chatbot",
