@@ -6,9 +6,15 @@ type Props = {
   className?: string;
   onClick: () => void;
   isActive?: boolean;
+  isDisabled?: boolean;
 };
 
-const FormulaButtonAddVariable = ({ className, onClick, isActive }: Props) => {
+const FormulaButtonAddVariable = ({
+  className,
+  onClick,
+  isActive,
+  isDisabled,
+}: Props) => {
   return (
     <ButtonIcon
       wrapperClassName={className}
@@ -16,6 +22,7 @@ const FormulaButtonAddVariable = ({ className, onClick, isActive }: Props) => {
       labelPosition="top"
       onClick={onClick}
       isActive={isActive}
+      isDisabled={isDisabled}
     >
       <IconBrackets />
     </ButtonIcon>

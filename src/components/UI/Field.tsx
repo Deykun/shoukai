@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { PropsWithChildren } from "react";
+import { cn } from "@/utils/tailwind";
 
 type Props = {
   label: string;
@@ -22,7 +23,7 @@ const Field = ({
   const hasDescription = Boolean(labelDescription || valueDescription);
 
   return (
-    <>
+    <div className="col-span-4 grid grid-cols-4 gap-4 items-center">
       <h3 className="text-right text-primary-contrast font-[600]">
         {t(label)}
       </h3>
@@ -37,12 +38,15 @@ const Field = ({
           </p>
         </>
       )}
-    </>
+    </div>
   );
 };
 
-Field.Wrapper = ({ children }: PropsWithChildren) => {
-  return <div className="grid grid-cols-4 gap-4 items-center">{children}</div>;
+Field.Wrapper = ({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) => {
+  return <div className={cn("flex flex-col gap-6", className)}>{children}</div>;
 };
 
 Field.SectionHeader = ({
@@ -50,7 +54,7 @@ Field.SectionHeader = ({
   title,
 }: PropsWithChildren<{ title: string }>) => {
   return (
-    <div className="col-span-4 my-6 first:mt-0">
+    <div className="my-6 first:mt-0">
       <h2 className="text-left text-primary-contrast font-[600]">{title}</h2>
       {children && <div className="external-content mt-2">{children}</div>}
     </div>

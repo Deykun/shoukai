@@ -92,7 +92,7 @@ const FormulaInputRaw = ({
   );
 
   return (
-    <div className={cn("flex items-start gap-6")}>
+    <div className={cn("flex items-start gap-4")}>
       <div
         onClick={handleContainerClick}
         className={cn(
@@ -152,13 +152,12 @@ const FormulaInputRaw = ({
           />
         )}
       </div>
-      {references.length > 0 && (
-        <FormulaButtonAddVariable
-          className="mt-3"
-          onClick={handleAddClick}
-          isActive={isOpen && activeIndex === null}
-        />
-      )}
+      <FormulaButtonAddVariable
+        className="mt-3"
+        onClick={handleAddClick}
+        isActive={isOpen && activeIndex === null}
+        isDisabled={references.length === 0}
+      />
       <FormulaButtonClear
         className="mt-3"
         onClick={handleClear}
