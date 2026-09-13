@@ -4,7 +4,13 @@ import { devtools } from "zustand/middleware";
 type TopPane = "" | "settings";
 
 type ModalWithoutState = {
-  type: "" | "language" | "documentationOverview" | "history" | "logic";
+  type:
+    | ""
+    | "language"
+    | "documentationOverview"
+    | "history"
+    | "logic"
+    | "default-search-engines";
   data: {};
 };
 
@@ -92,6 +98,9 @@ export const toggleLanguageModal = () => toggleModalWithoutState("language");
 
 export const toggleDocumentationOverviewModal = () =>
   toggleModalWithoutState("documentationOverview");
+
+export const toggleDefaultSearchEngineModal = () =>
+  toggleModalWithoutState("default-search-engines");
 
 export const toggleLogicModal = () => toggleModalWithoutState("logic");
 

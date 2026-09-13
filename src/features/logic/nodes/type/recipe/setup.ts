@@ -1,12 +1,13 @@
 import { type Node } from "@xyflow/react";
 import z from "zod";
-import { nodeSharedDataSchema, shoukaiSearchEngineSchema } from "../schema";
+import { nodeSharedDataSchema } from "../schema";
+import { shoukaiSearchEngineTextSchema } from "@/types/supported/text-engines";
 
 export const nodeSchema = nodeSharedDataSchema.extend({
   search: z.object({
     phrase: z.string(),
     domain: z.string(),
-    engine: shoukaiSearchEngineSchema,
+    engine: shoukaiSearchEngineTextSchema,
   }),
 });
 

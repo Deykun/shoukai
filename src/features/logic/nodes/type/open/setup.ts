@@ -1,10 +1,11 @@
 import { type Node } from "@xyflow/react";
 import z from "zod";
-import { nodeSharedDataSchema, shoukaiSearchEngineSchema } from "../schema";
+import { nodeSharedDataSchema } from "../schema";
+import { shoukaiSearchEngineTextSchema } from "@/types/supported/text-engines";
 
 export const nodeSchema = nodeSharedDataSchema.extend({
   type: z.enum(["search", "img", "map"]),
-  engine: shoukaiSearchEngineSchema,
+  engine: shoukaiSearchEngineTextSchema,
   phrase: z.string(),
 });
 

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { recipeById, SupportedSearchEngine } from "@/constants";
+import { recipeById, SupportedSearchEngineText } from "@/constants";
 import useAppStore, { closeModal } from "@/stores/appStore";
 
 import IconClose from "@/components/Icons/IconClose";
@@ -22,10 +22,10 @@ import SearchEnginePicker from "../SearchEnginePicker/SearchEnginePicker";
 const RecipesItemModal = () => {
   const modal = useAppStore((state) => state.modal);
   const recipeId = useAppStore((state) =>
-    state.modal.type === "recipe" ? state.modal.data.recipeId : ""
+    state.modal.type === "recipe" ? state.modal.data.recipeId : "",
   );
   const userRecipe = useSearchSettingsStore((state) =>
-    recipeId ? state.recipesById[recipeId] : undefined
+    recipeId ? state.recipesById[recipeId] : undefined,
   );
 
   const { t, i18n } = useTranslation();
@@ -47,13 +47,13 @@ const RecipesItemModal = () => {
       });
 
       const userRecipe = {
-        searchEngine: (data.searchEngine || "") as SupportedSearchEngine,
+        searchEngine: (data.searchEngine || "") as SupportedSearchEngineText,
       };
 
       updateUserRecipe(recipeId, userRecipe);
       closeModal();
     },
-    [recipeId, modal.data]
+    [recipeId, modal.data],
   );
 
   if (modal.type !== "recipe" || !userRecipe) {

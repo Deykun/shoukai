@@ -10,6 +10,7 @@ import { FormulaInput } from "@/features/formula-input/components/FormulaInput";
 import { VARIABLE_REFERENCES } from "../../constants";
 import Field from "@/components/UI/Field";
 import { NO_BREAK_SPACE } from "@/utils/text";
+import { getUnique } from "@/utils/array";
 
 type Props = {
   nodeId: string;
@@ -58,7 +59,7 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
                   nodeId,
                   getObjectFromPath(
                     `${dataPath}.triggers`,
-                    next.split(" ").filter(Boolean),
+                    getUnique(next.split(" ")),
                   ),
                 );
               }}

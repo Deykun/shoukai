@@ -10,23 +10,17 @@ import {
 import { recipe as moviesProgramming } from "@/recipes/movies";
 import { recipe as programmingRecipe } from "@/recipes/programming";
 import { getChatGPTAskUrl } from "./features/search/utils/ask";
+import { SupportedShoukaiSearchEngineText } from "./types/supported/text-engines";
 
-export type SupportedSearchEngine = "bing" | "duckduckgo" | "google" | "yandex";
-
-export type ShoukaiSearchEngine = SupportedSearchEngine | "defaultSearch";
-
-export const supportedSearchEngines: SupportedSearchEngine[] = [
+export const supportedSearchEngines: SupportedShoukaiSearchEngineText[] = [
   "bing",
   "duckduckgo",
   "google",
   "yandex",
 ];
 
-export const supportedSearchEnginesParsers: SupportedSearchEngine[] = [
-  "duckduckgo",
-  "google",
-  "yandex",
-];
+export const supportedSearchEnginesParsers: SupportedShoukaiSearchEngineText[] =
+  ["duckduckgo", "google", "yandex"];
 
 const getDirectShortcutsForMagicWords = (
   magicWords: string[],

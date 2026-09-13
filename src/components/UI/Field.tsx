@@ -2,10 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { PropsWithChildren } from "react";
 
-const FieldWrapper = ({ children }: PropsWithChildren) => {
-  return <div className="grid grid-cols-4 gap-4 items-center">{children}</div>;
-};
-
 type Props = {
   label: string;
   labelDescription?: string;
@@ -33,8 +29,10 @@ const Field = ({
       <div className="col-span-3">{children}</div>
       {hasDescription && (
         <>
-          <span>{labelDescription}</span>
-          <p className="col-span-3 text-xs text-[#979f8a]">
+          <span className="-mt-2 text-xs text-[#979f8a] text-right">
+            {labelDescription}
+          </span>
+          <p className="-mt-2 col-span-3 text-xs text-[#979f8a]">
             {valueDescription}
           </p>
         </>
@@ -43,6 +41,20 @@ const Field = ({
   );
 };
 
-Field.Wrapper = FieldWrapper;
+Field.Wrapper = ({ children }: PropsWithChildren) => {
+  return <div className="grid grid-cols-4 gap-4 items-center">{children}</div>;
+};
+
+Field.SectionHeader = ({
+  children,
+  title,
+}: PropsWithChildren<{ title: string }>) => {
+  return (
+    <div className="col-span-4 my-6 first:mt-0">
+      <h2 className="text-left text-primary-contrast font-[600]">{title}</h2>
+      {children && <div className="external-content mt-2">{children}</div>}
+    </div>
+  );
+};
 
 export default Field;

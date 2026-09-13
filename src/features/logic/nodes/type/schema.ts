@@ -1,5 +1,9 @@
 import z from "zod";
-import { ShoukaiSearchEngine } from "@/constants";
+import { ShoukaiSearchEngineText } from "@/constants";
+import { shoukaiSearchEngineTextSchema } from "@/types/supported/text-engines";
+import { shoukaiSearchEngineImageSchema } from "@/types/supported/image-engines";
+import { shoukaiSearchEngineMapSchema } from "@/types/supported/map-engines";
+import { shoukaiChatbotSchema } from "@/types/supported/chatbots";
 
 const handleSchema = z.object({
   id: z.string(),
@@ -13,34 +17,6 @@ export const nodeSharedDataSchema = z.object({
 
 export type NodeSharedData = z.infer<typeof nodeSharedDataSchema>;
 
-export const shoukaiSearchEngineSchema = z.enum([
-  "defaultSearch",
-  "bing",
-  "duckduckgo",
-  "google",
-  "yandex",
-] satisfies ShoukaiSearchEngine[]);
-
-export const shoukaiSearchEngineImageSchema = z.enum(["google"]);
-
-export type ShoukaiSearchEngineImage = z.infer<
-  typeof shoukaiSearchEngineImageSchema
->;
-
-export const shoukaiSearchEngineLocationSchema = z.enum([
-  "google",
-  "openstreetmap",
-  "apple",
-]);
-
-export type ShoukaiSearchEngineLocation = z.infer<
-  typeof shoukaiSearchEngineLocationSchema
->;
-
-export const shoukaiChatbotSchema = z.enum(["chatgpt", "claude"]);
-
-export type ShoukaiChatbot = z.infer<typeof shoukaiChatbotSchema>;
-
 const shortcutBaseSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -51,7 +27,7 @@ const shortcutBaseSchema = z.object({
 export const shortcutSchema = z.discriminatedUnion("type", [
   shortcutBaseSchema.extend({
     type: z.literal("search-text"),
-    searchEngine: shoukaiSearchEngineSchema,
+    searchEngine: shoukaiSearchEngineTextSchema,
   }),
   shortcutBaseSchema.extend({
     type: z.literal("search-image"),
@@ -59,7 +35,7 @@ export const shortcutSchema = z.discriminatedUnion("type", [
   }),
   shortcutBaseSchema.extend({
     type: z.literal("search-location"),
-    searchEngine: shoukaiSearchEngineLocationSchema,
+    searchEngine: shoukaiSearchEngineMapSchema,
   }),
   shortcutBaseSchema.extend({
     type: z.literal("ask-chatbot"),
