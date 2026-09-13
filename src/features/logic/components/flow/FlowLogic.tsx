@@ -15,12 +15,16 @@ import useDiagramStore, {
 import { useOnDragEvents } from "../../hooks/useOnDragEvents";
 import { nodeTypes } from "../../nodes/type/nodeTypes";
 import SidebarFlow from "../sidebar/SidebarFlow";
+import { useCallback } from "react";
+import useBeforeDelete from "../../functions/delete/hooks/useBeforeDelete";
 
 export default function FlowLogic() {
   const edges = useDiagramStore((store) => store.edges);
   const nodes = useDiagramStore((store) => store.nodes);
 
   const { onDragOver, onDrop } = useOnDragEvents();
+
+  const handleBeforeDelete = useBeforeDelete();
 
   return (
     <div className={cn("w-full h-[100dvh] bg-white")}>
@@ -31,6 +35,7 @@ export default function FlowLogic() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onBeforeDelete={handleBeforeDelete}
         onDrop={onDrop}
         onDragOver={onDragOver}
         fitView

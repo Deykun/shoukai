@@ -6,6 +6,7 @@ import NodeStartContent from "./NodeStartContent";
 import { NodeHandle } from "../../shared/NodeHandle";
 import { TypeNode } from "./setup";
 import NodeHandlesWrapper from "../../shared/NodeHandlesWrapper";
+import { NodeHandleShortcut } from "../../shared/NodeHandleShortcut";
 
 type Props = NodeProps<TypeNode>;
 
@@ -24,30 +25,14 @@ export function NodeStart({ id, type, selected, data }: Props) {
         label="Shortcuts"
         about="If a phrase starts or ends with a keyword, the shortcut is activated and the default flow is stopped. For example, typing 'g' will open Google with the phrase and skip the entire flow."
       >
-        <NodeHandle
-          id="action"
-          variant="horizontal"
-          type="source"
-          position={Position.Right}
-        >
-          <span className="text-[8px] mr-auto">gm</span> Open map
-        </NodeHandle>
-        <NodeHandle
-          id="action"
-          variant="horizontal"
-          type="source"
-          position={Position.Right}
-        >
-          <span className="text-[8px] mr-auto">?</span> Ask chat
-        </NodeHandle>
-        <NodeHandle
-          id="action"
-          variant="horizontal"
-          type="source"
-          position={Position.Right}
-        >
-          <span className="text-[8px] mr-auto">pl</span> Translate
-        </NodeHandle>
+        {Object.entries(data.shortcuts).map(([shortcutId, shortcut]) => (
+          <NodeHandleShortcut
+            key={shortcutId}
+            nodeId={id}
+            dataPath={`shortcuts.${shortcutId}`}
+            shortcut={shortcut}
+          />
+        ))}
       </NodeHandlesWrapper>
       <NodeHandlesWrapper label="Default">
         <NodeHandle

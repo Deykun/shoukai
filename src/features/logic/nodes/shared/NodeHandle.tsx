@@ -8,20 +8,25 @@ type Props = {
   top?: number;
   left?: number;
   right?: number;
+  onClick?: () => void;
+  isDisabled?: boolean;
 } & HandleProps;
 
 export const NodeHandle = (props: PropsWithChildren<Props>) => {
+  const Tag = props.onClick ? "button" : "div";
   const { variant = "default", className, children } = props;
 
   if (variant === "horizontal") {
     return (
-      <div
+      <Tag
         className={cn(
           "group",
           "relative z-1 flex",
           "p-1 pr-3 -mr-1",
           "tracking-wider",
         )}
+        onClick={props.onClick}
+        type={props.onClick ? "button" : undefined}
       >
         <span
           className={cn(
@@ -37,8 +42,12 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
           variant="default"
           className="left-auto -right-0 top-1/2"
         />
-      </div>
+      </Tag>
     );
+  }
+
+  if (props.isDisabled) {
+    return null;
   }
 
   return (

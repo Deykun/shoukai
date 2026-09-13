@@ -38,21 +38,27 @@ export const getLayoutedNodes = async (
   nodes: ShoukaiNode[],
   edges: Edge[],
 ): Promise<ShoukaiNode[]> => {
+  const graphEdges = edges.map((edge) => ({
+    id: edge.id,
+    sources: [getPortId(edge.source, edge.sourceHandle)],
+    targets: [getPortId(edge.target, edge.targetHandle)],
+  }));
+
   const graph = {
     id: "root",
     layoutOptions,
     children: nodes.map((node) => {
-      const targetPorts = node.data.targetHandles.map((target) => ({
-        id: getPortId(node.id, target.id),
-        properties: {
-          side: "WEST",
-        },
-      }));
-
       const sourcePorts = node.data.sourceHandles.map((source) => ({
         id: getPortId(node.id, source.id),
         properties: {
           side: "EAST",
+        },
+      }));
+
+      const targetPorts = node.data.targetHandles.map((target) => ({
+        id: getPortId(node.id, target.id),
+        properties: {
+          side: "WEST",
         },
       }));
 
@@ -75,11 +81,7 @@ export const getLayoutedNodes = async (
         ],
       };
     }),
-    edges: edges.map((edge) => ({
-      id: edge.id,
-      sources: [getPortId(edge.source, edge.sourceHandle)],
-      targets: [getPortId(edge.target, edge.targetHandle)],
-    })),
+    edges: graphEdges,
   };
 
   const layoutedGraph = await elk.layout(graph);
