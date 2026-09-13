@@ -11,10 +11,11 @@ import { getSearchKeyAndDomainURL } from "@/features/search/utils/url";
 import { setResults } from "@/features/search/stores/searchStore";
 
 import { getResultScoreDefault } from "./default";
+import { Tag } from "./meta";
 
 export const getDirectShortcutIfPresent = (
   searchPhrase: string,
-  shortcuts: SearchDirectShortcut[]
+  shortcuts: SearchDirectShortcut[],
 ) => {
   const words = searchPhrase.split(" ");
 
@@ -27,7 +28,7 @@ export const getDirectShortcutIfPresent = (
   const wordsInTheMiddle = words.slice(1, -1);
 
   const shortcutForFirstOrLastWord = shortcuts.find(
-    ({ magicWord }) => magicWord === firstWord || magicWord === lastWord
+    ({ magicWord }) => magicWord === firstWord || magicWord === lastWord,
   );
 
   if (shortcutForFirstOrLastWord) {
@@ -49,19 +50,19 @@ export const getDirectShortcutIfPresent = (
 export const getRecipesForPhrase = (
   searchPhrase: string,
   recipes: ShoukaiSearchRecipe[],
-  tags: string[]
+  tags: Tag[],
 ) => {
   if (tags.length === 0) {
     return recipes;
   }
 
   return recipes.filter(({ promoteForTags, skipForTags }) => {
-    if (tags.some((tag) => promoteForTags.includes(tag))) {
+    if (tags.some((tag) => promoteForTags.includes(tag.tag))) {
       // Has promoted tag
       return true;
     }
 
-    if (tags.some((tag) => skipForTags.includes(tag))) {
+    if (tags.some((tag) => skipForTags.includes(tag.tag))) {
       // Has tag to skip
       return false;
     }
@@ -73,7 +74,7 @@ export const getRecipesForPhrase = (
 
 export const performSearch = (
   searchPhrase: string,
-  recipes: ShoukaiSearchRecipe[]
+  recipes: ShoukaiSearchRecipe[],
 ) => {
   if (!searchPhrase) {
     setResults([]);
@@ -94,7 +95,7 @@ export const performSearch = (
   for (const recipe of recipes) {
     const { searchKey, domainWithSearch } = getSearchKeyAndDomainURL(
       searchPhrase,
-      recipe
+      recipe,
     );
 
     newOpenTabs.push(domainWithSearch);
@@ -123,7 +124,7 @@ export const performSearch = (
 
 export const indexResults = (
   searchPhrase: string,
-  recipes: ShoukaiSearchRecipe[]
+  recipes: ShoukaiSearchRecipe[],
 ) => {
   if (!searchPhrase) {
     setResults([]);
@@ -165,7 +166,7 @@ export const indexResults = (
       });
 
       const validResults = scoredResults.filter(
-        ({ score }) => score >= minimumScore
+        ({ score }) => score >= minimumScore,
       );
 
       allValidResults = [...allValidResults, ...validResults];
