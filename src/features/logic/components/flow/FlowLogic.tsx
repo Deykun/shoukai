@@ -18,6 +18,8 @@ import SidebarFlow from "../sidebar/SidebarFlow";
 import { useCallback } from "react";
 import useBeforeDelete from "../../functions/delete/hooks/useBeforeDelete";
 
+import "./FlowLogic.scss";
+
 export default function FlowLogic() {
   const edges = useDiagramStore((store) => store.edges);
   const nodes = useDiagramStore((store) => store.nodes);

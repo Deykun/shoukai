@@ -46,6 +46,7 @@ const PanelFlow = ({
         "fixed bottom-0 left-0 z-10",
         "w-full",
         "bg-[#f5f9ef] rounded-t-xl",
+        "flow-ui-border",
         "translate-y-0 starting:translate-y-full",
         "transition-transform duration-300 ease-in-out",
         {

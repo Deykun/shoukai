@@ -7,6 +7,7 @@ export default function SidebarFlow() {
     <div
       className={cn(
         "fixed top-4 left-0 z-10",
+        "flow-ui-border",
         "bg-[#f5f9ef] rounded-r-xl",
         "p-4",
         "translate-x-0 starting:-translate-x-full",
