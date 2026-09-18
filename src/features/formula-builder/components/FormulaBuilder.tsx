@@ -1,18 +1,29 @@
 import { cn } from "@/utils/tailwind";
 import { resizeFormulaBuilder } from "../utils/resizeFormulaBuilder";
 import { focusFormulaBuilder } from "../utils/focusFormulaBuilder";
+import FormulaBuilderDropdown from "./dropdown/FormulaBuilderDropdown";
+import { useEffect } from "react";
 
 type Props = {
   className?: string;
   value: string;
   onChange: (value: string) => void;
+  references: string[] | undefined;
+  autoFocus?: boolean;
 };
 
-export const FormulaBuilder = ({ className = "", value, onChange }: Props) => {
+export const FormulaBuilder = ({
+  className = "",
+  value,
+  onChange,
+  references = [],
+  autoFocus = false,
+}: Props) => {
   return (
     <div
       onClick={focusFormulaBuilder}
       className={cn(
+        "relative",
         "grid",
         "py-4 px-6",
         "w-full",
@@ -50,6 +61,7 @@ export const FormulaBuilder = ({ className = "", value, onChange }: Props) => {
         onKeyUp={resizeFormulaBuilder}
         spellCheck={false}
         rows={1}
+        autoFocus={autoFocus}
       />
       <div
         className={cn(
@@ -68,6 +80,11 @@ export const FormulaBuilder = ({ className = "", value, onChange }: Props) => {
         {/* <span>{s}</span> */}
         {/* ))} */}
       </div>
+      <FormulaBuilderDropdown
+        outsideRef={() => {}}
+        onSelect={() => {}}
+        references={references}
+      />
     </div>
   );
 };

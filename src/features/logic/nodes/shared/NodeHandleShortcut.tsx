@@ -54,6 +54,7 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
               onChange={(next) => {
                 updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
               }}
+              references={["{{phrase}}", "{{lang}}"]}
             />
           </Field>
           <Field
@@ -98,6 +99,7 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
             onChange={(next) => {
               updateNode(nodeId, getObjectFromPath(`${dataPath}.phrase`, next));
             }}
+            references={["{{phrase}}", "{{lang}}"]}
           />
         </Field.Wrapper>
       </PanelFlow>
