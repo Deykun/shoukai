@@ -11,6 +11,7 @@ import { VARIABLE_REFERENCES } from "../../constants";
 import Field from "@/components/UI/Field";
 import { NO_BREAK_SPACE } from "@/utils/text";
 import { getUnique } from "@/utils/array";
+import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
 
 type Props = {
   nodeId: string;
@@ -46,6 +47,13 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
                 updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
               }}
               references={VARIABLE_REFERENCES.EMPTY}
+            />
+            <br />
+            <FormulaBuilder
+              value={shortcut.name}
+              onChange={(next) => {
+                updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
+              }}
             />
           </Field>
           <Field
@@ -83,6 +91,14 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
               references={VARIABLE_REFERENCES.DEFAULT}
             />
           </Field>
+
+          <br />
+          <FormulaBuilder
+            value={shortcut.phrase}
+            onChange={(next) => {
+              updateNode(nodeId, getObjectFromPath(`${dataPath}.phrase`, next));
+            }}
+          />
         </Field.Wrapper>
       </PanelFlow>
     </>
