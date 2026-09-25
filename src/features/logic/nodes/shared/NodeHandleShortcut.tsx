@@ -93,14 +93,14 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
             />
           </Field>
 
-          <br />
+          {/* <br />
           <FormulaBuilder
             value={shortcut.phrase}
             onChange={(next) => {
               updateNode(nodeId, getObjectFromPath(`${dataPath}.phrase`, next));
             }}
             references={["{{phrase}}", "{{lang}}"]}
-          />
+          /> */}
         </Field.Wrapper>
       </PanelFlow>
     </>
