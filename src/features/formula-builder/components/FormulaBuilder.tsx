@@ -3,9 +3,8 @@ import { useFormulaBuilderDropdown } from "../hooks/useFormulaBuilderDropdown";
 import { resizeFormulaBuilder } from "../utils/resizeFormulaBuilder";
 import { focusFormulaBuilder } from "../utils/focusFormulaBuilder";
 import FormulaBuilderDropdown from "./dropdown/FormulaBuilderDropdown";
-import { ChangeEvent, useCallback, useMemo } from "react";
+import { ChangeEvent, useCallback, useRef } from "react";
 import { FormulaBuilderValue } from "./value/FormulaBuilderValue";
-import { getChunksFromValue } from "../utils/chunks";
 
 type Props = {
   className?: string;
@@ -20,7 +19,8 @@ const SHARED_STYLES = cn(
   "relative",
   "block m-0 p-0",
   "col-start-1 row-start-1",
-  "whitespace-pre-line",
+  // "whitespace-pre-line",
+  "whitespace-pre-wrap",
   "break-words",
   "overflow-hidden",
   "min-h-full",
@@ -35,24 +35,28 @@ export const FormulaBuilder = (props: Props) => {
     references = [],
     autoFocus = false,
   } = props;
-  const { outsideRef, isOpen, caretType, handleSelect } =
-    useFormulaBuilderDropdown(props);
+  const {
+    outsideRef,
+    isOpen,
+    caretType,
+    caretReference,
+    handleReferencePicked,
+    handleSelect,
+    handleFocus,
+  } = useFormulaBuilderDropdown(props);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
-      const newValue = event.target.value.replaceAll(/ {2,}/g, " ");
-      onChange(newValue);
+      onChange(event.target.value);
     },
     [onChange],
   );
 
-  const chunks = useMemo(() => {
-    return getChunksFromValue(value, references);
-  }, [references, value]);
-
   return (
     <>
       <div
+        ref={wrapperRef}
         onClick={focusFormulaBuilder}
         className={cn(
           "relative",
@@ -74,7 +78,8 @@ export const FormulaBuilder = (props: Props) => {
       >
         <FormulaBuilderValue
           className={cn(SHARED_STYLES, "text-body-contrast")}
-          chunks={chunks}
+          value={value}
+          references={references}
         />
         <textarea
           className={cn(
@@ -88,7 +93,8 @@ export const FormulaBuilder = (props: Props) => {
               "caret-primary-contrast": caretType === "reference",
             },
           )}
-          defaultValue={value}
+          value={value}
+          onFocus={handleFocus}
           onChange={handleChange}
           onSelect={handleSelect}
           onKeyDown={resizeFormulaBuilder}
@@ -101,8 +107,9 @@ export const FormulaBuilder = (props: Props) => {
           <FormulaBuilderDropdown
             outsideRef={outsideRef}
             // outsideRef={() => {}}
-            onSelect={() => {}}
+            onSelect={handleReferencePicked}
             references={references}
+            activeReference={caretReference}
           />
         )}
       </div>
