@@ -1,27 +1,41 @@
 import { REFERENCE_START, REFERENCE_END } from "../constants";
 
+type ChunkShared = {
+  fromPosition: number;
+  toPosition: number;
+};
+
 export type Chunk =
-  | {
+  | ({
       type: "text";
       value: string;
-    }
-  | {
+    } & ChunkShared)
+  | ({
       type: "reference";
       reference: string;
-    };
+      state: "invalid" | "valid";
+    } & ChunkShared);
 
 const hasWhitespace = (text: string) => /\s/.test(text);
 
 // Text is kept verbatim (no trimming); only empty text is skipped.
-const pushText = (chunks: Chunk[], value: string) => {
+const pushText = (chunks: Chunk[], value: string, fromPosition: number) => {
   if (value) {
-    chunks.push({ type: "text", value });
+    chunks.push({
+      type: "text",
+      value,
+      fromPosition,
+      toPosition: fromPosition + value.length,
+    });
   }
 };
 
-export const getChunksFromValue = (value: string): Chunk[] => {
+export const getChunksFromValue = (
+  value: string,
+  references: string[] = [],
+): Chunk[] => {
   if (!value) {
-    return [{ type: "text", value: "" }];
+    return [{ type: "text", value: "", fromPosition: 0, toPosition: 0 }];
   }
 
   const chunks: Chunk[] = [];
@@ -47,13 +61,20 @@ export const getChunksFromValue = (value: string): Chunk[] => {
     }
 
     const next = end + REFERENCE_END.length;
-    pushText(chunks, value.slice(textStart, start));
-    chunks.push({ type: "reference", reference: value.slice(start, next) });
+    const reference = value.slice(start, next);
+    pushText(chunks, value.slice(textStart, start), textStart);
+    chunks.push({
+      type: "reference",
+      reference,
+      state: references.includes(reference) ? "valid" : "invalid",
+      fromPosition: start,
+      toPosition: next,
+    });
     textStart = next;
     cursor = next;
   }
 
-  pushText(chunks, value.slice(textStart));
+  pushText(chunks, value.slice(textStart), textStart);
 
   return chunks;
 };

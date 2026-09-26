@@ -69,6 +69,7 @@ export const FormulaBuilder = (props: Props) => {
         <FormulaBuilderValue
           className={cn(SHARED_STYLES, "text-body-contrast")}
           value={value}
+          references={references}
         />
         <textarea
           className={cn(

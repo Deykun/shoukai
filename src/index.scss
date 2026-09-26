@@ -52,14 +52,18 @@ svg {
   fill: currentColor;
 }
 
-::-moz-selection {
+::selection {
   background: #8faa0d2e;
   text-shadow: none;
 }
 
-::selection {
-  background: #8faa0d2e;
-  text-shadow: none;
+input, textarea {
+  caret-color: #0d85aa;
+}
+
+input::selection,
+textarea::selection {
+    background: #0d85aa2e;
 }
 
 body:not(.has-user-script) .show-for-script {

@@ -38,7 +38,10 @@ const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
       const start = caretPosition - VARIABLE_TRIGGER.length;
 
       if (start >= 0 && next.slice(start, caretPosition) === VARIABLE_TRIGGER) {
-        onVariableTrigger(next.slice(0, start) + next.slice(caretPosition), start);
+        onVariableTrigger(
+          next.slice(0, start) + next.slice(caretPosition),
+          start,
+        );
 
         return;
       }
@@ -98,7 +101,7 @@ const FormulaTextInput = forwardRef<HTMLInputElement, Props>(
           "field-sizing-content",
           "outline-none",
           "bg-transparent ",
-          "caret-[#005b46] tracking-wider",
+          "tracking-wider",
           "rounded-[8px]",
           "min-w-1",
         )}

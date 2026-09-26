@@ -41,14 +41,6 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
       <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
         <Field.Wrapper>
           <Field label="Shortcut name">
-            <FormulaInput
-              value={shortcut.name}
-              onChange={(next) => {
-                updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
-              }}
-              references={VARIABLE_REFERENCES.EMPTY}
-            />
-            <br />
             <FormulaBuilder
               value={shortcut.name}
               onChange={(next) => {
@@ -81,7 +73,7 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
             {shortcut.searchEngine}
           </Field>
           <Field label="With phrase">
-            <FormulaInput
+            <FormulaBuilder
               value={shortcut.phrase}
               onChange={(next) => {
                 updateNode(
@@ -92,15 +84,6 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
               references={VARIABLE_REFERENCES.DEFAULT}
             />
           </Field>
-
-          {/* <br />
-          <FormulaBuilder
-            value={shortcut.phrase}
-            onChange={(next) => {
-              updateNode(nodeId, getObjectFromPath(`${dataPath}.phrase`, next));
-            }}
-            references={["{{phrase}}", "{{lang}}"]}
-          /> */}
         </Field.Wrapper>
       </PanelFlow>
     </>
