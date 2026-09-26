@@ -1,7 +1,7 @@
 import { REFERENCE_START, REFERENCE_END } from "../constants";
 
 type ChunkShared = {
-  fromPosition: number;
+  startingPosition: number;
   toPosition: number;
 };
 
@@ -19,13 +19,13 @@ export type Chunk =
 const hasWhitespace = (text: string) => /\s/.test(text);
 
 // Text is kept verbatim (no trimming); only empty text is skipped.
-const pushText = (chunks: Chunk[], value: string, fromPosition: number) => {
+const pushText = (chunks: Chunk[], value: string, startingPosition: number) => {
   if (value) {
     chunks.push({
       type: "text",
       value,
-      fromPosition,
-      toPosition: fromPosition + value.length,
+      startingPosition,
+      toPosition: startingPosition + value.length,
     });
   }
 };
@@ -35,7 +35,7 @@ export const getChunksFromValue = (
   references: string[] = [],
 ): Chunk[] => {
   if (!value) {
-    return [{ type: "text", value: "", fromPosition: 0, toPosition: 0 }];
+    return [{ type: "text", value: "", startingPosition: 0, toPosition: 0 }];
   }
 
   const chunks: Chunk[] = [];
@@ -67,7 +67,7 @@ export const getChunksFromValue = (
       type: "reference",
       reference,
       state: references.includes(reference) ? "valid" : "invalid",
-      fromPosition: start,
+      startingPosition: start,
       toPosition: next,
     });
     textStart = next;

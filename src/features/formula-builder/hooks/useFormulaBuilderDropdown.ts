@@ -1,15 +1,22 @@
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
-import { SyntheticEvent, useCallback } from "react";
-import { REFERENCE_START } from "../constants";
+import { SyntheticEvent, useCallback, useState } from "react";
+import {
+  CaretPositionStatus,
+  getCaretPositionStatus,
+} from "../utils/getCaretPositionStatus";
 
 type Props = {
   value: string;
-  trigger?: string;
   references: string[] | undefined;
 };
 
 export const useFormulaBuilderDropdown = (props: Props) => {
   const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const [caretPositionStatus, setCaretPositionStatus] =
+    useState<CaretPositionStatus>({
+      type: "text",
+      startingPosition: 0,
+    });
 
   const handleSelect = useCallback(
     (event: SyntheticEvent<HTMLTextAreaElement>) => {
@@ -18,20 +25,20 @@ export const useFormulaBuilderDropdown = (props: Props) => {
         return;
       }
 
-      const trigger = props.trigger ?? REFERENCE_START;
       const selectionStart = event.currentTarget.selectionStart;
-      const substringToCheckForTrigger = props.value.slice(
-        selectionStart - trigger.length,
-        selectionStart,
-      );
+      const caretPositionStatus = getCaretPositionStatus({
+        value: props.value,
+        caretPosition: selectionStart,
+      });
+      setCaretPositionStatus(caretPositionStatus);
 
-      if (substringToCheckForTrigger === trigger) {
+      if (caretPositionStatus.type === "reference") {
         setIsOpen(true);
       } else {
         setIsOpen(false);
       }
     },
-    [props.trigger, props.value],
+    [props.references, props.value],
   );
 
   return {
@@ -39,5 +46,9 @@ export const useFormulaBuilderDropdown = (props: Props) => {
     isOpen,
     setIsOpen,
     handleSelect,
+    caretType: caretPositionStatus.type,
+    caretStartingPosition: caretPositionStatus.startingPosition,
+    caretReference:
+      "reference" in caretPositionStatus ? caretPositionStatus.reference : "",
   };
 };

@@ -6,13 +6,18 @@ const references = ["{{phrase}}", "{{reference}}", "{{a}}", "{{b}}"];
 describe("getChunksFromValue", () => {
   it("should return single empty text chunk for empty string", () => {
     expect(getChunksFromValue("", references)).toEqual([
-      { type: "text", value: "", fromPosition: 0, toPosition: 0 },
+      { type: "text", value: "", startingPosition: 0, toPosition: 0 },
     ]);
   });
 
   it("should return single text chunk for plain text", () => {
     expect(getChunksFromValue("plain text", references)).toEqual([
-      { type: "text", value: "plain text", fromPosition: 0, toPosition: 10 },
+      {
+        type: "text",
+        value: "plain text",
+        startingPosition: 0,
+        toPosition: 10,
+      },
     ]);
   });
 
@@ -22,7 +27,7 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{phrase}}",
         state: "valid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 10,
       },
     ]);
@@ -34,7 +39,7 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{unknown}}",
         state: "invalid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 11,
       },
     ]);
@@ -46,7 +51,7 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{phrase}}",
         state: "invalid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 10,
       },
     ]);
@@ -58,7 +63,7 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{phrase}}",
         state: "invalid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 10,
       },
     ]);
@@ -70,7 +75,7 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{phrase}}",
         state: "invalid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 10,
       },
     ]);
@@ -78,25 +83,28 @@ describe("getChunksFromValue", () => {
 
   it("should split mixed text into untrimmed text and reference chunks", () => {
     expect(
-      getChunksFromValue("Example {{phrase}} with 2 {{reference}} emebed", references),
+      getChunksFromValue(
+        "Example {{phrase}} with 2 {{reference}} emebed",
+        references,
+      ),
     ).toEqual([
-      { type: "text", value: "Example ", fromPosition: 0, toPosition: 8 },
+      { type: "text", value: "Example ", startingPosition: 0, toPosition: 8 },
       {
         type: "reference",
         reference: "{{phrase}}",
         state: "valid",
-        fromPosition: 8,
+        startingPosition: 8,
         toPosition: 18,
       },
-      { type: "text", value: " with 2 ", fromPosition: 18, toPosition: 26 },
+      { type: "text", value: " with 2 ", startingPosition: 18, toPosition: 26 },
       {
         type: "reference",
         reference: "{{reference}}",
         state: "valid",
-        fromPosition: 26,
+        startingPosition: 26,
         toPosition: 39,
       },
-      { type: "text", value: " emebed", fromPosition: 39, toPosition: 46 },
+      { type: "text", value: " emebed", startingPosition: 39, toPosition: 46 },
     ]);
   });
 
@@ -106,15 +114,15 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{phrase}}",
         state: "valid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 10,
       },
-      { type: "text", value: " ", fromPosition: 10, toPosition: 11 },
+      { type: "text", value: " ", startingPosition: 10, toPosition: 11 },
       {
         type: "reference",
         reference: "{{nope}}",
         state: "invalid",
-        fromPosition: 11,
+        startingPosition: 11,
         toPosition: 19,
       },
     ]);
@@ -122,15 +130,15 @@ describe("getChunksFromValue", () => {
 
   it("should keep leading and trailing whitespace in text chunks", () => {
     expect(getChunksFromValue("  a {{b}}  ", references)).toEqual([
-      { type: "text", value: "  a ", fromPosition: 0, toPosition: 4 },
+      { type: "text", value: "  a ", startingPosition: 0, toPosition: 4 },
       {
         type: "reference",
         reference: "{{b}}",
         state: "valid",
-        fromPosition: 4,
+        startingPosition: 4,
         toPosition: 9,
       },
-      { type: "text", value: "  ", fromPosition: 9, toPosition: 11 },
+      { type: "text", value: "  ", startingPosition: 9, toPosition: 11 },
     ]);
   });
 
@@ -140,14 +148,14 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{a}}",
         state: "valid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 5,
       },
       {
         type: "reference",
         reference: "{{b}}",
         state: "valid",
-        fromPosition: 5,
+        startingPosition: 5,
         toPosition: 10,
       },
     ]);
@@ -159,15 +167,15 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{a}}",
         state: "valid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 5,
       },
-      { type: "text", value: " ", fromPosition: 5, toPosition: 6 },
+      { type: "text", value: " ", startingPosition: 5, toPosition: 6 },
       {
         type: "reference",
         reference: "{{b}}",
         state: "valid",
-        fromPosition: 6,
+        startingPosition: 6,
         toPosition: 11,
       },
     ]);
@@ -175,27 +183,27 @@ describe("getChunksFromValue", () => {
 
   it("should treat ref with spaces as plain text", () => {
     expect(getChunksFromValue("{{ a.b }}", references)).toEqual([
-      { type: "text", value: "{{ a.b }}", fromPosition: 0, toPosition: 9 },
+      { type: "text", value: "{{ a.b }}", startingPosition: 0, toPosition: 9 },
     ]);
   });
 
   it("should treat ref spanning lines as plain text", () => {
     expect(getChunksFromValue("{{a\nb}}", references)).toEqual([
-      { type: "text", value: "{{a\nb}}", fromPosition: 0, toPosition: 7 },
+      { type: "text", value: "{{a\nb}}", startingPosition: 0, toPosition: 7 },
     ]);
   });
 
   it("should skip invalid ref start and find later valid ref", () => {
     expect(getChunksFromValue("{{ a {{b}} c", references)).toEqual([
-      { type: "text", value: "{{ a ", fromPosition: 0, toPosition: 5 },
+      { type: "text", value: "{{ a ", startingPosition: 0, toPosition: 5 },
       {
         type: "reference",
         reference: "{{b}}",
         state: "valid",
-        fromPosition: 5,
+        startingPosition: 5,
         toPosition: 10,
       },
-      { type: "text", value: " c", fromPosition: 10, toPosition: 12 },
+      { type: "text", value: " c", startingPosition: 10, toPosition: 12 },
     ]);
   });
 
@@ -205,7 +213,7 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{}}",
         state: "invalid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 4,
       },
     ]);
@@ -213,13 +221,13 @@ describe("getChunksFromValue", () => {
 
   it("should treat unterminated ref as plain text", () => {
     expect(getChunksFromValue("a {{b", references)).toEqual([
-      { type: "text", value: "a {{b", fromPosition: 0, toPosition: 5 },
+      { type: "text", value: "a {{b", startingPosition: 0, toPosition: 5 },
     ]);
   });
 
   it("should treat stray end marker as plain text", () => {
     expect(getChunksFromValue("a}} b", references)).toEqual([
-      { type: "text", value: "a}} b", fromPosition: 0, toPosition: 5 },
+      { type: "text", value: "a}} b", startingPosition: 0, toPosition: 5 },
     ]);
   });
 
@@ -229,10 +237,10 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{a}}",
         state: "valid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 5,
       },
-      { type: "text", value: " b {{c", fromPosition: 5, toPosition: 11 },
+      { type: "text", value: " b {{c", startingPosition: 5, toPosition: 11 },
     ]);
   });
 
@@ -242,10 +250,10 @@ describe("getChunksFromValue", () => {
         type: "reference",
         reference: "{{a}}",
         state: "valid",
-        fromPosition: 0,
+        startingPosition: 0,
         toPosition: 5,
       },
-      { type: "text", value: "}}", fromPosition: 5, toPosition: 7 },
+      { type: "text", value: "}}", startingPosition: 5, toPosition: 7 },
     ]);
   });
 
@@ -261,15 +269,15 @@ describe("getChunksFromValue", () => {
     const source = "Example {{phrase}} with 2 {{nope}} emebed";
     const chunks = getChunksFromValue(source, references);
 
-    expect(chunks[0].fromPosition).toBe(0);
+    expect(chunks[0].startingPosition).toBe(0);
     expect(chunks[chunks.length - 1].toPosition).toBe(source.length);
 
     chunks.forEach((chunk, index) => {
-      expect(source.slice(chunk.fromPosition, chunk.toPosition)).toBe(
+      expect(source.slice(chunk.startingPosition, chunk.toPosition)).toBe(
         chunk.type === "text" ? chunk.value : chunk.reference,
       );
       if (index > 0) {
-        expect(chunk.fromPosition).toBe(chunks[index - 1].toPosition);
+        expect(chunk.startingPosition).toBe(chunks[index - 1].toPosition);
       }
     });
   });

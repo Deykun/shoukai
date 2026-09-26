@@ -6,7 +6,6 @@ import PanelFlow from "../../components/panel/PanelFlow";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
 import { updateNode } from "../../stores/useDiagramStore";
 import { getObjectFromPath } from "../../utils/object";
-import { FormulaInput } from "@/features/formula-input/components/FormulaInput";
 import { VARIABLE_REFERENCES } from "../../constants";
 import Field from "@/components/UI/Field";
 import { NO_BREAK_SPACE } from "@/utils/text";
@@ -53,7 +52,7 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
             label="Triggers"
             valueDescription="When query starts or ends with."
           >
-            <FormulaInput
+            <FormulaBuilder
               value={shortcut.triggers.join(" ")}
               onChange={(next) => {
                 updateNode(

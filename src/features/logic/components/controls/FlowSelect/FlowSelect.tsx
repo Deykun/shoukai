@@ -15,6 +15,7 @@ import PanelFlow from "../../panel/PanelFlow";
 import { FormulaInput } from "@/features/formula-input/components/FormulaInput";
 import { VARIABLE_REFERENCES } from "@/features/logic/constants";
 import Field from "@/components/UI/Field";
+import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
 
 type Props<
   TSchema extends z.ZodObject,
@@ -90,7 +91,7 @@ function FlowSelectComponent<
               />
             )}
             {options.length === 0 && (
-              <FormulaInput
+              <FormulaBuilder
                 references={VARIABLE_REFERENCES.DEFAULT}
                 value={typeof value === "string" ? value : ""}
                 onChange={handleChunksChange}

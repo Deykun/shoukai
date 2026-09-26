@@ -3,8 +3,9 @@ import { useFormulaBuilderDropdown } from "../hooks/useFormulaBuilderDropdown";
 import { resizeFormulaBuilder } from "../utils/resizeFormulaBuilder";
 import { focusFormulaBuilder } from "../utils/focusFormulaBuilder";
 import FormulaBuilderDropdown from "./dropdown/FormulaBuilderDropdown";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, useCallback, useMemo } from "react";
 import { FormulaBuilderValue } from "./value/FormulaBuilderValue";
+import { getChunksFromValue } from "../utils/chunks";
 
 type Props = {
   className?: string;
@@ -34,7 +35,8 @@ export const FormulaBuilder = (props: Props) => {
     references = [],
     autoFocus = false,
   } = props;
-  const { outsideRef, isOpen, handleSelect } = useFormulaBuilderDropdown(props);
+  const { outsideRef, isOpen, caretType, handleSelect } =
+    useFormulaBuilderDropdown(props);
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -43,6 +45,10 @@ export const FormulaBuilder = (props: Props) => {
     },
     [onChange],
   );
+
+  const chunks = useMemo(() => {
+    return getChunksFromValue(value, references);
+  }, [references, value]);
 
   return (
     <>
@@ -68,8 +74,7 @@ export const FormulaBuilder = (props: Props) => {
       >
         <FormulaBuilderValue
           className={cn(SHARED_STYLES, "text-body-contrast")}
-          value={value}
-          references={references}
+          chunks={chunks}
         />
         <textarea
           className={cn(
@@ -78,7 +83,10 @@ export const FormulaBuilder = (props: Props) => {
             "field-sizing-content",
             "resize-none",
             "outline-none",
-            "bg-transparent text-transparent caret-[#005b46]",
+            "bg-transparent text-transparent",
+            {
+              "caret-primary-contrast": caretType === "reference",
+            },
           )}
           defaultValue={value}
           onChange={handleChange}
