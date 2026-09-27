@@ -13,5 +13,5 @@ export const chunkArray = <T>(array: T[], chunkSize: number): T[][] => {
 };
 
 export const getUnique = (value: string[]): string[] => {
-  return [...new Set(value)].filter(Boolean);
+  return [...new Set(value)];
 };

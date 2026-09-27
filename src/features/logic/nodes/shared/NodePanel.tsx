@@ -21,7 +21,7 @@ const NodePanel = ({
     <div
       data-node-id={nodeId}
       className={cn(
-        "min-w-[140px] relative",
+        "min-w-[140px] max-w-[280px] relative",
         "p-1",
         "flex flex-col gap-2",
         "bg-[#f5f9ef] rounded-md",

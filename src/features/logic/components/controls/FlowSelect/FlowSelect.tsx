@@ -12,7 +12,6 @@ import z from "zod";
 
 import { cn } from "@/utils/tailwind";
 import PanelFlow from "../../panel/PanelFlow";
-import { FormulaInput } from "@/features/formula-input/components/FormulaInput";
 import { VARIABLE_REFERENCES } from "@/features/logic/constants";
 import Field from "@/components/UI/Field";
 import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";

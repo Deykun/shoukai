@@ -7,6 +7,12 @@ import { NodeHandle } from "../../shared/NodeHandle";
 import { TypeNode } from "./setup";
 import NodeHandlesWrapper from "../../shared/NodeHandlesWrapper";
 import { NodeHandleShortcut } from "../../shared/NodeHandleShortcut";
+import ButtonText from "@/components/UI/ButtonText";
+import IconPlus from "@/components/Icons/IconPlus";
+import { getObjectFromPath } from "@/features/logic/utils/object";
+import { updateNode } from "@/features/logic/stores/useDiagramStore";
+import { generateId } from "@/utils/ids";
+import { ShoukaiShortcut } from "../schema";
 
 type Props = NodeProps<TypeNode>;
 
@@ -34,6 +40,27 @@ export function NodeStart({ id, type, selected, data }: Props) {
           />
         ))}
       </NodeHandlesWrapper>
+      <ButtonText
+        wrapperClassName="ml-auto"
+        size="small"
+        onClick={() => {
+          const suggestionId = generateId();
+          updateNode(
+            id,
+            getObjectFromPath(`shortcuts.${suggestionId}`, {
+              type: "search-text",
+              searchEngine: "defaultSearch",
+              id: suggestionId,
+              name: "New shortcut",
+              phrase: "{{phrase}}",
+              triggers: ["new"],
+            } satisfies ShoukaiShortcut),
+          );
+        }}
+      >
+        <IconPlus />
+        <span>Add shortcut</span>
+      </ButtonText>
       <NodeHandlesWrapper label="Default">
         <NodeHandle
           id="success"

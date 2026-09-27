@@ -35,12 +35,19 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
         isDisabled
       >
-        <span className="text-[8px] mr-auto">
+        <span
+          className={cn(
+            "flex-shrink-0 max-w-[120px]",
+            "mr-auto",
+            "text-[8px] line-clamp-1 break-all",
+          )}
+        >
           {shortcut.triggers.join(", ")}
         </span>{" "}
-        <span>{shortcut.name || NO_BREAK_SPACE}</span>
-        {/* <IconNewTab className="size-3" /> */}
-        <div className="ml-1 flex items-center gap-0.5 -mr-2">
+        <span className="line-clamp-1 break-all">
+          {shortcut.name || NO_BREAK_SPACE}
+        </span>
+        <div className="ml-1 flex items-center gap-0.5 -mr-2 flex-shrink-0">
           <IconSearchType type={shortcut.type} className={cn("size-3")} />
           <IconLogo id={shortcut.searchEngine} className={cn("size-3")} />
         </div>
@@ -67,7 +74,11 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
                   nodeId,
                   getObjectFromPath(
                     `${dataPath}.triggers`,
-                    getUnique(next.split(" ")),
+                    getUnique(
+                      next
+                        .split(" ")
+                        .flatMap((nextPart) => nextPart.split(",")),
+                    ),
                   ),
                 );
               }}
