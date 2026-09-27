@@ -52,11 +52,16 @@ export const useFormulaBuilderDropdown = (props: Props) => {
           : 0;
       const after = props.value.slice(startingPosition + replacedLength);
 
-      console.log(caretPositionStatus);
+      setCaretPositionStatus({
+        startingPosition,
+        type: "reference",
+        text: reference,
+        status: "valid",
+      });
 
       props.onChange(`${before}${reference}${after}`);
     },
-    [caretPositionStatus, props.value, props.onChange],
+    [caretPositionStatus, props.references, props.value],
   );
 
   return {
