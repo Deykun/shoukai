@@ -27,7 +27,7 @@ const NodePanel = ({
         "bg-[#f5f9ef] rounded-md",
         "duration-500",
         "group",
-        "border-[1px] border-[#f5f9ef]",
+        "border-[2px] border-[#f5f9ef]",
         "hover:border-[#d1dc80]",
         {
           "border-[#d1dc80]": isSelected,

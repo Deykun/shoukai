@@ -13,6 +13,10 @@
   "search.source": "Źródło",
   "search.openWith": "Otwórz w:",
   "search.settings": "Ustawienia",
+  "searchToOpen.search-text": "Web",
+  "searchToOpen.search-image": "Grafika",
+  "searchToOpen.search-location": "Mapy",
+  "searchToOpen.ask-chatbot": "Chatbot",
   "wikipedia.manyResults": "Wiele wyników dla podanej frazy.",
   "about.description": "Aby ta strona działała, musisz zainstalować rozszerzenie przeglądarki Tampermonkey oraz skrypt użytkownika, który otworzy różne wyszukiwarki i wybierze dla Ciebie najlepsze dopasowanie."
 }

@@ -5,12 +5,13 @@ import { NodeHandle } from "./NodeHandle";
 import PanelFlow from "../../components/panel/PanelFlow";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
 import { updateNode } from "../../stores/useDiagramStore";
-import { getObjectFromPath } from "../../utils/object";
+import { getDeepMerged, getObjectFromPath } from "../../utils/object";
 import { VARIABLE_REFERENCES } from "../../constants";
 import Field from "@/components/UI/Field";
 import { NO_BREAK_SPACE } from "@/utils/text";
 import { getUnique } from "@/utils/array";
 import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
+import { FlowSelectSearchToOpen } from "../../components/controls/FlowSelectSearchToOpen/FlowSelectSearchToOpen";
 
 type Props = {
   nodeId: string;
@@ -67,9 +68,20 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
             />
           </Field>
           <Field label="Open">
-            {shortcut.type}
+            {/* {shortcut.type}
             {" - "}
-            {shortcut.searchEngine}
+            {shortcut.searchEngine} */}
+            <FlowSelectSearchToOpen
+              value={shortcut}
+              onChange={({ type, searchEngine }) => {
+                const next = getDeepMerged(
+                  getObjectFromPath(`${dataPath}.type`, type),
+                  getObjectFromPath(`${dataPath}.searchEngine`, searchEngine),
+                );
+
+                updateNode(nodeId, next);
+              }}
+            />
           </Field>
           <Field label="With phrase">
             <FormulaBuilder
