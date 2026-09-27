@@ -57,7 +57,7 @@ function FlowSelectComponent<
   value,
   schema,
 }: Props<TSchema, TPath>) {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
   const options = getOptions(schema, dataPath);
 
   const handleChunksChange = useCallback(
@@ -77,7 +77,7 @@ function FlowSelectComponent<
         value={value}
         onClick={() => setIsOpen(true)}
       />
-      <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
+      <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>
         <Field.Wrapper>
           <Field label="Field">
             {options.length > 0 && (

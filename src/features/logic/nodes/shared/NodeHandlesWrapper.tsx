@@ -17,7 +17,7 @@ const NodeHandlesWrapper = ({
   about,
   children,
 }: PropsWithChildren<Props>) => {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   return (
     <div className={cn("flex flex-col gap-1", "mt-1", className)}>
@@ -40,7 +40,7 @@ const NodeHandlesWrapper = ({
             </ButtonIcon>
           )}
           {label}
-          <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
+          <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>
             <h3>{label}</h3>
             <p className={cn("text-[#979f8a] text-sm")}>{about}</p>
           </PanelFlow>

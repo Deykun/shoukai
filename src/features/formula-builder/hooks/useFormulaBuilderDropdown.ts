@@ -12,7 +12,8 @@ type Props = {
 };
 
 export const useFormulaBuilderDropdown = (props: Props) => {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const { setInsideRef, insideRef, isOpen, setIsOpen } =
+    useOpenWithOutsideClick(false);
   const [caretPositionStatus, setCaretPositionStatus] =
     useState<CaretPositionStatus>({
       type: "text",
@@ -65,7 +66,8 @@ export const useFormulaBuilderDropdown = (props: Props) => {
   );
 
   return {
-    outsideRef,
+    setInsideRef,
+    insideRef,
     isOpen,
     setIsOpen,
     handleSelect: updateDropdownState,

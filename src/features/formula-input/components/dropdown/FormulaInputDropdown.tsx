@@ -3,21 +3,21 @@ import { cn } from "@/utils/tailwind";
 import { memo } from "react";
 
 type Props = {
-  outsideRef: (element: HTMLElement | null) => void;
+  setInsideRef: (element: HTMLElement | null) => void;
   onSelect: (reference: string) => void;
   references: string[];
   activeReference?: string;
 };
 
 const FormulaInputDropdown = ({
-  outsideRef,
+  setInsideRef,
   onSelect,
   references,
   activeReference,
 }: Props) => {
   return (
     <div
-      ref={outsideRef}
+      ref={setInsideRef}
       className={cn(
         "absolute bottom-full left-1/2 -translate-x-1/2 z-[100]",
         "p-1 w-full",

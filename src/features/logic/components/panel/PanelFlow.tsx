@@ -4,14 +4,14 @@ import { PropsWithChildren, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
-  outsideRef: (element: HTMLElement | null) => void;
+  insideRef: (element: HTMLElement | null) => void;
   classNameWrapper?: string;
   className?: string;
   isOpen: boolean;
 };
 
 const PanelFlow = ({
-  outsideRef,
+  insideRef,
   classNameWrapper = "",
   className = "",
   children,
@@ -43,7 +43,7 @@ const PanelFlow = ({
 
   return createPortal(
     <div
-      ref={outsideRef}
+      ref={insideRef}
       className={cn(
         "fixed bottom-0 left-0 z-10",
         "w-full",

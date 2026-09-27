@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function useOpenWithOutsideClick(initialIsOpen = false) {
-  const elementRef = useRef<HTMLElement | null>(null);
+  const insideRef = useRef<HTMLElement | null>(null);
   const [isOpen, setIsOpen] = useState(initialIsOpen);
 
   // callback ref, so it fits any element without passing a generic
-  const outsideRef = useCallback((element: HTMLElement | null) => {
-    elementRef.current = element;
+  const setInsideRef = useCallback((element: HTMLElement | null) => {
+    insideRef.current = element;
   }, []);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function useOpenWithOutsideClick(initialIsOpen = false) {
       const target = event.target as HTMLElement;
 
       const wasElementInsideClicked = Boolean(
-        elementRef.current?.contains(target),
+        insideRef.current?.contains(target),
       );
       if (wasElementInsideClicked) {
         return;
@@ -37,5 +37,5 @@ export default function useOpenWithOutsideClick(initialIsOpen = false) {
     return () => document.removeEventListener("click", onClick);
   }, [isOpen]);
 
-  return { outsideRef, isOpen, setIsOpen };
+  return { setInsideRef, insideRef, isOpen, setIsOpen };
 }

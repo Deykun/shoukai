@@ -15,7 +15,7 @@ import NodeHeader from "@/features/logic/nodes/shared/NodeHeader";
 import IconLibrary from "@/components/Icons/IconLibrary";
 
 const Palette = () => {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   const onDragStart = useCallback(
     (event: React.DragEvent<HTMLDivElement>, nodeType: ShoukaiNodeType) => {
@@ -35,34 +35,34 @@ const Palette = () => {
       >
         <IconLibrary />
       </ButtonIcon>
-        <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
-          <h3 className="mb-3">Palette</h3>
-          <div
-            className={cn(
-              "container",
-              "grid [@media(min-width:860px)]:grid-cols-3 gap-4",
-            )}
-          >
-            {PALETTE_NODES_TYPES.map((type) => (
-              <NodePanel
-                key={type}
-                nodeId={undefined}
-                className={cn(
-                  "border-[#d3d3d3]",
-                  "cursor-grab active:cursor-grabbing",
-                )}
-                onDragStart={(event) => onDragStart(event, type)}
-                draggable
-              >
-                <NodeHeader
-                  id={undefined}
-                  type={type}
-                  label={defaultDataByNodeType[type].label}
-                />
-              </NodePanel>
-            ))}
-          </div>
-        </PanelFlow>
+      <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>
+        <h3 className="mb-3">Palette</h3>
+        <div
+          className={cn(
+            "container",
+            "grid [@media(min-width:860px)]:grid-cols-3 gap-4",
+          )}
+        >
+          {PALETTE_NODES_TYPES.map((type) => (
+            <NodePanel
+              key={type}
+              nodeId={undefined}
+              className={cn(
+                "border-[#d3d3d3]",
+                "cursor-grab active:cursor-grabbing",
+              )}
+              onDragStart={(event) => onDragStart(event, type)}
+              draggable
+            >
+              <NodeHeader
+                id={undefined}
+                type={type}
+                label={defaultDataByNodeType[type].label}
+              />
+            </NodePanel>
+          ))}
+        </div>
+      </PanelFlow>
     </>
   );
 };

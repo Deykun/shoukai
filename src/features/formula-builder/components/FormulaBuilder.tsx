@@ -36,7 +36,7 @@ export const FormulaBuilder = (props: Props) => {
     autoFocus = false,
   } = props;
   const {
-    outsideRef,
+    setInsideRef,
     isOpen,
     caretType,
     caretReference,
@@ -105,8 +105,8 @@ export const FormulaBuilder = (props: Props) => {
         />
         {isOpen && (
           <FormulaBuilderDropdown
-            outsideRef={outsideRef}
-            // outsideRef={() => {}}
+            insideRef={setInsideRef}
+            // setInsideRef={() => {}}
             onSelect={handleReferencePicked}
             references={references}
             activeReference={caretReference}

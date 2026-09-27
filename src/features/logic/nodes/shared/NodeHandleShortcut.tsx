@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   return (
     <>
@@ -37,7 +37,7 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
         <span>{shortcut.name || NO_BREAK_SPACE}</span>
         {/* <IconNewTab className="size-3" /> */}
       </NodeHandle>
-      <PanelFlow outsideRef={outsideRef} isOpen={isOpen}>
+      <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>
         <Field.Wrapper>
           <Field label="Shortcut name">
             <FormulaBuilder

@@ -24,7 +24,7 @@ const FormulaInputRaw = ({
   references = [],
   autoFocus = false,
 }: Props) => {
-  const { outsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+  const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   const {
     chunks,
@@ -145,7 +145,7 @@ const FormulaInputRaw = ({
         })}
         {isOpen && (
           <FormulaInputDropdown
-            outsideRef={outsideRef}
+            insideRef={setInsideRef}
             onSelect={handleSelect}
             references={references}
             activeReference={activeReference}
