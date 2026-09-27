@@ -137,9 +137,11 @@ const ModalDefaultSearchEngines = () => {
             All logos and trademarks displayed on this page are the property of
             their respective owners and are used solely to identify the brands
             and products that this website links to.{" "}
-            <strong>This page is not affiliated with</strong>, endorsed by, or
-            sponsored{" "}
-            <strong>by any of the brands or companies represented</strong>.
+            <strong>
+              This page is not affiliated with, endorsed by, or sponsored by any
+              of the brands or companies represented
+            </strong>
+            .
           </p>
           <br />
           <p className="!text-xs">

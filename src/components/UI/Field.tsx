@@ -23,14 +23,14 @@ const Field = ({
   const hasDescription = Boolean(labelDescription || valueDescription);
 
   return (
-    <div className="col-span-4 grid grid-cols-4 gap-4 items-center">
-      <h3 className="text-right text-primary-contrast font-[600]">
+    <div className="flex flex-col w-full items-stretch md:col-span-4 md:grid grid-cols-4 gap-4 md:items-center">
+      <h3 className="md:text-right text-primary-contrast font-[600]">
         {t(label)}
       </h3>
       <div className="col-span-3">{children}</div>
       {hasDescription && (
         <>
-          <span className="-mt-2 text-xs text-[#979f8a] text-right">
+          <span className="-mt-2 text-xs text-[#979f8a] md:text-right">
             {labelDescription}
           </span>
           <p className="-mt-2 col-span-3 text-xs text-[#979f8a]">

@@ -12,6 +12,9 @@ import { NO_BREAK_SPACE } from "@/utils/text";
 import { getUnique } from "@/utils/array";
 import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
 import { FlowSelectSearchToOpen } from "../../components/controls/FlowSelectSearchToOpen/FlowSelectSearchToOpen";
+import IconSearchType from "@/components/Icons/IconSearchType";
+import IconLogo from "@/components/Icons/IconLogo";
+import { cn } from "@/utils/tailwind";
 
 type Props = {
   nodeId: string;
@@ -37,6 +40,10 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
         </span>{" "}
         <span>{shortcut.name || NO_BREAK_SPACE}</span>
         {/* <IconNewTab className="size-3" /> */}
+        <div className="ml-1 flex items-center gap-0.5 -mr-2">
+          <IconSearchType type={shortcut.type} className={cn("size-3")} />
+          <IconLogo id={shortcut.searchEngine} className={cn("size-3")} />
+        </div>
       </NodeHandle>
       <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>
         <Field.Wrapper>
@@ -68,9 +75,6 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
             />
           </Field>
           <Field label="Open">
-            {/* {shortcut.type}
-            {" - "}
-            {shortcut.searchEngine} */}
             <FlowSelectSearchToOpen
               value={shortcut}
               onChange={({ type, searchEngine }) => {

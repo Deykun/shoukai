@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import IconLogoSearch from "@/components/Icons/IconLogoSearch";
-import ButtonText from "@/components/UI/ButtonText";
+import IconLogo from "@/components/Icons/IconLogo";
+import IconSearchType from "@/components/Icons/IconSearchType";
+import ButtonIcon from "@/components/UI/ButtonIcon";
 import { cn } from "@/utils/tailwind";
 import {
   getDefaultSearchEngineToOpen,
@@ -16,7 +17,7 @@ type Props = {
   onChange: (value: SearchEngineToOpen) => void;
 };
 
-const rowClassName = cn("flex flex-wrap gap-1", "items-stretch");
+const rowClassName = cn("flex flex-wrap gap-2", "items-center");
 
 export const FlowSelectSearchToOpen = ({ value, onChange }: Props) => {
   const { t } = useTranslation();
@@ -39,29 +40,41 @@ export const FlowSelectSearchToOpen = ({ value, onChange }: Props) => {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className={rowClassName}>
-        {SEARCH_ENGINE_TO_OPEN_TYPES.map((type) => (
-          <ButtonText
-            key={type}
-            isActive={type === value.type}
-            onClick={() => handleTypeSelect(type)}
-          >
-            <span>{t(`searchToOpen.${type}`)}</span>
-          </ButtonText>
-        ))}
+    <div className="flex gap-2 justify-between flex-wrap">
+      <div>
+        <p className="text-xs text-primary-contrast mb-1">Type</p>
+        <div className={rowClassName}>
+          {SEARCH_ENGINE_TO_OPEN_TYPES.map((type) => (
+            <ButtonIcon
+              key={type}
+              size="large"
+              label={t(`searchToOpen.${type}`)}
+              labelPosition="top"
+              isActive={type === value.type}
+              onClick={() => handleTypeSelect(type)}
+            >
+              <IconSearchType type={type} />
+            </ButtonIcon>
+          ))}
+        </div>
       </div>
-      <div className={rowClassName}>
-        {searchEngines.map((searchEngine) => (
-          <ButtonText
-            key={searchEngine}
-            isActive={searchEngine === value.searchEngine}
-            onClick={() => handleSearchEngineSelect(searchEngine)}
-          >
-            <IconLogoSearch engine={searchEngine} className="size-4" />
-            <span>{t(`search.${searchEngine}`)}</span>
-          </ButtonText>
-        ))}
+      <div>
+        <p className="text-xs text-primary-contrast mb-1">Search engine</p>
+        <div className={rowClassName}>
+          {searchEngines.map((searchEngine) => (
+            <ButtonIcon
+              key={searchEngine}
+              size="large"
+              label={t(`search.${searchEngine}`)}
+              labelPosition="top"
+              isActive={searchEngine === value.searchEngine}
+              onClick={() => handleSearchEngineSelect(searchEngine)}
+            >
+              {/* falls back to results icon for defaultSearch, same as SearchEnginePicker */}
+              <IconLogo id={searchEngine} />
+            </ButtonIcon>
+          ))}
+        </div>
       </div>
     </div>
   );
