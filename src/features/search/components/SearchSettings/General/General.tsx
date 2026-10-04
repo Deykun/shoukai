@@ -9,7 +9,7 @@ const General = () => {
   return (
     <div className="flex flex-col gap-8">
       <p className="text-sm font-[600] text-[#979f8a]">
-        Hi! Keep in mind that this is an alpha version.
+        Hi! Keep in mind that this is an alfa version.
       </p>
       <ButtonText
         onClick={toggleDefaultSearchEngineModal}

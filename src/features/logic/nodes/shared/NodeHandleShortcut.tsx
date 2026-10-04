@@ -13,7 +13,6 @@ import { getUnique } from "@/utils/array";
 import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
 import { FlowSelectSearchToOpen } from "../../components/controls/FlowSelectSearchToOpen/FlowSelectSearchToOpen";
 import IconSearchType from "@/components/Icons/IconSearchType";
-import IconLogo from "@/components/Icons/IconLogo";
 import { cn } from "@/utils/tailwind";
 
 type Props = {
@@ -47,9 +46,8 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
         <span className="line-clamp-1 break-all">
           {shortcut.name || NO_BREAK_SPACE}
         </span>
-        <div className="ml-1 flex items-center gap-0.5 -mr-2 flex-shrink-0">
+        <div className="ml-0.5 -mr-0 flex-shrink-0">
           <IconSearchType type={shortcut.type} className={cn("size-3")} />
-          <IconLogo id={shortcut.searchEngine} className={cn("size-3")} />
         </div>
       </NodeHandle>
       <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>

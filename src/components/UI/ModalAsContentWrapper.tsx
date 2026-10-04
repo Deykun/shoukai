@@ -5,7 +5,6 @@ import useAppStore from "@/stores/appStore";
 import OverviewModal from "@/features/documentation/components/OverviewModal";
 import HistoryModal from "@/features/history/components/HistoryModal";
 import LanguageModal from "@/features/search/components/SearchSettings/Language/LanguageModal";
-import RecipesItemModal from "@/features/search/components/SearchSettings/Recipes/RecipesItemModal";
 import ModalLogic from "@/features/logic/modals/ModalLogic";
 import ModalDefaultSearchEngines from "@/features/search/modals/ModalDefaultSearchEngines";
 
@@ -23,7 +22,6 @@ const ModalAsContentWrapper = ({ children }: Props) => {
         <HistoryModal />
         <LanguageModal />
         <OverviewModal />
-        <RecipesItemModal />
         <ModalDefaultSearchEngines />
         <ModalLogic />
       </div>

@@ -6,6 +6,7 @@ import useAppStore, {
 import IconFlow from "@/components/Icons/IconFlow";
 
 import ButtonText from "@/components/UI/ButtonText";
+import IconCircuit from "@/components/Icons/IconCircuit";
 
 const ToggleLogic = () => {
   const isOpen = useAppStore((state) => state.modal.type === "logic");
@@ -20,7 +21,7 @@ const ToggleLogic = () => {
 
   return (
     <ButtonText onClick={handleClick} isActive={isOpen}>
-      <IconFlow />
+      <IconCircuit />
       <span>Search logic</span>
     </ButtonText>
   );

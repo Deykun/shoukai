@@ -1,3 +1,4 @@
+import { openConfirm } from "@/features/confirm/stores/useConfirmStore";
 import { ShoukaiNode } from "@/features/logic/nodes/type/types";
 import { Edge, OnBeforeDelete } from "@xyflow/react";
 import { useCallback } from "react";
@@ -9,9 +10,10 @@ export default function useBeforeDelete() {
         return false;
       }
 
-      return confirm(
-        `Do you want to remove (${nodes.length} nodes and ${edges.length} edges)?`,
-      );
+      return openConfirm({
+        title: `Remove`,
+        content: `Do you want to remove (${nodes.length} nodes and ${edges.length} edges)?`,
+      });
     },
     [],
   );

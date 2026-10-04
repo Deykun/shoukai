@@ -15,7 +15,7 @@ import Recipes from "../Recipes/Recipes";
 import Script from "../Script/Script";
 import ToggleLogic from "@/features/logic/components/ToggleLogic";
 
-type Tab = "general" | "shortcuts" | "tags" | "recipes" | "design" | "script";
+type Tab = "general" | "design" | "script";
 
 const getClassNameForTab = (tab: Tab, activeTab: Tab) =>
   clsx("col-start-1 row-start-1", "duration-500", {
@@ -36,33 +36,13 @@ const SearchTabs = () => {
           <IconSearchSettings />
           <span>General</span>
         </ButtonText>
+        <ToggleLogic />
         <ButtonText
           onClick={() => setActiveTab("design")}
           isActive={activeTab === "design"}
         >
           <IconPaint />
           <span>Design</span>
-        </ButtonText>
-        <ButtonText
-          onClick={() => setActiveTab("shortcuts")}
-          isActive={activeTab === "shortcuts"}
-        >
-          <IconArrowForward />
-          <span>Shortcuts</span>
-        </ButtonText>
-        <ButtonText
-          onClick={() => setActiveTab("tags")}
-          isActive={activeTab === "tags"}
-        >
-          <IconTag />
-          <span>Tags</span>
-        </ButtonText>
-        <ButtonText
-          onClick={() => setActiveTab("recipes")}
-          isActive={activeTab === "recipes"}
-        >
-          <IconBookWithBookmark />
-          <span>Recipes</span>
         </ButtonText>
         <ButtonText
           wrapperClassName="ml-auto"
@@ -78,24 +58,8 @@ const SearchTabs = () => {
         <div className={getClassNameForTab("general", activeTab)}>
           <General />
         </div>
-        <div className={getClassNameForTab("tags", activeTab)}>
-          <p className="text-sm font-[600] text-[#979f8a]">
-            WiP: After you make a request, the text of the prompt is validated
-            to determine tags.
-          </p>
-        </div>
-        <div className={getClassNameForTab("shortcuts", activeTab)}>
-          <p className="text-sm font-[600] text-[#979f8a]">WiP: Shortcuts.</p>
-          <br />
-          <ToggleLogic />
-        </div>
         <div className={getClassNameForTab("design", activeTab)}>
           <p className="text-sm font-[600] text-[#979f8a]">WiP: Theme.</p>
-          <br />
-          <ToggleLogic />
-        </div>
-        <div className={getClassNameForTab("recipes", activeTab)}>
-          <Recipes />
         </div>
         <div className={getClassNameForTab("script", activeTab)}>
           <Script />
