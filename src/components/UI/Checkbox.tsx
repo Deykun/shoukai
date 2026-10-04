@@ -9,7 +9,7 @@ import "./Checkbox.scss";
 
 type Props = {
   className?: string;
-  size?: "small" | "large" | "normal";
+  size?: "small" | "normal" | "large";
   isActive?: boolean;
   onChange: (value: boolean) => void;
   frameIcon?: React.ElementType;

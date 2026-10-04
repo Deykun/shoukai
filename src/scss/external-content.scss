@@ -1,6 +1,6 @@
 .external-content {
   // @apply text-justify hyphens-auto;
-  @apply text-justify;
+  @apply text-justify text-sm text-body-contrast--50;
 
   h1,
   h2,
@@ -10,6 +10,10 @@
 
   h1 {
     @apply text-lg;
+  }
+
+  strong {
+    @apply text-primary-contrast;
   }
 
   p {

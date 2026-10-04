@@ -6,6 +6,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.react-flow {
+  --xy-edge-stroke-default: #82a849;
+  --xy-edge-stroke: #82a849;
+  --xy-edge-stroke-width: 1px;
+  --xy-connectionline-stroke-default: #82a849;
+  --xy-connectionline-stroke-width-default: 1px;
+}
+
 body {
   @apply tracking-wide bg-body;
 
@@ -13,6 +21,8 @@ body {
   font-family: "Manrope", sans-serif;
   font-weight: 400;
   font-style: normal;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 .sans {
@@ -42,14 +52,18 @@ svg {
   fill: currentColor;
 }
 
-::-moz-selection {
+::selection {
   background: #8faa0d2e;
   text-shadow: none;
 }
 
-::selection {
-  background: #8faa0d2e;
-  text-shadow: none;
+input, textarea {
+  caret-color: #0d85aa;
+}
+
+input::selection,
+textarea::selection {
+    background: #0d85aa2e;
 }
 
 body:not(.has-user-script) .show-for-script {

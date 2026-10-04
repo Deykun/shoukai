@@ -1,33 +1,23 @@
-import useSearchSettingsStore, {
-  toggleShouldOpenNewTabForResult,
-} from "@/features/search/stores/searchSettingsStore";
-
-import Checkbox from "@/components/UI/Checkbox";
+import useAppStore, { toggleDefaultSearchEngineModal } from "@/stores/appStore";
+import ButtonText from "@/components/UI/ButtonText";
 
 const General = () => {
-  const shouldOpenNewTabForResults = useSearchSettingsStore(
-    (state) => state.shouldOpenNewTabForResults
+  const isModalOpen = useAppStore(
+    (state) => state.modal.type === "default-search-engines",
   );
 
   return (
-    <div>
-      <div className="flex gap-3 items-center">
-        <Checkbox
-          isActive={shouldOpenNewTabForResults}
-          onChange={toggleShouldOpenNewTabForResult}
-        />
-        <label
-          className="text-sm font-[600] cursor-pointer"
-          onClick={toggleShouldOpenNewTabForResult}
-        >
-          <span className="text-[#005b46]">Open results in a new tab</span>
-          <small className="text-[#979f8a]">
-            <br />
-            shoukai will remain as the active tab, but make sure you’ve allowed
-            shoukai to open new tabs
-          </small>
-        </label>
-      </div>
+    <div className="flex flex-col gap-8">
+      <p className="text-sm font-[600] text-[#979f8a]">
+        Hi! Keep in mind that this is an alfa version.
+      </p>
+      <ButtonText
+        onClick={toggleDefaultSearchEngineModal}
+        isActive={isModalOpen}
+        size="small"
+      >
+        <span>Change default search engines</span>
+      </ButtonText>
     </div>
   );
 };

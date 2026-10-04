@@ -10,23 +10,18 @@ import {
 import { recipe as moviesProgramming } from "@/recipes/movies";
 import { recipe as programmingRecipe } from "@/recipes/programming";
 import { getChatGPTAskUrl } from "./features/search/utils/ask";
+import { SupportedShoukaiSearchEngineText } from "./types/supported/text-engines";
+import { getShortcutsFromStart } from "./features/logic-runner/utils/get-shortcuts-from-start";
 
-export type SupportedSearchEngine = "bing" | "duckduckgo" | "google" | "yandex";
-
-export type ShoukaiSearchEngine = SupportedSearchEngine | "defaultSearch";
-
-export const supportedSearchEngines: SupportedSearchEngine[] = [
+export const supportedSearchEngines: SupportedShoukaiSearchEngineText[] = [
   "bing",
   "duckduckgo",
   "google",
   "yandex",
 ];
 
-export const supportedSearchEnginesParsers: SupportedSearchEngine[] = [
-  "duckduckgo",
-  "google",
-  "yandex",
-];
+export const supportedSearchEnginesParsers: SupportedShoukaiSearchEngineText[] =
+  ["duckduckgo", "google", "yandex"];
 
 const getDirectShortcutsForMagicWords = (
   magicWords: string[],
@@ -53,7 +48,7 @@ const getDirectShortcutsForMagicWords = (
 // TODO: move to editable setting
 export const directShortcutByKey: {
   [id: string]: SearchDirectShortcut;
-} = {
+} = getShortcutsFromStart() || {
   ...getDirectShortcutsForMagicWords(["d"], (phrase: string) =>
     getDuckDuckGoSearchUrl(phrase),
   ),

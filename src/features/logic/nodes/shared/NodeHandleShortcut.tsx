@@ -1,0 +1,115 @@
+import { Position } from "@xyflow/react";
+
+import { ShoukaiShortcut } from "../type/schema";
+import { NodeHandle } from "./NodeHandle";
+import PanelFlow from "../../components/panel/PanelFlow";
+import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
+import { updateNode } from "../../stores/useDiagramStore";
+import { getDeepMerged, getObjectFromPath } from "../../utils/object";
+import { VARIABLE_REFERENCES } from "../../constants";
+import Field from "@/components/UI/Field";
+import { NO_BREAK_SPACE } from "@/utils/text";
+import { getUnique } from "@/utils/array";
+import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
+import { FlowSelectSearchToOpen } from "../../components/controls/FlowSelectSearchToOpen/FlowSelectSearchToOpen";
+import IconSearchType from "@/components/Icons/IconSearchType";
+import { cn } from "@/utils/tailwind";
+
+type Props = {
+  nodeId: string;
+  dataPath: string;
+  className?: string;
+  shortcut: ShoukaiShortcut;
+};
+
+export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
+  const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
+
+  return (
+    <>
+      <NodeHandle
+        variant="horizontal"
+        type="source"
+        position={Position.Right}
+        onClick={() => setIsOpen(!isOpen)}
+        isDisabled
+      >
+        <span
+          className={cn(
+            "flex-shrink-0 max-w-[120px]",
+            "mr-auto",
+            "text-[8px] line-clamp-1 break-all",
+          )}
+        >
+          {shortcut.triggers.join(", ")}
+        </span>{" "}
+        <span className="line-clamp-1 break-all">
+          {shortcut.name || NO_BREAK_SPACE}
+        </span>
+        <div className="ml-0.5 -mr-0 flex-shrink-0">
+          <IconSearchType type={shortcut.type} className={cn("size-3")} />
+        </div>
+      </NodeHandle>
+      <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>
+        <Field.Wrapper>
+          <Field label="Shortcut name">
+            <FormulaBuilder
+              value={shortcut.name}
+              onChange={(next) => {
+                updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
+              }}
+              references={["{{phrase}}", "{{lang}}"]}
+            />
+          </Field>
+          <Field
+            label="Triggers"
+            valueDescription="When query starts or ends with."
+          >
+            <FormulaBuilder
+              value={shortcut.triggers.join(" ")}
+              onChange={(next) => {
+                updateNode(
+                  nodeId,
+                  getObjectFromPath(
+                    `${dataPath}.triggers`,
+                    getUnique(
+                      next
+                        .split(" ")
+                        .flatMap((nextPart) => nextPart.split(",")),
+                    ),
+                  ),
+                );
+              }}
+              references={VARIABLE_REFERENCES.EMPTY}
+            />
+          </Field>
+          <Field label="Open">
+            <FlowSelectSearchToOpen
+              value={shortcut}
+              onChange={({ type, searchEngine }) => {
+                const next = getDeepMerged(
+                  getObjectFromPath(`${dataPath}.type`, type),
+                  getObjectFromPath(`${dataPath}.searchEngine`, searchEngine),
+                );
+
+                updateNode(nodeId, next);
+              }}
+            />
+          </Field>
+          <Field label="With phrase">
+            <FormulaBuilder
+              value={shortcut.phrase}
+              onChange={(next) => {
+                updateNode(
+                  nodeId,
+                  getObjectFromPath(`${dataPath}.phrase`, next),
+                );
+              }}
+              references={VARIABLE_REFERENCES.DEFAULT}
+            />
+          </Field>
+        </Field.Wrapper>
+      </PanelFlow>
+    </>
+  );
+};
