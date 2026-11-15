@@ -66,7 +66,7 @@ export const NodeHandleShortcut = ({
               onChange={(next) => {
                 updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
               }}
-              references={["{{phrase}}", "{{lang}}"]}
+              references={VARIABLE_REFERENCES.DEFAULT}
             />
           </Field>
           <Field

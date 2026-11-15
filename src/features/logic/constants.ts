@@ -1,9 +1,17 @@
-export const VARIABLE_REFERENCES = {
+export type Reference = `{{${string}}}`;
+
+export type MaybeReference = Reference | (string & {}) | undefined;
+
+export type ReferenceConfig = {
+  value: Reference;
+  label: string;
+  type: "string" | "number";
+};
+
+export const VARIABLE_REFERENCES: Record<
+  "EMPTY" | "DEFAULT",
+  ReferenceConfig[]
+> = {
   EMPTY: [],
-  DEFAULT: [
-    "{{phrase}}",
-    // "{{lang}}",
-    // "{{global.exampleVariable}}",
-    // "{{node.8c9760d6-2cee-49eb-ae1e-6b6ca06943b2.from}}",
-  ],
+  DEFAULT: [{ value: "{{phrase}}", label: "Phrase", type: "string" }],
 };

@@ -4,10 +4,11 @@ import {
   CaretPositionStatus,
   getCaretPositionStatus,
 } from "../utils/getCaretPositionStatus";
+import { ReferenceConfig } from "@/features/logic/constants";
 
 type Props = {
   value: string;
-  references: string[] | undefined;
+  references: ReferenceConfig[] | undefined;
   onChange: (value: string) => void;
 };
 

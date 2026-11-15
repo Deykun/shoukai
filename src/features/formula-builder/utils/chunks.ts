@@ -1,4 +1,6 @@
+import { Reference, ReferenceConfig } from "@/features/logic/constants";
 import { REFERENCE_START, REFERENCE_END } from "../constants";
+import { getIsValidReference } from "./references/getIsValidReference";
 
 type ChunkShared = {
   startingPosition: number;
@@ -12,7 +14,7 @@ export type Chunk =
     } & ChunkShared)
   | ({
       type: "reference";
-      reference: string;
+      reference: Reference;
       state: "invalid" | "valid";
     } & ChunkShared);
 
@@ -32,7 +34,7 @@ const pushText = (chunks: Chunk[], value: string, startingPosition: number) => {
 
 export const getChunksFromValue = (
   value: string,
-  references: string[] = [],
+  references: ReferenceConfig[] = [],
 ): Chunk[] => {
   if (!value) {
     return [{ type: "text", value: "", startingPosition: 0, toPosition: 0 }];
@@ -65,8 +67,11 @@ export const getChunksFromValue = (
     pushText(chunks, value.slice(textStart, start), textStart);
     chunks.push({
       type: "reference",
-      reference,
-      state: references.includes(reference) ? "valid" : "invalid",
+      // TODO: better guard?
+      reference: reference as Reference,
+      state: getIsValidReference({ referenceToCheck: reference, references })
+        ? "valid"
+        : "invalid",
       startingPosition: start,
       toPosition: next,
     });
