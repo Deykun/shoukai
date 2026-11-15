@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 import useSearchStore from "@/features/search/stores/searchStore";
 
@@ -9,7 +9,9 @@ const Map = () => {
   const metaResults = useSearchStore((state) => state.meta.results);
   const { i18n } = useTranslation();
 
-  if (!metaResults.includes("city")) {
+  const hasCityTag = metaResults.some(({ tag }) => tag === "city");
+
+  if (!hasCityTag) {
     return null;
   }
 

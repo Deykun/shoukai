@@ -11,7 +11,7 @@ import HistoryModalSection from "./HistoryModalSection";
 import ButtonText from "@/components/UI/ButtonText";
 
 const HistoryModal = () => {
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [, setRefreshKey] = useState(0);
   const isOpen = useAppStore((state) => state.modal.type === "history");
 
   const { t } = useTranslation();
@@ -40,14 +40,14 @@ const HistoryModal = () => {
         return {
           stamp,
           items: Object.values(queries).sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
           ),
         };
       }, [])
       .reverse();
 
     return queriesAsMap;
-  }, [refreshKey, isOpen]);
+  }, [isOpen]);
 
   if (!isOpen) {
     return null;

@@ -48,7 +48,7 @@ export const getDirectShortcutIfPresent = (
 };
 
 export const getRecipesForPhrase = (
-  searchPhrase: string,
+  _searchPhrase: string,
   recipes: ShoukaiSearchRecipe[],
   tags: Tag[],
 ) => {
@@ -153,7 +153,7 @@ export const indexResults = (
       const scoredResults = results.map((result) => {
         const title = result.title
           .toLowerCase()
-          .replace(/[\)|\-|\(|0-9]/g, " ")
+          .replace(/[)|\-|(|0-9]/g, " ")
           .split(" ")
           .filter((word) => word && !wordsToIgnore.includes(word))
           .join(" ");

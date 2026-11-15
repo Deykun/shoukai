@@ -46,7 +46,7 @@ const FormulaInputRaw = ({
     if (autoFocus) {
       focusEnd();
     }
-  }, []);
+  }, [autoFocus, focusEnd]);
 
   // Chunk index of the reference being edited; null = adding at the caret.
   const [editedIndex, setEditedIndex] = useState<number | null>(null);

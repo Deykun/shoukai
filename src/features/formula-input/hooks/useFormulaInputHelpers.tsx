@@ -92,7 +92,7 @@ const useFormulaInputHelpers = ({ value, onChange }: Params) => {
     input?.focus();
     input?.setSelectionRange(caret.offset, caret.offset);
     setLastCaret(caret);
-  });
+  }, []);
 
   // Every chunk change goes through here so the invariant is enforced and the
   // requested caret survives any padding inserted in front of it.
@@ -185,10 +185,10 @@ const useFormulaInputHelpers = ({ value, onChange }: Params) => {
       const target = lastCaret ? chunks[lastCaret.index] : undefined;
 
       if (!lastCaret || target?.type !== "input") {
-        commitChunks(
-          [...chunks, variable, { type: "input", value: "" }],
-          { index: chunks.length + 1, offset: 0 },
-        );
+        commitChunks([...chunks, variable, { type: "input", value: "" }], {
+          index: chunks.length + 1,
+          offset: 0,
+        });
 
         return;
       }
@@ -257,10 +257,10 @@ const useFormulaInputHelpers = ({ value, onChange }: Params) => {
       }
 
       if (previous?.type === "variable") {
-        commitChunks(
-          [...chunks.slice(0, index - 1), ...chunks.slice(index)],
-          { index: index - 1, offset: 0 },
-        );
+        commitChunks([...chunks.slice(0, index - 1), ...chunks.slice(index)], {
+          index: index - 1,
+          offset: 0,
+        });
 
         return;
       }

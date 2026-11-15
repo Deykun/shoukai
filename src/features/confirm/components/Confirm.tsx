@@ -15,13 +15,13 @@ export const Confirm = () => {
 
   useEffect(() => {
     setIsOpen(state === CONFIRM_STATE.ACTIVE);
-  }, [state]);
+  }, [setIsOpen, state]);
 
   useEffect(() => {
     if (!isOpen) {
       onCancel();
     }
-  }, [isOpen]);
+  }, [isOpen, onCancel]);
 
   return (
     <PanelFlow insideRef={setInsideRef} isOpen={isOpen}>

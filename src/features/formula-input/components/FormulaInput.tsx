@@ -24,10 +24,13 @@ function FormulaInputComponent({
     stringToChunks(typeof value === "string" ? value : ""),
   );
 
-  const handleChunksChange = useCallback((next: Chunk[]) => {
-    setChunks(next);
-    onChange(chunksToString(next));
-  }, []);
+  const handleChunksChange = useCallback(
+    (next: Chunk[]) => {
+      setChunks(next);
+      onChange(chunksToString(next));
+    },
+    [onChange],
+  );
 
   return (
     <FormulaInputRaw

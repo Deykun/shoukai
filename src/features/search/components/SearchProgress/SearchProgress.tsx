@@ -44,9 +44,10 @@ const SearchProgress = () => {
       tabsCompleted: 0,
       tabsTotal: 0,
     });
-  }, []);
+  }, [searchPhrase]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     handleStorageUpdate();
 
     window.addEventListener("storage", handleStorageUpdate);

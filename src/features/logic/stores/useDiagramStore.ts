@@ -29,6 +29,7 @@ export type DiagramStore = {
 export const useDiagramStore = create<DiagramStore>()(
   persist(
     devtools(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (_get, _set) => ({
         nodes: [],
         edges: [],

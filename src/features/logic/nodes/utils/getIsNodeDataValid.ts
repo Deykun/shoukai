@@ -1,4 +1,3 @@
-import z from "zod";
 import { nodeSchemaByNodeType } from "../type/nodeTypes";
 import { ShoukaiNodeDataByType, ShoukaiNodeType } from "../type/types";
 
@@ -18,11 +17,16 @@ export const getIsNodeDataValid = <T extends ShoukaiNodeType>(
     return { success: false };
   }
 
-  const result = isPartial ? schema.partial().safeParse(data) : schema.safeParse(data);
+  const result = isPartial
+    ? schema.partial().safeParse(data)
+    : schema.safeParse(data);
 
   if (!result.success) {
     return { success: false };
   }
 
-  return { success: true, data: result.data as Partial<ShoukaiNodeDataByType[T]> };
+  return {
+    success: true,
+    data: result.data as Partial<ShoukaiNodeDataByType[T]>,
+  };
 };

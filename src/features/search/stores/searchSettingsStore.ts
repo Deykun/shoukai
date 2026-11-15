@@ -55,6 +55,7 @@ type AppStoreState = {
 export const useSearchSettingsStore = create<AppStoreState>()(
   persist(
     devtools(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (_get, _set) => ({
         shouldOpenNewTabForResults: false,
         defaultEngines: {

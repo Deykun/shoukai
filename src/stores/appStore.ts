@@ -11,6 +11,7 @@ type ModalWithoutState = {
     | "history"
     | "logic"
     | "default-search-engines";
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   data: {};
 };
 
@@ -43,7 +44,7 @@ const INIT_STATE: AppStoreState = {
 };
 
 export const useAppStore = create<AppStoreState>()(
-  devtools((_get, _set) => INIT_STATE, { name: "appStore" }),
+  devtools(() => INIT_STATE, { name: "appStore" }),
 );
 
 const MODALS_WITH_OWN_CLOSE = ["logic"];

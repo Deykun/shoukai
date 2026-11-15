@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
 
 import { ShoukaiQuery } from "@/types";
 import { closeModal } from "@/stores/appStore";
@@ -14,7 +13,7 @@ import ButtonIcon from "@/components/UI/ButtonIcon";
 type Props = {
   stamp: string;
   items: ShoukaiQuery[];
-  refreshMap?: () => void,
+  refreshMap?: () => void;
 };
 
 const HistoryModalSection = ({ stamp, items, refreshMap }: Props) => {
@@ -33,7 +32,7 @@ const HistoryModalSection = ({ stamp, items, refreshMap }: Props) => {
         refreshMap();
       }
     },
-    [refreshMap]
+    [refreshMap],
   );
 
   return (
@@ -41,7 +40,7 @@ const HistoryModalSection = ({ stamp, items, refreshMap }: Props) => {
       <h2
         className={clsx(
           "sticky top-0 bg-[#f5f9ef] px-4 py-2 rounded-md",
-          "font-[600] flex gap-2 items-center"
+          "font-[600] flex gap-2 items-center",
         )}
       >
         {stamp}

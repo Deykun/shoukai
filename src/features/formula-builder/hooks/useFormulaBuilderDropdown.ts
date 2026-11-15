@@ -40,7 +40,7 @@ export const useFormulaBuilderDropdown = (props: Props) => {
         setIsOpen(false);
       }
     },
-    [props.references, props.value],
+    [props.references, props.value, setIsOpen],
   );
 
   const handleReferencePicked = useCallback(
@@ -62,7 +62,7 @@ export const useFormulaBuilderDropdown = (props: Props) => {
 
       props.onChange(`${before}${reference}${after}`);
     },
-    [caretPositionStatus, props.references, props.value],
+    [caretPositionStatus, props],
   );
 
   return {

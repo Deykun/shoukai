@@ -63,14 +63,14 @@ const SidebarWikipedia = () => {
         setMetaForResults(searchPhrase, meta);
       }
     }
-  }, [data]);
+  }, [data, i18n.language, searchPhrase]);
 
   if (!wikipediaSearchPhrase) {
     return null;
   }
 
   const wikipediaUrl = `https://${i18n.language}.wikipedia.org/wiki/${encodeURI(
-    data?.title || wikipediaSearchPhrase
+    data?.title || wikipediaSearchPhrase,
   )}`;
 
   return (
@@ -91,7 +91,7 @@ const SidebarWikipedia = () => {
           {data?.description && data?.description !== data?.title && (
             <p className="text-xs line-clamp-6 leading-5">
               {MANY_RESULTS_API_RESPONSE[i18n.language].includes(
-                data?.description
+                data?.description,
               )
                 ? t("wikipedia.manyResults")
                 : data?.description}

@@ -7,7 +7,7 @@ type SupportedParams = {
 };
 
 export const getInitDataFromSearchParams = () => {
-  let init: SupportedParams = {
+  const init: SupportedParams = {
     searchPhrase: "",
   };
 
@@ -32,24 +32,23 @@ export const getSearchParamsFromData = ({ searchPhrase }: SupportedParams) => {
 
 export const getSearchKeyAndDomainURL = (
   searchPhrase: string,
-  recipe: ShoukaiSearchRecipe
+  recipe: ShoukaiSearchRecipe,
 ) => {
   const searchEngine = recipe.searchEngine || "default";
   const getSearchUrl = getSearchUrlGetterBySearchEngine(searchEngine);
 
   const phraseTemplate =
-    recipe.searchOptions[searchEngine] ||
-    recipe.searchOptions.default;
+    recipe.searchOptions[searchEngine] || recipe.searchOptions.default;
 
   const lowerCasedSearchPhrase = searchPhrase.toLowerCase();
   const phraseToSearch = phraseTemplate.replace(
     "[phrase]",
-    lowerCasedSearchPhrase
+    lowerCasedSearchPhrase,
   );
 
   const searchKey = getSearchKey(
     `${phraseToSearch} ${searchEngine}`,
-    getSearchUrl(searchPhrase, "seed")
+    getSearchUrl(searchPhrase, "seed"),
   );
   const domainWithSearch = getSearchUrl(phraseToSearch, searchKey);
 

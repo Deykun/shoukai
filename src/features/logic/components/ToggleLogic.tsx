@@ -3,8 +3,6 @@ import useAppStore, {
   toggleSettingsPane,
 } from "@/stores/appStore";
 
-import IconFlow from "@/components/Icons/IconFlow";
-
 import ButtonText from "@/components/UI/ButtonText";
 import IconCircuit from "@/components/Icons/IconCircuit";
 

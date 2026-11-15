@@ -1,8 +1,6 @@
-import IconSearchSettings from "@/components/Icons/IconSearchSettings";
-import ButtonIcon from "@/components/UI/ButtonIcon";
 import { cn } from "@/utils/tailwind";
 import { PropsWithChildren } from "react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 type Props = {
   className?: string;
@@ -13,10 +11,10 @@ type Props = {
 const NodeOptions = ({
   className,
   isSelected,
-  onEdit,
-  children,
+  // onEdit,
+  // children,
 }: PropsWithChildren<Props>) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   return (
     <aside

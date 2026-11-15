@@ -3,15 +3,11 @@ import clsx from "clsx";
 
 import ButtonText from "@/components/UI/ButtonText";
 
-import IconBookWithBookmark from "@/components/Icons/IconBookWithBookmark";
 import IconSearchSettings from "@/components/Icons/IconSearchSettings";
-import IconTag from "@/components/Icons/IconTag";
 import IconPaint from "@/components/Icons/IconPaint";
 import IconMergeUserScript from "@/components/Icons/IconMergeUserScript";
-import IconArrowForward from "@/components/Icons/IconArrowForward";
 
 import General from "../General/General";
-import Recipes from "../Recipes/Recipes";
 import Script from "../Script/Script";
 import ToggleLogic from "@/features/logic/components/ToggleLogic";
 

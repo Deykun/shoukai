@@ -6,6 +6,7 @@ type Props = {
   data: TypeNodeData;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function NodeStartContent(_props: Props) {
   return <NodeRichMessage>All new queries start here.</NodeRichMessage>;
 }
