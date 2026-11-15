@@ -13,9 +13,9 @@ const SearchResultsSummary = () => {
   }
 
   return (
-    <p className="flex text-sm">
+    <p className="flex text-sm whitespace-nowrap truncate text-ellipsis max-w-[300px]">
       “{" "}
-      <span className="tracking-wider font-[600] text-black max-w-[300px] truncate text-ellipsis">
+      <span className="tracking-wider font-[600] text-black truncate text-ellipsis">
         {searchPhrase}
       </span>{" "}
       ” -{" "}
