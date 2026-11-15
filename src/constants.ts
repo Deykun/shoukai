@@ -1,9 +1,4 @@
-import {
-  SearchRecipe,
-  SearchDirectShortcut,
-  UserSearchRecipe,
-  SearchDirectShortcutsIndex,
-} from "@/types";
+import { SearchDirectShortcut, SearchDirectShortcutsIndex } from "@/types";
 
 import {
   getDuckDuckGoSearchUrl,
@@ -12,8 +7,6 @@ import {
   getGoogleMapsSearchUrl,
 } from "@/features/search/utils/search";
 
-import { recipe as moviesProgramming } from "@/recipes/movies";
-import { recipe as programmingRecipe } from "@/recipes/programming";
 import { getChatGPTAskUrl } from "./features/search/utils/ask";
 import { SupportedShoukaiSearchEngineText } from "./types/supported/text-engines";
 import { getShortcutsFromStart } from "./features/logic-runner/parsers/shortcuts/actions/getShortcutsFromStart";
@@ -72,54 +65,7 @@ export const directShortcutByKey: SearchDirectShortcutsIndex =
 
 export const directShortcuts = Object.values(directShortcutByKey);
 
-console.log("directShortcuts", directShortcuts);
-
-export const recipeById: {
-  [id: string]: SearchRecipe;
-} = {
-  movies: {
-    ...moviesProgramming,
-    id: "movies",
-  },
-  programming: {
-    ...programmingRecipe,
-    id: "programming",
-  },
-};
-
-export const initRecipes = Object.values(recipeById).reduce(
-  (
-    stack: {
-      [id: string]: UserSearchRecipe;
-    },
-    { id },
-  ) => {
-    stack[id] = { id, isActive: true };
-
-    return stack;
-  },
-  {},
-);
-
-export const PATHS_DATA: {
-  path: string;
-  title: string;
-  social: string;
-  lang: string;
-}[] = [
-  {
-    path: "404",
-    title: "404 - shoukai - personalized search",
-    social: "",
-    lang: "en",
-  },
-  {
-    path: "reindex",
-    title: "indexing... - shoukai - personalized search",
-    social: "",
-    lang: "en",
-  },
-] as const;
+export { PATHS_DATA } from "./paths-data";
 
 export const LOCAL_STORAGE = {
   SHOUKAI_UPDATE: "SHOUKAI_UPDATE",

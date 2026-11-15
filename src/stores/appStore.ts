@@ -36,7 +36,8 @@ const MODAL_EMPTY: ModalWithoutState = {
 const INIT_STATE: AppStoreState = {
   topPane: "",
   modal: {
-    type: "logic",
+    // type: "logic",
+    type: "",
     data: {},
   },
 };

@@ -9,7 +9,7 @@ import { cn } from "@/utils/tailwind";
 const ModalLogic = () => {
   const isOpen = useAppStore((state) => state.modal.type === "logic");
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   if (!isOpen) {
     return null;

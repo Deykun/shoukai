@@ -1,5 +1,5 @@
 import fs from "fs";
-import { PATHS_DATA } from "../src/constants";
+import { PATHS_DATA } from "../src/paths-data";
 
 PATHS_DATA.forEach(({ path, title, social, lang = "en" }) => {
   let html = fs.readFileSync("./dist/index.html", "utf-8");

@@ -1,25 +1,52 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-
-import { initRecipes, recipeById } from "@/constants";
-import { ShoukaiSearchRecipe, UserSearchRecipe } from "@/types";
+import { recipe as moviesProgramming } from "@/recipes/movies";
+import { recipe as programmingRecipe } from "@/recipes/programming";
+import { SearchRecipe, ShoukaiSearchRecipe, UserSearchRecipe } from "@/types";
+import { SupportedShoukaiSearchEngineTextParsers } from "@/types/supported/text-engines";
 import {
-  SupportedShoukaiSearchEngineText,
-  SupportedShoukaiSearchEngineTextParsers,
-} from "@/types/supported/text-engines";
-import { SupportedSearchEngineImage } from "@/types/supported/image-engines";
-import { SupportedShoukaiSearchEngineMap } from "@/types/supported/map-engines";
-import { SupportedShoukaiChatbot } from "@/types/supported/chatbots";
+  SearchEngineToOpen,
+  SearchEngineToOpenType,
+} from "@/features/logic-runner/parsers/openers/types";
+
+export type DefaultSearchEngines = {
+  [Type in SearchEngineToOpenType]: Exclude<
+    Extract<SearchEngineToOpen, { type: Type }>["searchEngine"],
+    "defaultSearch"
+  >;
+};
+
+export const recipeById: {
+  [id: string]: SearchRecipe;
+} = {
+  movies: {
+    ...moviesProgramming,
+    id: "movies",
+  },
+  programming: {
+    ...programmingRecipe,
+    id: "programming",
+  },
+};
+
+export const initRecipes = Object.values(recipeById).reduce(
+  (
+    stack: {
+      [id: string]: UserSearchRecipe;
+    },
+    { id },
+  ) => {
+    stack[id] = { id, isActive: true };
+
+    return stack;
+  },
+  {},
+);
 
 type AppStoreState = {
   shouldOpenNewTabForResults: boolean;
-  defaultEngines: {
-    text: SupportedShoukaiSearchEngineText;
-    textParser: SupportedShoukaiSearchEngineTextParsers;
-    image: SupportedSearchEngineImage;
-    map: SupportedShoukaiSearchEngineMap;
-    chatbot: SupportedShoukaiChatbot;
-  };
+  defaultEngines: DefaultSearchEngines;
+  defaultTextParser: SupportedShoukaiSearchEngineTextParsers;
   recipesById: {
     [id: string]: UserSearchRecipe;
   };
@@ -31,31 +58,59 @@ export const useSearchSettingsStore = create<AppStoreState>()(
       (_get, _set) => ({
         shouldOpenNewTabForResults: false,
         defaultEngines: {
-          text: "google",
-          textParser: "google",
-          image: "google",
-          map: "google",
-          chatbot: "chatgpt",
+          "search-text": "google",
+          "search-image": "google",
+          "search-location": "google",
+          "ask-chatbot": "chatgpt",
         },
+        defaultTextParser: "google",
         recipesById: initRecipes,
       }),
       { name: "searchSettingsStore" },
     ),
-    { name: "search-settings-store" },
+    {
+      name: "search-settings-store",
+      version: 1,
+      migrate: (persisted, version) => {
+        const state = persisted as Record<string, unknown>;
+
+        if (version < 1) {
+          const old = (state.defaultEngines ?? {}) as Record<string, string>;
+
+          return {
+            ...state,
+            defaultEngines: {
+              "search-text": old.text ?? "google",
+              "search-image": old.image ?? "google",
+              "search-location": old.map ?? "google",
+              "ask-chatbot": old.chatbot ?? "chatgpt",
+            },
+            defaultTextParser: old.textParser ?? "google",
+          } as AppStoreState;
+        }
+
+        return state as AppStoreState;
+      },
+    },
   ),
 );
 
-export const setDefaultSearch = (
-  type: keyof AppStoreState["defaultEngines"],
-  value: string,
+export const setDefaultSearch = <Type extends SearchEngineToOpenType>(
+  type: Type,
+  value: DefaultSearchEngines[Type],
 ) => {
   useSearchSettingsStore.setState((state) => ({
-    ...state,
     defaultEngines: {
       ...state.defaultEngines,
       [type]: value,
     },
   }));
+};
+
+export const setDefaultTextParser = (
+  value: SupportedShoukaiSearchEngineTextParsers,
+) => {
+  useSearchSettingsStore.setState({ defaultTextParser: value });
 };
 
 export const toggleShouldOpenNewTabForResult = () => {

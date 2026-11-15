@@ -1,11 +1,14 @@
+import useSearchSettingsStore from "@/features/search/stores/searchSettingsStore";
 import { SearchEngineToOpen, SearchEngineToOpenType } from "../types";
 import { getAppleMapsSearchUrl } from "../utils/getAppleMapsSearchUrl";
 import { getBingSearchUrl } from "../utils/getBingSearchUrl";
 import { getChatGPTSearchUrl } from "../utils/getChatGPTSearchUrl";
+import { getClaudeSearchUrl } from "../utils/getClaudeSearchUrl";
 import { getDuckDuckGoSearchUrl } from "../utils/getDuckDuckGoSearchUrl";
 import { getGoogleImagesSearchUrl } from "../utils/getGoogleImagesSearchUrl";
 import { getGoogleMapsSearchUrl } from "../utils/getGoogleMapsSearchUrl";
 import { getGoogleSearchUrl } from "../utils/getGoogleSearchUrl";
+import { getOSMSearchUrl } from "../utils/getOSMSearchUrl";
 import { getYandexSearchUrl } from "../utils/getYandexSearchUrl";
 
 type SearchUrlBuilder = (phrase: string) => string;
@@ -32,9 +35,11 @@ const searchUrlBuilders: SearchUrlBuilders = {
   "search-location": {
     apple: getAppleMapsSearchUrl,
     google: getGoogleMapsSearchUrl,
+    openstreetmap: getOSMSearchUrl,
   },
   "ask-chatbot": {
     chatgpt: getChatGPTSearchUrl,
+    claude: getClaudeSearchUrl,
   },
 };
 
@@ -54,10 +59,16 @@ export const getSearchUrlFromSearchEngine = ({
   const buildersForType: Partial<Record<string, SearchUrlBuilder>> =
     searchUrlBuilders[searchEngineToOpen.type];
 
-  const getSearchUrl = buildersForType[searchEngineToOpen.searchEngine];
+  let searchEngine = searchEngineToOpen.searchEngine;
+  if (searchEngine === "defaultSearch") {
+    searchEngine =
+      useSearchSettingsStore.getState().defaultEngines[searchEngineToOpen.type];
+  }
+
+  const getSearchUrl = buildersForType[searchEngine];
   if (!getSearchUrl) {
     throw new Error(
-      `Search engine "${searchEngineToOpen.searchEngine}" is picked for "${searchEngineToOpen.type}" but is not yet supported.`,
+      `Search engine "${searchEngine}" is picked for "${searchEngineToOpen.type}" but is not yet supported.`,
     );
   }
 

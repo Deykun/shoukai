@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
-import { recipeById } from "@/constants";
 import { SearchResultEvaluated } from "@/types";
 import { toggleRecipeModal } from "@/stores/appStore";
 
@@ -9,6 +8,7 @@ import IconLogo from "@/components/Icons/IconLogo";
 
 import ButtonIcon from "@/components/UI/ButtonIcon";
 import ButtonText from "@/components/UI/ButtonText";
+import { recipeById } from "../../stores/searchSettingsStore";
 
 type Props = {
   isOpen: boolean;
@@ -35,7 +35,7 @@ const SearchResultsItemFooter = ({ isOpen, result }: Props) => {
         {
           "mt-2 -mb-2 max-h-10 opacity-100": isOpen,
           "-mt-2 max-h-0 opacity-0": !isOpen,
-        }
+        },
       )}
     >
       <ButtonIcon

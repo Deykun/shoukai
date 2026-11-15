@@ -14,12 +14,17 @@ import {
 import { useTranslation } from "react-i18next";
 import useSearchSettingsStore, {
   setDefaultSearch,
+  setDefaultTextParser,
 } from "../stores/searchSettingsStore";
+import { cn } from "@/utils/tailwind";
 
 const ModalDefaultSearchEngines = () => {
   const modal = useAppStore((state) => state.modal);
   const defaultEngines = useSearchSettingsStore(
     (store) => store.defaultEngines,
+  );
+  const defaultTextParser = useSearchSettingsStore(
+    (store) => store.defaultTextParser,
   );
 
   const { t } = useTranslation();
@@ -55,8 +60,8 @@ const ModalDefaultSearchEngines = () => {
             return value === "defaultSearch" ? null : (
               <ButtonText
                 key={value}
-                onClick={() => setDefaultSearch("text", value)}
-                isActive={value === defaultEngines.text}
+                onClick={() => setDefaultSearch("search-text", value)}
+                isActive={value === defaultEngines["search-text"]}
               >
                 <IconLogoSearch engine={value as string} />
                 <span>{t(`search.${value}`)}</span>
@@ -72,8 +77,8 @@ const ModalDefaultSearchEngines = () => {
             return value === "defaultSearch" ? null : (
               <ButtonText
                 key={value}
-                onClick={() => setDefaultSearch("textParser", value)}
-                isActive={value === defaultEngines.textParser}
+                onClick={() => setDefaultTextParser(value)}
+                isActive={value === defaultTextParser}
               >
                 <IconLogoSearch engine={value as string} />
                 <span>{t(`search.${value}`)}</span>
@@ -89,8 +94,8 @@ const ModalDefaultSearchEngines = () => {
             return value === "defaultSearch" ? null : (
               <ButtonText
                 key={value}
-                onClick={() => setDefaultSearch("image", value)}
-                isActive={value === defaultEngines.image}
+                onClick={() => setDefaultSearch("search-image", value)}
+                isActive={value === defaultEngines["search-image"]}
               >
                 <IconLogoSearch engine={value as string} />
                 <span>{t(`search.${value}`)}</span>
@@ -106,8 +111,8 @@ const ModalDefaultSearchEngines = () => {
             return value === "defaultSearch" ? null : (
               <ButtonText
                 key={value}
-                onClick={() => setDefaultSearch("map", value)}
-                isActive={value === defaultEngines.map}
+                onClick={() => setDefaultSearch("search-location", value)}
+                isActive={value === defaultEngines["search-location"]}
               >
                 <IconLogoSearch engine={value as string} />
                 <span>{t(`search.${value}`)}</span>
@@ -123,8 +128,8 @@ const ModalDefaultSearchEngines = () => {
             return value === "defaultSearch" ? null : (
               <ButtonText
                 key={value}
-                onClick={() => setDefaultSearch("chatbot", value)}
-                isActive={value === defaultEngines.chatbot}
+                onClick={() => setDefaultSearch("ask-chatbot", value)}
+                isActive={value === defaultEngines["ask-chatbot"]}
               >
                 <IconLogoSearch engine={value as string} />
                 <span>{t(`search.${value}`)}</span>
@@ -138,8 +143,12 @@ const ModalDefaultSearchEngines = () => {
             their respective owners and are used solely to identify the brands
             and products that this website links to.{" "}
             <strong>
-              This page is not affiliated with, endorsed by, or sponsored by any
-              of the brands or companies represented
+              This page is{" "}
+              <span className={cn("no-underline", "border-b border-b-[red]")}>
+                not
+              </span>{" "}
+              affiliated with, endorsed by, or sponsored by any of the brands or
+              companies represented
             </strong>
             .
           </p>

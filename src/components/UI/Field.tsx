@@ -27,7 +27,7 @@ const Field = ({
       <h3 className="md:text-right text-primary-contrast font-[600]">
         {t(label)}
       </h3>
-      <div className="col-span-3">{children}</div>
+      <div className={cn("col-span-3", "flex flex-wrap gap-1")}>{children}</div>
       {hasDescription && (
         <>
           <span className="-mt-2 text-xs text-[#979f8a] md:text-right">
