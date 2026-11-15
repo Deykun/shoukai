@@ -35,7 +35,6 @@ const MODAL_EMPTY: ModalWithoutState = {
 
 const INIT_STATE: AppStoreState = {
   topPane: "",
-  // modal: MODAL_EMPTY,
   modal: {
     type: "logic",
     data: {},
@@ -68,6 +67,7 @@ export const toggleSettingsPane = () => {
 export const closeModal = () => {
   useAppStore.setState(() => {
     return {
+      topPane: "settings",
       modal: MODAL_EMPTY,
     };
   });

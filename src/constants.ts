@@ -1,4 +1,9 @@
-import { SearchRecipe, SearchDirectShortcut, UserSearchRecipe } from "@/types";
+import {
+  SearchRecipe,
+  SearchDirectShortcut,
+  UserSearchRecipe,
+  SearchDirectShortcutsIndex,
+} from "@/types";
 
 import {
   getDuckDuckGoSearchUrl,
@@ -11,7 +16,7 @@ import { recipe as moviesProgramming } from "@/recipes/movies";
 import { recipe as programmingRecipe } from "@/recipes/programming";
 import { getChatGPTAskUrl } from "./features/search/utils/ask";
 import { SupportedShoukaiSearchEngineText } from "./types/supported/text-engines";
-import { getShortcutsFromStart } from "./features/logic-runner/utils/get-shortcuts-from-start";
+import { getShortcutsFromStart } from "./features/logic-runner/parsers/shortcuts/actions/getShortcutsFromStart";
 
 export const supportedSearchEngines: SupportedShoukaiSearchEngineText[] = [
   "bing",
@@ -30,7 +35,7 @@ const getDirectShortcutsForMagicWords = (
   return magicWords.reduce(
     (
       stack: {
-        [id: string]: SearchDirectShortcut;
+        [magicWord: string]: SearchDirectShortcut;
       },
       word,
     ) => {
@@ -46,25 +51,24 @@ const getDirectShortcutsForMagicWords = (
 };
 
 // TODO: move to editable setting
-export const directShortcutByKey: {
-  [id: string]: SearchDirectShortcut;
-} = getShortcutsFromStart() || {
-  ...getDirectShortcutsForMagicWords(["d"], (phrase: string) =>
-    getDuckDuckGoSearchUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["g", "google"], (phrase: string) =>
-    getGoogleSearchUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["img"], (phrase: string) =>
-    getGoogleImagesSearchUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["?"], (phrase: string) =>
-    getChatGPTAskUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["gm"], (phrase: string) =>
-    getGoogleMapsSearchUrl(phrase),
-  ),
-};
+export const directShortcutByKey: SearchDirectShortcutsIndex =
+  getShortcutsFromStart() || {
+    ...getDirectShortcutsForMagicWords(["d"], (phrase: string) =>
+      getDuckDuckGoSearchUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["g", "google"], (phrase: string) =>
+      getGoogleSearchUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["img"], (phrase: string) =>
+      getGoogleImagesSearchUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["?"], (phrase: string) =>
+      getChatGPTAskUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["gm"], (phrase: string) =>
+      getGoogleMapsSearchUrl(phrase),
+    ),
+  };
 
 export const directShortcuts = Object.values(directShortcutByKey);
 

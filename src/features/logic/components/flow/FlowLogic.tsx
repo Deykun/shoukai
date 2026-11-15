@@ -1,9 +1,4 @@
-import {
-  ReactFlow,
-  Background,
-  BackgroundVariant,
-  ConnectionLineType,
-} from "@xyflow/react";
+import { ReactFlow, Background, BackgroundVariant } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { cn } from "@/utils/tailwind";
@@ -15,7 +10,6 @@ import useDiagramStore, {
 import { useOnDragEvents } from "../../hooks/useOnDragEvents";
 import { nodeTypes } from "../../nodes/type/nodeTypes";
 import SidebarFlow from "../sidebar/SidebarFlow";
-import { useCallback } from "react";
 import useBeforeDelete from "../../functions/delete/hooks/useBeforeDelete";
 
 import "./FlowLogic.scss";

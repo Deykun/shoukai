@@ -18,7 +18,6 @@ const ModalLogic = () => {
   return (
     <article className="animate-fade-in bg-white relative">
       <FlowLogicWrapper />
-
       <div
         className={cn(
           "fixed top-4 right-0 z-10",

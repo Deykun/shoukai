@@ -34,7 +34,23 @@ export const FormulaBuilderValue = memo(
                   "starting:bg-transparent duration-500",
                 )}
               >
-                {chunk.reference}
+                {chunk.reference.split(".").map((part, index, parts) => {
+                  const isFirst = index === 0;
+                  const isLast = index === parts.length - 1;
+
+                  return (
+                    <span
+                      key={index}
+                      className={cn({
+                        "opacity-75": isFirst,
+                        "opacity-30 saturate-50": !isFirst && !isLast,
+                      })}
+                    >
+                      {part}
+                      {!isLast && "."}
+                    </span>
+                  );
+                })}
               </span>
             );
           }

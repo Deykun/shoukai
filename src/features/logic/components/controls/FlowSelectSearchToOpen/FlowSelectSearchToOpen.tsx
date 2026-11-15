@@ -7,10 +7,12 @@ import {
   getDefaultSearchEngineToOpen,
   SEARCH_ENGINE_TO_OPEN_TYPES,
   SEARCH_ENGINES_BY_TYPE,
-  searchEngineToOpenSchema,
-  type SearchEngineToOpen,
-  type SearchEngineToOpenType,
 } from "@/features/logic/nodes/type/schema";
+import {
+  SearchEngineToOpen,
+  searchEngineToOpenSchema,
+  SearchEngineToOpenType,
+} from "@/features/logic-runner/parsers/openers/types";
 
 type Props = {
   value: SearchEngineToOpen;

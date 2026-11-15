@@ -58,6 +58,10 @@ export type SearchDirectShortcut = {
   getSearchUrl: (phrase: string) => string;
 };
 
+export type SearchDirectShortcutsIndex = {
+  [magicWord: string]: SearchDirectShortcut;
+};
+
 export type ShoukaiQuery = {
   phrase: string;
   date: Date;
