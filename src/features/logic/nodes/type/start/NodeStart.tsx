@@ -10,7 +10,10 @@ import { NodeHandleShortcut } from "../../shared/NodeHandleShortcut";
 import ButtonText from "@/components/UI/ButtonText";
 import IconPlus from "@/components/Icons/IconPlus";
 import { getObjectFromPath } from "@/features/logic/utils/object";
-import { updateNode } from "@/features/logic/stores/useDiagramStore";
+import {
+  removeNodeDataPath,
+  updateNode,
+} from "@/features/logic/stores/actions/nodeDataUpdates";
 import { generateId } from "@/utils/ids";
 import { ShoukaiShortcut } from "../schema";
 
@@ -37,6 +40,7 @@ export function NodeStart({ id, type, selected, data }: Props) {
             nodeId={id}
             dataPath={`shortcuts.${shortcutId}`}
             shortcut={shortcut}
+            onRemove={() => removeNodeDataPath(id, `shortcuts.${shortcutId}`)}
           />
         ))}
       </NodeHandlesWrapper>
@@ -44,13 +48,13 @@ export function NodeStart({ id, type, selected, data }: Props) {
         wrapperClassName="ml-auto"
         size="small"
         onClick={() => {
-          const suggestionId = generateId();
+          const shortcutId = generateId();
           updateNode(
             id,
-            getObjectFromPath(`shortcuts.${suggestionId}`, {
+            getObjectFromPath(`shortcuts.${shortcutId}`, {
               type: "search-text",
               searchEngine: "defaultSearch",
-              id: suggestionId,
+              id: shortcutId,
               name: "New shortcut",
               phrase: "{{phrase}}",
               triggers: ["new"],

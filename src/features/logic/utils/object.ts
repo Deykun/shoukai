@@ -18,6 +18,25 @@ export const getObjectFromPath = <P extends string, V>(
 const getIsPlainObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
+// drops the key at "a.b", missing path is a no-op
+export const getWithoutPath = <T>(target: T, path: string): T => {
+  const [key, ...rest] = path.split(".");
+
+  if (!getIsPlainObject(target) || !(key in target)) {
+    return target;
+  }
+
+  if (rest.length === 0) {
+    return Object.fromEntries(
+      Object.entries(target).filter(([entryKey]) => entryKey !== key),
+    ) as T;
+  }
+
+  const nested = getWithoutPath(target[key], rest.join("."));
+
+  return nested === target[key] ? target : ({ ...target, [key]: nested } as T);
+};
+
 // arrays are leaves, replaced not merged
 export const getDeepMerged = <T>(target: T, source: unknown): T => {
   if (!getIsPlainObject(target) || !getIsPlainObject(source)) {

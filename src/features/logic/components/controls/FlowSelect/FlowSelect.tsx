@@ -1,4 +1,4 @@
-import { updateNode } from "@/features/logic/stores/useDiagramStore";
+import { updateNode } from "@/features/logic/stores/actions/nodeDataUpdates";
 import { getObjectFromPath } from "@/features/logic/utils/object";
 import type {
   ObjectPath,

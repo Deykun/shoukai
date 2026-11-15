@@ -8,12 +8,8 @@ import {
   type NodeChange,
   type Connection,
 } from "@xyflow/react";
-import { ShoukaiNode, ShoukaiNodeData } from "../nodes/type/types";
-import { getDeepMerged } from "../utils/object";
-import type { DeepPartial } from "../utils/typescript";
+import { ShoukaiNode } from "../nodes/type/types";
 import { persist, devtools } from "zustand/middleware";
-import { getNodeFromCacheIfPossible } from "./cache/getNodeFromCacheIfPossible";
-import { getIsNodeDataValid } from "../nodes/utils/getIsNodeDataValid";
 
 export type DiagramStore = {
   nodes: ShoukaiNode[];
@@ -57,7 +53,13 @@ export const onEdgesChange = (changes: EdgeChange<Edge>[]) => {
 
 export const onConnect = (edge: Edge | Connection) => {
   useDiagramStore.setState((state) => ({
-    edges: addEdge({ ...edge, type222: "smoothstep" }, state.edges),
+    edges: addEdge(
+      {
+        ...edge,
+        // type: "smoothstep"
+      },
+      state.edges,
+    ),
   }));
 };
 
@@ -85,45 +87,6 @@ export const setEdges = (edges: Edge[]) => {
 
 export const getEdges = () => {
   return useDiagramStore.getState().edges;
-};
-
-export const updateNode = (
-  nodeId: string,
-  dataToUpdate: DeepPartial<ShoukaiNodeData>,
-) => {
-  useDiagramStore.setState((state) => {
-    const pickedNode = getNodeFromCacheIfPossible({
-      nodeId,
-      store: state,
-    });
-
-    if (!pickedNode) {
-      console.error(`Node with id ${nodeId} not found in store.`);
-      return state;
-    }
-
-    // merge first, then validate the whole data — nested updates are partial by nature
-    const mergedData = getDeepMerged(pickedNode.node.data, dataToUpdate);
-    const validated = getIsNodeDataValid(pickedNode.node.type, mergedData);
-
-    if (!validated.success) {
-      console.error(`Invalid data for node with id ${nodeId}.`);
-      return state;
-    }
-
-    return {
-      ...state,
-      cache: pickedNode.cache,
-      nodes: state.nodes.map((node, index) =>
-        index === pickedNode.nodeIndex
-          ? {
-              ...node,
-              data: validated.data,
-            }
-          : node,
-      ),
-    };
-  });
 };
 
 export default useDiagramStore;

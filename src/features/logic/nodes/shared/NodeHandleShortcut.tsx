@@ -4,7 +4,7 @@ import { ShoukaiShortcut } from "../type/schema";
 import { NodeHandle } from "./NodeHandle";
 import PanelFlow from "../../components/panel/PanelFlow";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
-import { updateNode } from "../../stores/useDiagramStore";
+import { updateNode } from "../../stores/actions/nodeDataUpdates";
 import { getDeepMerged, getObjectFromPath } from "../../utils/object";
 import { VARIABLE_REFERENCES } from "../../constants";
 import Field from "@/components/UI/Field";
@@ -14,15 +14,23 @@ import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBui
 import { FlowSelectSearchToOpen } from "../../components/controls/FlowSelectSearchToOpen/FlowSelectSearchToOpen";
 import IconSearchType from "@/components/Icons/IconSearchType";
 import { cn } from "@/utils/tailwind";
+import IconErase from "@/components/Icons/IconErase";
+import ButtonText from "@/components/UI/ButtonText";
 
 type Props = {
   nodeId: string;
   dataPath: string;
   className?: string;
   shortcut: ShoukaiShortcut;
+  onRemove?: () => void;
 };
 
-export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
+export const NodeHandleShortcut = ({
+  nodeId,
+  dataPath,
+  shortcut,
+  onRemove,
+}: Props) => {
   const { setInsideRef, isOpen, setIsOpen } = useOpenWithOutsideClick(false);
 
   return (
@@ -108,6 +116,14 @@ export const NodeHandleShortcut = ({ nodeId, dataPath, shortcut }: Props) => {
               references={VARIABLE_REFERENCES.DEFAULT}
             />
           </Field>
+          {onRemove && (
+            <Field label="Options">
+              <ButtonText onClick={onRemove} size="small">
+                <IconErase />
+                <span>Remove shortcut</span>
+              </ButtonText>
+            </Field>
+          )}
         </Field.Wrapper>
       </PanelFlow>
     </>
