@@ -59,7 +59,6 @@ export const FormulaBuilderValueReference = memo(
             <span className={cn("opacity-50")}>{modifier}</span>
           </span>
         ))}
-
         {REFERENCE_END}
       </span>
     );
