@@ -16,6 +16,7 @@ import SearchResults from "@/features/search/components/SearchResults/SearchResu
 import GoToSearchEngine from "@/features/search/components/GoToSearchEngine";
 import SearchSettings from "@/features/search/components/SearchSettings/SearchSettings";
 import SidebarWikipedia from "@/features/wikipedia/components/SidebarWikipedia";
+import { cn } from "@/utils/tailwind";
 
 const SearchPage = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
@@ -40,23 +41,38 @@ const SearchPage = () => {
             {
               "mt-[200px]": searchPhrase.length === 0,
               "mt-[50px]": searchPhrase.length > 1,
-            }
+            },
           )}
         >
           <Logo />
           <SearchBar />
           <main className="mt-10">
-            <div className="flex justify-between items-center">
+            <div
+              className={cn(
+                "flex gap-5",
+                "flex-col sm:flex-row",
+                "sm:justify-between items-center",
+              )}
+            >
               <SearchResultsSummary />
               <SearchNoText />
             </div>
-            <div className="mt-5 grid grid-cols-3 gap-5">
-              <div className="col-span-2">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <div
+                className={cn("col-span-1 sm:col-span-2", "order-2 sm:order-1")}
+              >
                 <SearchProgress />
                 <SearchResults />
                 <SearchLogic />
               </div>
-              <aside className="flex flex-col gap-5">
+              <aside
+                className={cn(
+                  "col-span-1",
+                  "order-1 sm:order-2",
+                  "flex gap-5",
+                  "flex-col-reverse sm:flex-col",
+                )}
+              >
                 <SidebarWikipedia />
                 <GoToSearchEngine />
               </aside>

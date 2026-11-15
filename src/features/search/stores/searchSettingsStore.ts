@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { recipe as moviesProgramming } from "@/recipes/movies";
-import { recipe as programmingRecipe } from "@/recipes/programming";
+// import { recipe as moviesProgramming } from "@/recipes/movies";
+// import { recipe as programmingRecipe } from "@/recipes/programming";
 import { SearchRecipe, ShoukaiSearchRecipe, UserSearchRecipe } from "@/types";
 import { SupportedShoukaiSearchEngineTextParsers } from "@/types/supported/text-engines";
 import {
@@ -16,17 +16,18 @@ export type DefaultSearchEngines = {
   >;
 };
 
+// Muted because they can't be turn off
 export const recipeById: {
   [id: string]: SearchRecipe;
 } = {
-  movies: {
-    ...moviesProgramming,
-    id: "movies",
-  },
-  programming: {
-    ...programmingRecipe,
-    id: "programming",
-  },
+  // movies: {
+  //   ...moviesProgramming,
+  //   id: "movies",
+  // },
+  // programming: {
+  //   ...programmingRecipe,
+  //   id: "programming",
+  // },
 };
 
 export const initRecipes = Object.values(recipeById).reduce(
@@ -47,7 +48,7 @@ type AppStoreState = {
   shouldOpenNewTabForResults: boolean;
   defaultEngines: DefaultSearchEngines;
   defaultTextParser: SupportedShoukaiSearchEngineTextParsers;
-  recipesById: {
+  recipeById: {
     [id: string]: UserSearchRecipe;
   };
 };
@@ -65,7 +66,8 @@ export const useSearchSettingsStore = create<AppStoreState>()(
           "ask-chatbot": "chatgpt",
         },
         defaultTextParser: "google",
-        recipesById: initRecipes,
+        recipeById: {},
+        // recipeById: initRecipes,
       }),
       { name: "searchSettingsStore" },
     ),
@@ -122,11 +124,11 @@ export const toggleShouldOpenNewTabForResult = () => {
 
 export const toggleActiveForRecipe = (id: string) => {
   useSearchSettingsStore.setState((state) => ({
-    recipesById: {
-      ...state.recipesById,
+    recipeById: {
+      ...state.recipeById,
       [id]: {
-        ...state.recipesById[id],
-        isActive: !state.recipesById[id].isActive,
+        ...state.recipeById[id],
+        isActive: !state.recipeById[id].isActive,
       },
     },
   }));
@@ -137,10 +139,10 @@ export const updateUserRecipe = (
   userRecipeUpdate: Partial<UserSearchRecipe>,
 ) => {
   useSearchSettingsStore.setState((state) => ({
-    recipesById: {
-      ...state.recipesById,
+    recipeById: {
+      ...state.recipeById,
       [id]: {
-        ...state.recipesById[id],
+        ...state.recipeById[id],
         ...userRecipeUpdate,
       },
     },
@@ -150,7 +152,7 @@ export const updateUserRecipe = (
 export const selectUserRecipes = (
   state: AppStoreState,
 ): ShoukaiSearchRecipe[] => {
-  const activeUserRecipes = Object.values(state.recipesById).filter(
+  const activeUserRecipes = Object.values(state.recipeById).filter(
     ({ isActive }) => isActive,
   );
 

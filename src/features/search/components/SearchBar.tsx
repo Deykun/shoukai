@@ -14,6 +14,7 @@ import useSearchStore, {
   setSearchPhrase,
 } from "@/features/search/stores/searchStore";
 import { getSearchParamsFromData } from "@/features/search/utils/url";
+import { cn } from "@/utils/tailwind";
 
 const searchTitle = "shoukai - personalized search";
 
@@ -51,7 +52,7 @@ const SearchBar = () => {
   }, [searchPhrase]);
 
   return (
-    <div className="relative max-w-[400px] mx-auto">
+    <div className="relative max-w-full sm:max-w-[400px] mx-auto">
       <form
         className={clsx(
           "relative",
@@ -85,7 +86,11 @@ const SearchBar = () => {
         </button>
       </form>
       <ButtonIcon
-        wrapperClassName="absolute top-1/2 -right-[50px] -translate-y-1/2"
+        wrapperClassName={cn(
+          "absolute",
+          "-top-10 right-0",
+          "sm:top-1/2 sm:-right-[50px] sm:-translate-y-1/2",
+        )}
         label={t("search.settings")}
         labelPosition="right"
         isActive={areSettingsOpen}

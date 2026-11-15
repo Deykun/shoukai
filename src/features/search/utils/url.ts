@@ -34,6 +34,8 @@ export const getSearchKeyAndDomainURL = (
   searchPhrase: string,
   recipe: ShoukaiSearchRecipe,
 ) => {
+  console.log(recipe);
+
   const searchEngine = recipe.searchEngine || "default";
   const getSearchUrl = getSearchUrlGetterBySearchEngine(searchEngine);
 
