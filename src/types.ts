@@ -1,4 +1,4 @@
-import { SupportedSearchEngine } from "./constants";
+import { SupportedSearchEngineText } from "./constants";
 
 export type GetResultScoreParams = { phrase: string; title: string };
 
@@ -36,7 +36,7 @@ export type SearchRecipe = {
 export type UserSearchRecipe = {
   id: string;
   isActive: boolean;
-  searchEngine?: SupportedSearchEngine;
+  searchEngine?: SupportedSearchEngineText;
 };
 
 export type ShoukaiSearchRecipe = SearchRecipe & UserSearchRecipe;
@@ -56,6 +56,10 @@ export type SearchResultEvaluated = SearchResult & {
 export type SearchDirectShortcut = {
   magicWord: string;
   getSearchUrl: (phrase: string) => string;
+};
+
+export type SearchDirectShortcutsIndex = {
+  [magicWord: string]: SearchDirectShortcut;
 };
 
 export type ShoukaiQuery = {

@@ -1,4 +1,4 @@
-import { SearchRecipe, SearchDirectShortcut, UserSearchRecipe } from "@/types";
+import { SearchDirectShortcut, SearchDirectShortcutsIndex } from "@/types";
 
 import {
   getDuckDuckGoSearchUrl,
@@ -7,26 +7,19 @@ import {
   getGoogleMapsSearchUrl,
 } from "@/features/search/utils/search";
 
-import { recipe as moviesProgramming } from "@/recipes/movies";
-import { recipe as programmingRecipe } from "@/recipes/programming";
 import { getChatGPTAskUrl } from "./features/search/utils/ask";
+import { SupportedShoukaiSearchEngineText } from "./types/supported/text-engines";
+import { getShortcutsFromStart } from "./features/logic-runner/parsers/shortcuts/actions/getShortcutsFromStart";
 
-export type SupportedSearchEngine = "bing" | "duckduckgo" | "google" | "yandex";
-
-export type ShoukaiSearchEngine = SupportedSearchEngine | "defaultSearch";
-
-export const supportedSearchEngines: SupportedSearchEngine[] = [
+export const supportedSearchEngines: SupportedShoukaiSearchEngineText[] = [
   "bing",
   "duckduckgo",
   "google",
   "yandex",
 ];
 
-export const supportedSearchEnginesParsers: SupportedSearchEngine[] = [
-  "duckduckgo",
-  "google",
-  "yandex",
-];
+export const supportedSearchEnginesParsers: SupportedShoukaiSearchEngineText[] =
+  ["duckduckgo", "google", "yandex"];
 
 const getDirectShortcutsForMagicWords = (
   magicWords: string[],
@@ -35,7 +28,7 @@ const getDirectShortcutsForMagicWords = (
   return magicWords.reduce(
     (
       stack: {
-        [id: string]: SearchDirectShortcut;
+        [magicWord: string]: SearchDirectShortcut;
       },
       word,
     ) => {
@@ -51,76 +44,28 @@ const getDirectShortcutsForMagicWords = (
 };
 
 // TODO: move to editable setting
-export const directShortcutByKey: {
-  [id: string]: SearchDirectShortcut;
-} = {
-  ...getDirectShortcutsForMagicWords(["d"], (phrase: string) =>
-    getDuckDuckGoSearchUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["g", "google"], (phrase: string) =>
-    getGoogleSearchUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["img"], (phrase: string) =>
-    getGoogleImagesSearchUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["?"], (phrase: string) =>
-    getChatGPTAskUrl(phrase),
-  ),
-  ...getDirectShortcutsForMagicWords(["gm"], (phrase: string) =>
-    getGoogleMapsSearchUrl(phrase),
-  ),
-};
+export const directShortcutByKey: SearchDirectShortcutsIndex =
+  getShortcutsFromStart() || {
+    ...getDirectShortcutsForMagicWords(["d"], (phrase: string) =>
+      getDuckDuckGoSearchUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["g", "google"], (phrase: string) =>
+      getGoogleSearchUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["img"], (phrase: string) =>
+      getGoogleImagesSearchUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["?"], (phrase: string) =>
+      getChatGPTAskUrl(phrase),
+    ),
+    ...getDirectShortcutsForMagicWords(["gm"], (phrase: string) =>
+      getGoogleMapsSearchUrl(phrase),
+    ),
+  };
 
 export const directShortcuts = Object.values(directShortcutByKey);
 
-console.log("directShortcuts", directShortcuts);
-
-export const recipeById: {
-  [id: string]: SearchRecipe;
-} = {
-  movies: {
-    ...moviesProgramming,
-    id: "movies",
-  },
-  programming: {
-    ...programmingRecipe,
-    id: "programming",
-  },
-};
-
-export const initRecipes = Object.values(recipeById).reduce(
-  (
-    stack: {
-      [id: string]: UserSearchRecipe;
-    },
-    { id },
-  ) => {
-    stack[id] = { id, isActive: true };
-
-    return stack;
-  },
-  {},
-);
-
-export const PATHS_DATA: {
-  path: string;
-  title: string;
-  social: string;
-  lang: string;
-}[] = [
-  {
-    path: "404",
-    title: "404 - shoukai - personalized search",
-    social: "",
-    lang: "en",
-  },
-  {
-    path: "reindex",
-    title: "indexing... - shoukai - personalized search",
-    social: "",
-    lang: "en",
-  },
-] as const;
+export { PATHS_DATA } from "./paths-data";
 
 export const LOCAL_STORAGE = {
   SHOUKAI_UPDATE: "SHOUKAI_UPDATE",

@@ -1,11 +1,14 @@
-import { MANY_RESULTS_API_RESPONSE, WikipediaResult } from "@/features/wikipedia/api/constants";
+import {
+  MANY_RESULTS_API_RESPONSE,
+  WikipediaResult,
+} from "@/features/wikipedia/api/constants";
 
 const commonParams = `&limit=2&namespace=0&origin=*&format=json&formatversion=2`;
 
 const fetchFromWikipedia = async (
   searchPhrase: string,
   lang = "en",
-  { isFirst = true } = {}
+  { isFirst = true } = {},
 ): Promise<null | WikipediaResult> => {
   let responseToReturn = null;
   let shouldCheckAlternative = false;
@@ -14,11 +17,11 @@ const fetchFromWikipedia = async (
     // https://www.mediawiki.org/wiki/API:Page_info_in_search_results
     const response = await fetch(
       `https://${lang}.wikipedia.org/w/api.php?action=query&titles=${encodeURI(
-        searchPhrase
+        searchPhrase,
       )}&prop=pageimages|pageterms&piprop=thumbnail&pithumbsize=600${commonParams}`,
       {
         method: "GET",
-      }
+      },
     );
     const rawData = await response.json();
 
@@ -28,10 +31,12 @@ const fetchFromWikipedia = async (
 
     if (hasResult) {
       const thumbnail = result?.thumbnail?.source;
-      const description = result?.terms?.description?.[0] || result?.terms?.alias?.[0] || "";
+      const description =
+        result?.terms?.description?.[0] || result?.terms?.alias?.[0] || "";
 
       const hasMany = MANY_RESULTS_API_RESPONSE[lang].includes(description);
-      const hasContent = thumbnail || (description && description !== searchPhrase)
+      const hasContent =
+        thumbnail || (description && description !== searchPhrase);
 
       shouldCheckAlternative = hasMany || !hasContent;
 
@@ -50,25 +55,29 @@ const fetchFromWikipedia = async (
         return responseToReturn;
       }
     }
-  } catch {}
+  } catch {
+    //
+  }
 
   if (isFirst) {
     // https://www.mediawiki.org/wiki/API%3aOpensearch
     try {
       const response = await fetch(
         `https://${lang}.wikipedia.org/w/api.php?action=opensearch&search=${encodeURI(
-          searchPhrase
+          searchPhrase,
         )}${commonParams}`,
         {
           method: "GET",
-        }
+        },
       );
       const rawData = await response.json();
 
       let matchedPhrase =
         rawData.length > 1 && rawData[1].length > 0 ? rawData[1][0] : "";
 
-      const shouldCheckAlternativePhrase = shouldCheckAlternative && matchedPhrase.toLowerCase() === searchPhrase.toLowerCase();
+      const shouldCheckAlternativePhrase =
+        shouldCheckAlternative &&
+        matchedPhrase.toLowerCase() === searchPhrase.toLowerCase();
       if (shouldCheckAlternativePhrase) {
         if (rawData[1][1]?.trim()) {
           matchedPhrase = rawData[1][1]?.trim();
@@ -76,13 +85,17 @@ const fetchFromWikipedia = async (
       }
 
       if (matchedPhrase !== searchPhrase) {
-        const response = await fetchFromWikipedia(matchedPhrase, lang, { isFirst: false });
+        const response = await fetchFromWikipedia(matchedPhrase, lang, {
+          isFirst: false,
+        });
 
         if (response) {
           return response;
         }
       }
-    } catch {}
+    } catch {
+      //
+    }
   }
 
   return responseToReturn;
@@ -102,7 +115,7 @@ export const getWikipediaResult = async (
     return null;
   }
 
-  if (searchPhrase.includes('site:')) {
+  if (searchPhrase.includes("site:")) {
     return null;
   }
 
@@ -116,7 +129,9 @@ export const getWikipediaResult = async (
     return null;
   }
 
-  const response = await fetchFromWikipedia(searchPhrase, lang, { isFirst: true });
+  const response = await fetchFromWikipedia(searchPhrase, lang, {
+    isFirst: true,
+  });
 
   if (response) {
     cachedResults[cacheKey] = response;

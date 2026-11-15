@@ -20,7 +20,10 @@ import { openInNewTab } from "@/utils/url";
 declare global {
   interface Window {
     shoukaiReset?: () => void;
-    shoukaiRemoveHistoryItem?: (params: { stamp: string, phrase: string }) => void;
+    shoukaiRemoveHistoryItem?: (params: {
+      stamp: string;
+      phrase: string;
+    }) => void;
     shoukaiGetResultsByKey?: () => {
       [key: string]: {
         date: string;
@@ -43,7 +46,7 @@ declare global {
 
 export default function useSearch() {
   const shouldOpenNewTabForResults = useSearchSettingsStore(
-    (state) => state.shouldOpenNewTabForResults
+    (state) => state.shouldOpenNewTabForResults,
   );
   const recipes = useSearchSettingsStore(selectUserRecipes);
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
@@ -53,7 +56,7 @@ export default function useSearch() {
   ]);
   const directShortcut = getDirectShortcutIfPresent(
     searchPhrase,
-    directShortcuts
+    directShortcuts,
   );
   const [searchConfig, setSearchConfig] = useState({
     phrase: searchPhrase || "",
@@ -67,7 +70,7 @@ export default function useSearch() {
 
     if (directShortcut) {
       location.href = directShortcut.shortcut.getSearchUrl(
-        directShortcut.phrase
+        directShortcut.phrase,
       );
 
       return;
@@ -75,6 +78,7 @@ export default function useSearch() {
 
     if (searchPhrase !== searchConfig.phrase) {
       if (searchPhrase) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSearchConfig({
           phrase: searchPhrase,
           recipes: directShortcut
@@ -88,6 +92,7 @@ export default function useSearch() {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPhrase]);
 
   useEffect(() => {
@@ -102,13 +107,13 @@ export default function useSearch() {
         }, 10);
       }
     }
-  }, [searchConfig]);
+  }, [searchConfig, searchPhrase, shouldOpenNewTabForResults]);
 
   const cachedIndexResults = useCallback(() => {
     if (searchConfig.phrase && searchConfig.recipes.length > 0) {
       indexResults(searchPhrase, searchConfig.recipes);
     }
-  }, [searchConfig]);
+  }, [searchConfig.phrase, searchConfig.recipes, searchPhrase]);
 
   useEffect(() => {
     cachedIndexResults();
@@ -120,7 +125,7 @@ export default function useSearch() {
         setTimeout(cachedIndexResults, 10);
       }
     },
-    [searchConfig]
+    [cachedIndexResults],
   );
 
   useEffect(() => {

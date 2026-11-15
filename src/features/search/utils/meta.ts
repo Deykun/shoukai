@@ -12,7 +12,7 @@ export type Tag = {
 export const getIsMetaWordMatching = (
   phrase: string,
   words: string[],
-  prefixes: string[]
+  prefixes: string[],
 ) => {
   if (words.includes(phrase)) {
     return true;
@@ -35,13 +35,13 @@ export const getHasDigit = (searchPhrase: string) => {
 
 export const getIsDecimalStatus = (searchPhrase: string) => {
   const value = ` ${searchPhrase} `;
-  const isExactDecimal = / \d+\.\d+ /.test(value) || / \d+\,\d+ /.test(value);
+  const isExactDecimal = / \d+\.\d+ /.test(value) || / \d+,\d+ /.test(value);
 
   if (isExactDecimal) {
     return 1;
   }
 
-  const isMaybeDecimal = /\d\.\d/.test(value) || /\d\,\d/.test(value);
+  const isMaybeDecimal = /\d\.\d/.test(value) || /\d,\d/.test(value);
 
   return isMaybeDecimal ? 0.5 : 0;
 };
@@ -65,7 +65,7 @@ export const getHasYear = (searchPhrase: string) => {
   const sanitizedPhrases = textSanitize.trim().split(" ").filter(Boolean);
 
   return sanitizedPhrases.some(
-    (phrase) => phrase.length === 4 && phrase.match(/\d{4}/)?.[0]
+    (phrase) => phrase.length === 4 && phrase.match(/\d{4}/)?.[0],
   );
 };
 
@@ -168,7 +168,7 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
 
   if (
     searchPhraseWords.some((searchPhraseWord) =>
-      getIsMetaWordMatching(searchPhraseWord, devWords, devPrefixes)
+      getIsMetaWordMatching(searchPhraseWord, devWords, devPrefixes),
     )
   ) {
     tags.push({
@@ -179,7 +179,7 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
 
   if (
     searchPhraseWords.some((searchPhraseWord) =>
-      getIsMetaWordMatching(searchPhraseWord, imageWords, [])
+      getIsMetaWordMatching(searchPhraseWord, imageWords, []),
     )
   ) {
     tags.push({
@@ -190,7 +190,7 @@ export const getMetaFromSearchPhrase = (searchPhrase: string) => {
 
   if (
     searchPhraseWords.some((searchPhraseWord) =>
-      getIsMetaWordMatching(searchPhraseWord, movieWords, [])
+      getIsMetaWordMatching(searchPhraseWord, movieWords, []),
     )
   ) {
     tags.push({

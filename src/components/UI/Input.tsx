@@ -8,7 +8,13 @@ type Props = {
   isDisabled?: boolean;
 };
 
-const Input = ({ className = "", value, defaultValue, setValue, isDisabled = false }: Props) => {
+const Input = ({
+  className = "",
+  value,
+  defaultValue,
+  setValue,
+  isDisabled = false,
+}: Props) => {
   return (
     <div
       className={clsx(
@@ -19,7 +25,7 @@ const Input = ({ className = "", value, defaultValue, setValue, isDisabled = fal
         "mx-auto font-[500] text-[16px]",
         "hover:border-[#f5f9ef] hover:shadow-md",
         "duration-500",
-        className
+        className,
       )}
     >
       <input
@@ -29,9 +35,10 @@ const Input = ({ className = "", value, defaultValue, setValue, isDisabled = fal
         className={clsx(
           "w-full py-3 px-5 outline-none",
           "bg-transparent rounded-[24px]",
-          "caret-[#82a849] tracking-wider", {
-            'opacity-45': isDisabled,
-          }
+          "tracking-wider",
+          {
+            "opacity-45": isDisabled,
+          },
         )}
         disabled={isDisabled}
       />

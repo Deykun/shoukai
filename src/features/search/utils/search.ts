@@ -1,4 +1,4 @@
-import { SupportedSearchEngine } from "@/constants";
+import { SupportedSearchEngineText } from "@/constants";
 
 export const getBingSearchUrl = (phrase: string, key?: string) =>
   `https://www.bing.com/search?q=${encodeURI(`${phrase}`)}${
@@ -31,21 +31,21 @@ export const getYandexSearchUrl = (phrase: string, key?: string) =>
   }`;
 
 export const getSearchUrlGetterBySearchEngine = (
-  searchEngine: 'default' | SupportedSearchEngine
+  searchEngine: "default" | SupportedSearchEngineText,
 ) => {
-  if (searchEngine === 'bing') {
+  if (searchEngine === "bing") {
     return getBingSearchUrl;
   }
 
-  if (searchEngine === 'duckduckgo') {
+  if (searchEngine === "duckduckgo") {
     return getDuckDuckGoSearchUrl;
   }
 
-  if (searchEngine === 'google') {
+  if (searchEngine === "google") {
     return getGoogleSearchUrl;
   }
 
-  if (searchEngine === 'yandex') {
+  if (searchEngine === "yandex") {
     return getYandexSearchUrl;
   }
 

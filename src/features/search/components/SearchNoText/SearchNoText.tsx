@@ -1,18 +1,16 @@
 import { useTranslation } from "react-i18next";
 
-import { getGoogleImagesSearchUrl, getGoogleMapsSearchUrl } from '@/features/search/utils/search';
-
 import ButtonText from "@/components/UI/ButtonText";
 
 import IconSearchCamera from "@/components/Icons/IconSearchCamera";
 import IconSearchMap from "@/components/Icons/IconSearchMap";
 
 import useSearchStore from "@/features/search/stores/searchStore";
+import { getDefaultSearchUrl } from "@/features/logic-runner/parsers/openers/actions/getDefaultSearchUrl";
 
 const SearchNoText = () => {
   const searchPhrase = useSearchStore((state) => state.searchPhrase);
-  const metaInput = useSearchStore(state => state.meta.input);
-  const metaResults = useSearchStore(state => state.meta.results);
+  const metaResults = useSearchStore((state) => state.meta.results);
 
   const { t } = useTranslation();
 
@@ -23,21 +21,21 @@ const SearchNoText = () => {
   return (
     <section className="flex flex-row justify-end gap-2">
       <ButtonText
-        href={getGoogleImagesSearchUrl(searchPhrase)}
+        href={getDefaultSearchUrl("search-image", searchPhrase)}
         target="_blank"
         rel="noreferrer noopener"
         title="Google Image"
-        isPromoted={metaInput.includes('image')}
+        isPromoted={metaResults.some(({ tag }) => tag === "image")}
       >
         <IconSearchCamera />
         <span>{t("search.typeImage")}</span>
       </ButtonText>
       <ButtonText
-        href={getGoogleMapsSearchUrl(searchPhrase)}
+        href={getDefaultSearchUrl("search-location", searchPhrase)}
         target="_blank"
         rel="noreferrer noopener"
         title="Google Maps"
-        isPromoted={metaResults.includes('location')}
+        isPromoted={metaResults.some(({ tag }) => tag === "location")}
       >
         <IconSearchMap />
         <span>{t("search.typeMap")}</span>

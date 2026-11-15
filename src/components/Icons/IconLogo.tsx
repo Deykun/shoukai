@@ -1,31 +1,39 @@
-import IconBing from "@/components/Icons/IconBing";
-import IconDuckDuckGo from "@/components/Icons/IconDuckDuckGo";
-import IconGoogle from "@/components/Icons/IconGoogle";
-import IconYandex from "@/components/Icons/IconYandex";
+import IconOSM from "./IconOSM";
+import IconApple from "./IconApple";
+import IconBing from "./IconBing";
+import IconDuckDuckGo from "./IconDuckDuckGo";
+import IconGoogle from "./IconGoogle";
+import IconYandex from "./IconYandex";
+import IconSearchResults from "./IconSearchResults";
+import IconChatGPT from "./IconChatGPT";
+import IconClaude from "./IconClaude";
 
 type Props = {
   id: string;
   className?: string;
 };
 
+const ICON_BY_ID: Partial<
+  Record<string, ({ className }: { className?: string }) => JSX.Element>
+> = {
+  bing: IconBing,
+  duckduckgo: IconDuckDuckGo,
+  google: IconGoogle,
+  yandex: IconYandex,
+  openstreetmap: IconOSM,
+  apple: IconApple,
+  chatgpt: IconChatGPT,
+  claude: IconClaude,
+};
+
 const Icon = ({ id, className }: Props) => {
-  if (id === "bing") {
-    return <IconBing className={className} />;
+  const Icon = ICON_BY_ID[id];
+
+  if (Icon) {
+    return <Icon className={className} />;
   }
 
-  if (id === "duckduckgo") {
-    return <IconDuckDuckGo className={className} />;
-  }
-
-  if (id === "google") {
-    return <IconGoogle className={className} />;
-  }
-
-  if (id === "yandex") {
-    return <IconYandex className={className} />;
-  }
-
-  return null;
+  return <IconSearchResults className={className} />;
 };
 
 export default Icon;

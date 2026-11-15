@@ -32,7 +32,7 @@ const SearchBar = () => {
     window.history.replaceState(
       undefined,
       `“${inputValue}” - ${searchTitle}`,
-      `${location.pathname}${searchParams}`
+      `${location.pathname}${searchParams}`,
     );
   };
 
@@ -60,7 +60,7 @@ const SearchBar = () => {
           "border-[#f5f9ef] border",
           "mx-auto font-[500] text-[18px]",
           "hover:border-[#f5f9ef] hover:shadow-lg",
-          "duration-500"
+          "duration-500",
         )}
         onSubmit={handleSubmit}
       >
@@ -71,14 +71,14 @@ const SearchBar = () => {
           className={clsx(
             "w-full py-4 px-6 pr-12 outline-none",
             "bg-transparent rounded-[24px]",
-            "caret-[#82a849] tracking-wider"
+            "tracking-wider",
           )}
           autoFocus
         />
         <button
           className={clsx(
             "absolute top-1/2 right-4 -translate-y-1/2 -translate-x-1/2",
-            "flex-shrink-0 group"
+            "flex-shrink-0 group",
           )}
         >
           <IconSearch className="fill-[#82a849] group-hover:fill-[#075525] duration-300 size-5" />

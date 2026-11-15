@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function useEffectChange(callback: () => void, args: (any)[]) {
+export default function useEffectChange(callback: () => void, args: any[]) {
   const isInited = useRef(false);
 
   useEffect(() => {
@@ -11,7 +11,6 @@ export default function useEffectChange(callback: () => void, args: (any)[]) {
       return;
     }
 
-    // eslint-disable-next-line consistent-return
     return callback();
   }, args); // eslint-disable-line react-hooks/exhaustive-deps
 }

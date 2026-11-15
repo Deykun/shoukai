@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 type Dimensions = {
   width: number;
   height: number;
 };
 
-function useDebouncedResizeObserver<T extends HTMLElement>(debounceDelay: number = 300) {
+function useDebouncedResizeObserver<T extends HTMLElement>(
+  debounceDelay: number = 300,
+) {
   const [dimensions, setDimensions] = useState<Dimensions | null>(null);
   const resizeTimeoutRef = useRef<number | null>(null);
 
@@ -38,6 +40,7 @@ function useDebouncedResizeObserver<T extends HTMLElement>(debounceDelay: number
 
     return () => {
       if (ref.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(ref.current);
       }
       if (resizeTimeoutRef.current) {

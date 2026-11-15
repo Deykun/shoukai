@@ -5,5 +5,5 @@ const getSimpleHashFromString = (text: string) => {
 }
 
 export const getSearchKey = (phrase: string, domain: string) => {
-  return getSimpleHashFromString(`${phrase} ${domain}`);
+  return getSimpleHashFromString(`${{phrase}} ${domain}`);
 };

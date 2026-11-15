@@ -48,6 +48,16 @@
     }
   }
 
+  &.ui-button-text--can-wrap {
+    > a,
+    > button {
+      > span {
+        word-wrap: break-word;
+        white-space: break-spaces;
+      }
+    }
+  }
+
   &.ui-button-text--small {
     > a,
     > button {

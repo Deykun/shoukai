@@ -14,7 +14,7 @@ type Props = {
 };
 
 const SearchResultsItem = ({ result }: Props) => {
-  const { title, url, description, recipe } = result;
+  const { title, url, description } = result;
 
   const [isOpen, setIsOpen] = useState(false);
 

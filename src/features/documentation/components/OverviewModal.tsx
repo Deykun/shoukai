@@ -14,10 +14,10 @@ import Logo from "@/components/Logo/Logo";
 
 const OverviewModal = () => {
   const isOpen = useAppStore(
-    (state) => state.modal.type === "documentationOverview"
+    (state) => state.modal.type === "documentationOverview",
   );
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   if (!isOpen) {
     return null;
