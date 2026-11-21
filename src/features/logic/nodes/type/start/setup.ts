@@ -3,7 +3,7 @@ import z from "zod";
 import { nodeSharedDataSchema, shortcutSchema } from "../schema";
 
 export const nodeSchema = nodeSharedDataSchema.extend({
-  shortcuts: z.record(z.string(), shortcutSchema),
+  shortcuts: z.array(shortcutSchema),
 });
 
 export type TypeNodeData = z.infer<typeof nodeSchema>;
@@ -12,8 +12,8 @@ export type TypeNode = Node<TypeNodeData, "start">;
 
 export const defaultData: TypeNode["data"] = {
   label: "Start",
-  shortcuts: {
-    d: {
+  shortcuts: [
+    {
       id: "d",
       name: "DuckDuckGo",
       triggers: ["d"],
@@ -21,7 +21,7 @@ export const defaultData: TypeNode["data"] = {
       type: "search-text",
       searchEngine: "duckduckgo",
     },
-    g: {
+    {
       id: "g",
       name: "Google",
       triggers: ["g", "google"],
@@ -29,7 +29,7 @@ export const defaultData: TypeNode["data"] = {
       type: "search-text",
       searchEngine: "google",
     },
-    img: {
+    {
       id: "img",
       name: "Images",
       triggers: ["img"],
@@ -37,7 +37,7 @@ export const defaultData: TypeNode["data"] = {
       type: "search-image",
       searchEngine: "google",
     },
-    meme: {
+    {
       id: "meme",
       name: "Memes",
       triggers: ["meme"],
@@ -45,7 +45,7 @@ export const defaultData: TypeNode["data"] = {
       type: "search-image",
       searchEngine: "google",
     },
-    "?": {
+    {
       id: "?",
       name: "ChatGPT",
       triggers: ["?"],
@@ -53,7 +53,7 @@ export const defaultData: TypeNode["data"] = {
       type: "ask-chatbot",
       searchEngine: "chatgpt",
     },
-    pl: {
+    {
       id: "pl",
       name: "Tłumacz",
       triggers: ["pl"],
@@ -61,7 +61,7 @@ export const defaultData: TypeNode["data"] = {
       type: "ask-chatbot",
       searchEngine: "chatgpt",
     },
-    en: {
+    {
       id: "en",
       name: "Translate",
       triggers: ["en"],
@@ -69,7 +69,7 @@ export const defaultData: TypeNode["data"] = {
       type: "ask-chatbot",
       searchEngine: "chatgpt",
     },
-    fix: {
+    {
       id: "fix",
       name: "Fix grammar",
       triggers: ["fix"],
@@ -77,7 +77,7 @@ export const defaultData: TypeNode["data"] = {
       type: "ask-chatbot",
       searchEngine: "chatgpt",
     },
-    gm: {
+    {
       id: "gm",
       name: "Map",
       triggers: ["gm", "map"],
@@ -85,7 +85,7 @@ export const defaultData: TypeNode["data"] = {
       type: "search-location",
       searchEngine: "google",
     },
-  },
+  ],
   targetHandles: [],
   sourceHandles: [{ id: "success" }],
 };

@@ -4,8 +4,6 @@ import { ShoukaiShortcut } from "../type/schema";
 import { NodeHandle } from "./NodeHandle";
 import PanelFlow from "../../components/panel/PanelFlow";
 import useOpenWithOutsideClick from "@/hooks/useOpenWithOutsideClick";
-import { updateNode } from "../../stores/actions/nodeDataUpdates";
-import { getDeepMerged, getObjectFromPath } from "../../utils/object";
 import { VARIABLE_REFERENCES } from "../../constants";
 import Field from "@/components/UI/Field";
 import { NO_BREAK_SPACE } from "@/utils/text";
@@ -19,7 +17,7 @@ import ButtonText from "@/components/UI/ButtonText";
 
 type Props = {
   nodeId: string;
-  dataPath: string;
+  onChange: (patch: Partial<ShoukaiShortcut>) => void;
   className?: string;
   shortcut: ShoukaiShortcut;
   onRemove?: () => void;
@@ -27,7 +25,7 @@ type Props = {
 
 export const NodeHandleShortcut = ({
   nodeId,
-  dataPath,
+  onChange,
   shortcut,
   onRemove,
 }: Props) => {
@@ -36,6 +34,8 @@ export const NodeHandleShortcut = ({
   return (
     <>
       <NodeHandle
+        nodeId={nodeId}
+        handleId={shortcut.id}
         variant="horizontal"
         type="source"
         position={Position.Right}
@@ -64,7 +64,7 @@ export const NodeHandleShortcut = ({
             <FormulaBuilder
               value={shortcut.name}
               onChange={(next) => {
-                updateNode(nodeId, getObjectFromPath(`${dataPath}.name`, next));
+                onChange({ name: next });
               }}
               references={VARIABLE_REFERENCES.DEFAULT}
             />
@@ -76,17 +76,13 @@ export const NodeHandleShortcut = ({
             <FormulaBuilder
               value={shortcut.triggers.join(" ")}
               onChange={(next) => {
-                updateNode(
-                  nodeId,
-                  getObjectFromPath(
-                    `${dataPath}.triggers`,
-                    getUnique(
-                      next
-                        .split(" ")
-                        .flatMap((nextPart) => nextPart.split(",")),
-                    ),
+                onChange({
+                  triggers: getUnique(
+                    next
+                      .split(" ")
+                      .flatMap((nextPart) => nextPart.split(",")),
                   ),
-                );
+                });
               }}
               references={VARIABLE_REFERENCES.EMPTY}
             />
@@ -95,12 +91,7 @@ export const NodeHandleShortcut = ({
             <FlowSelectSearchToOpen
               value={shortcut}
               onChange={({ type, searchEngine }) => {
-                const next = getDeepMerged(
-                  getObjectFromPath(`${dataPath}.type`, type),
-                  getObjectFromPath(`${dataPath}.searchEngine`, searchEngine),
-                );
-
-                updateNode(nodeId, next);
+                onChange({ type, searchEngine } as Partial<ShoukaiShortcut>);
               }}
             />
           </Field>
@@ -108,10 +99,7 @@ export const NodeHandleShortcut = ({
             <FormulaBuilder
               value={shortcut.phrase}
               onChange={(next) => {
-                updateNode(
-                  nodeId,
-                  getObjectFromPath(`${dataPath}.phrase`, next),
-                );
+                onChange({ phrase: next });
               }}
               references={VARIABLE_REFERENCES.DEFAULT}
             />

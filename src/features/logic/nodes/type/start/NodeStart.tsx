@@ -9,17 +9,33 @@ import NodeHandlesWrapper from "../../shared/NodeHandlesWrapper";
 import { NodeHandleShortcut } from "../../shared/NodeHandleShortcut";
 import ButtonText from "@/components/UI/ButtonText";
 import IconPlus from "@/components/Icons/IconPlus";
-import { getObjectFromPath } from "@/features/logic/utils/object";
-import {
-  removeNodeDataPath,
-  updateNode,
-} from "@/features/logic/stores/actions/nodeDataUpdates";
+import { updateNode } from "@/features/logic/stores/actions/nodeDataUpdates";
 import { generateId } from "@/utils/ids";
 import { ShoukaiShortcut } from "../schema";
+import { executeNode } from "@/features/logic-runner/nodes/start/execute";
+import { useEffect } from "react";
+import { runnerContextStart } from "@/features/logic-runner/stores/useRunnerContextStore";
 
 type Props = NodeProps<TypeNode>;
 
+declare global {
+  interface Window {
+    executeNode: (phrase: string) => void;
+  }
+}
+
 export function NodeStart({ id, type, selected, data }: Props) {
+  useEffect(() => {
+    window.executeNode = (phrase: string) => {
+      runnerContextStart(phrase);
+      executeNode({
+        runType: "test",
+        nodeId: id,
+        data,
+      });
+    };
+  });
+
   return (
     <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
@@ -34,13 +50,27 @@ export function NodeStart({ id, type, selected, data }: Props) {
         label="Shortcuts"
         about="If a phrase starts or ends with a keyword, the shortcut is activated and the default flow is stopped. For example, typing 'g' will open Google with the phrase and skip the entire flow."
       >
-        {Object.entries(data.shortcuts).map(([shortcutId, shortcut]) => (
+        {data.shortcuts.map((shortcut) => (
           <NodeHandleShortcut
-            key={shortcutId}
             nodeId={id}
-            dataPath={`shortcuts.${shortcutId}`}
+            key={shortcut.id}
             shortcut={shortcut}
-            onRemove={() => removeNodeDataPath(id, `shortcuts.${shortcutId}`)}
+            onChange={(patch) =>
+              updateNode(id, {
+                shortcuts: data.shortcuts.map((item) =>
+                  item.id === shortcut.id
+                    ? ({ ...item, ...patch } as ShoukaiShortcut)
+                    : item,
+                ),
+              })
+            }
+            onRemove={() =>
+              updateNode(id, {
+                shortcuts: data.shortcuts.filter(
+                  (item) => item.id !== shortcut.id,
+                ),
+              })
+            }
           />
         ))}
       </NodeHandlesWrapper>
@@ -48,18 +78,19 @@ export function NodeStart({ id, type, selected, data }: Props) {
         wrapperClassName="ml-auto"
         size="small"
         onClick={() => {
-          const shortcutId = generateId();
-          updateNode(
-            id,
-            getObjectFromPath(`shortcuts.${shortcutId}`, {
-              type: "search-text",
-              searchEngine: "defaultSearch",
-              id: shortcutId,
-              name: "New shortcut",
-              phrase: "{{phrase}}",
-              triggers: ["new"],
-            } satisfies ShoukaiShortcut),
-          );
+          updateNode(id, {
+            shortcuts: [
+              ...data.shortcuts,
+              {
+                type: "search-text",
+                searchEngine: "defaultSearch",
+                id: generateId(),
+                name: "New shortcut",
+                phrase: "{{phrase}}",
+                triggers: ["new"],
+              } satisfies ShoukaiShortcut,
+            ],
+          });
         }}
       >
         <IconPlus />
@@ -67,7 +98,8 @@ export function NodeStart({ id, type, selected, data }: Props) {
       </ButtonText>
       <NodeHandlesWrapper label="Default">
         <NodeHandle
-          id="success"
+          nodeId={id}
+          handleId="success"
           variant="horizontal"
           type="source"
           position={Position.Right}

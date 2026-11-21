@@ -5,7 +5,7 @@ import { directShortcuts } from "@/constants";
 
 import {
   getRecipesForPhrase,
-  getDirectShortcutIfPresent,
+  getDirectShortcutIfPresentDeprecated,
   performSearch,
   indexResults,
 } from "@/features/search/utils/actions";
@@ -54,7 +54,7 @@ export default function useSearch() {
     ...state.meta.input,
     ...state.meta.results,
   ]);
-  const directShortcut = getDirectShortcutIfPresent(
+  const directShortcut = getDirectShortcutIfPresentDeprecated(
     searchPhrase,
     directShortcuts,
   );

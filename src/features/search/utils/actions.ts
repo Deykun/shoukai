@@ -13,7 +13,7 @@ import { setResults } from "@/features/search/stores/searchStore";
 import { getResultScoreDefault } from "./default";
 import { Tag } from "./meta";
 
-export const getDirectShortcutIfPresent = (
+export const getDirectShortcutIfPresentDeprecated = (
   searchPhrase: string,
   shortcuts: SearchDirectShortcut[],
 ) => {

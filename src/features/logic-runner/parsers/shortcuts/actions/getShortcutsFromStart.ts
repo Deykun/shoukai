@@ -13,7 +13,7 @@ export const getShortcutsFromStart = ():
   const startNode = state.nodes.find((node) => node.type === NODE_TYPE.START);
 
   if (startNode) {
-    Object.values(startNode.data.shortcuts).forEach((shortcut) => {
+    startNode.data.shortcuts.forEach((shortcut) => {
       try {
         const { getSearchUrl } = getSearchUrlFromSearchEngine({
           searchEngineToOpen: shortcut,

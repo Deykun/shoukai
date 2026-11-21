@@ -17,7 +17,7 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
 
   return (
     <NodePanel nodeId={id} isSelected={selected}>
-      <NodeHandle type="target" position={Position.Left} />
+      <NodeHandle nodeId={id} handleId="target" type="target" position={Position.Left} />
       <NodeHeader
         id={id}
         isSelected={selected}
@@ -37,7 +37,8 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
       <NodeRecipeContent id={id} data={data} />
       <NodeHandlesWrapper>
         <NodeHandle
-          id="success"
+          nodeId={id}
+          handleId="success"
           variant="horizontal"
           type="source"
           position={Position.Right}
@@ -45,7 +46,8 @@ export function NodeRecipe({ id, type, selected, data }: Props) {
           Has results
         </NodeHandle>
         <NodeHandle
-          id="error"
+          nodeId={id}
+          handleId="error"
           variant="horizontal"
           type="source"
           position={Position.Right}

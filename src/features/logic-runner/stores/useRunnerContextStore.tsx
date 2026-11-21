@@ -7,18 +7,34 @@ type RunEvent = {
   timestamp: number;
 };
 
+export type HandleStatus = "rejected" | "active";
+
+type HandleData = {
+  status: HandleStatus;
+  value?: [];
+  comment?: string;
+};
+
 export type RunnerContextStoreState = {
+  updateIndex: number;
   events: RunEvent[];
   global: {
     phrase: string;
   };
+  nodes: Partial<{
+    [nodeId: string]: Partial<{
+      [handleId: string]: HandleData[];
+    }>;
+  }>;
 };
 
 const emptyRunnerContextStore: RunnerContextStoreState = {
+  updateIndex: 0,
   events: [],
   global: {
     phrase: "",
   },
+  nodes: {},
 };
 
 export const useRunnerContextStore = create<RunnerContextStoreState>()(
@@ -46,4 +62,29 @@ export const runnerContextStart = (phrase: string) => {
       phrase,
     },
   });
+};
+
+export const setPartialHandleState = ({
+  nodeId,
+  handleId,
+  status,
+  value,
+  comment,
+}: {
+  nodeId: string;
+  handleId: string;
+} & HandleData) => {
+  useRunnerContextStore.setState((state) => ({
+    updateIndex: state.updateIndex + 1,
+    nodes: {
+      ...state.nodes,
+      [nodeId]: {
+        ...state.nodes[nodeId],
+        [handleId]: [
+          ...(state.nodes[nodeId]?.[handleId] ?? []),
+          { status, value, comment },
+        ],
+      },
+    },
+  }));
 };
