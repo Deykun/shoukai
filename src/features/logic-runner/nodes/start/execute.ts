@@ -6,6 +6,7 @@ import {
 } from "../../stores/useRunnerContextStore";
 import { ShoukaiShortcut } from "@/features/logic/nodes/type/schema";
 import { getShortcutStatus } from "./core/shortcuts/getShortcutStatus";
+import { getStringWithoutReferences } from "../../stores/actions/getStringWithoutReferences";
 
 type Params = {
   runType: RunType;
@@ -19,13 +20,13 @@ export const executeNode = ({ nodeId, data }: Params) => {
   const shortcuts: ShoukaiShortcut[] = data.shortcuts;
 
   let hasShortcutActive = false;
+  let urlToOpen = "";
 
   shortcuts.forEach((shortcut) => {
     const shortcutStatus = getShortcutStatus(searchPhrase, shortcut);
 
     if (shortcutStatus.isActive) {
       // Open URL
-      console.log("OPEN URL", shortcutStatus);
       setPartialHandleState({
         nodeId,
         handleId: shortcut.id,
@@ -33,9 +34,21 @@ export const executeNode = ({ nodeId, data }: Params) => {
       });
 
       hasShortcutActive = true;
+
+      const livePhrase = getStringWithoutReferences(shortcutStatus.phraseToUse);
+      console.log("shortcut.phrase", shortcut.phrase);
+      console.log("shortcutStatus.phraseToUse", shortcutStatus.phraseToUse);
+      console.log("livePhrase", livePhrase);
+      console.log(
+        "s",
+        getStringWithoutReferences(
+          shortcutStatus.getSearchUrl(shortcutStatus.phraseToUse),
+        ),
+      );
+
+      urlToOpen = shortcutStatus.getSearchUrl(livePhrase);
     } else {
       // Inform that halted
-      console.log("REJECT", shortcutStatus);
       setPartialHandleState({
         nodeId,
         handleId: shortcut.id,
@@ -50,5 +63,8 @@ export const executeNode = ({ nodeId, data }: Params) => {
     status: hasShortcutActive ? "rejected" : "active",
   });
 
-  return undefined;
+  return {
+    hasShortcutActive,
+    urlToOpen,
+  };
 };

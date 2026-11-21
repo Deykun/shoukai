@@ -14,8 +14,6 @@ export const FormulaBuilderValueReference = memo(
     const referenceWithoutBrackets = getReferenceWithoutBrackets(reference);
     const [variablePath, ...modifiers] = referenceWithoutBrackets.split("|");
 
-    console.log("referenceWithoutBrackets", referenceWithoutBrackets);
-
     return (
       <span
         className={cn(

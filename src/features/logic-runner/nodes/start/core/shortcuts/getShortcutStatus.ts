@@ -6,7 +6,7 @@ type Response =
   | {
       isActive: true;
       phraseToUse: string;
-      getSearchUrl: (phrase: string) => void;
+      getSearchUrl: (phrase: string) => string;
     }
   | {
       isActive: false;
@@ -35,7 +35,11 @@ export const getShortcutStatus = (
         phrase: shortcut.phrase,
       });
 
-      return { isActive: true, phraseToUse: phraseWords.join(" "), getSearchUrl };
+      return {
+        isActive: true,
+        phraseToUse: phraseWords.join(" "),
+        getSearchUrl,
+      };
     }
   }
 
