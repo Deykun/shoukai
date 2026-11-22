@@ -37,8 +37,8 @@ export const NodeHandleStatus = ({ nodeId, handleId, className }: Props) => {
         "text-white",
         "scale-100 starting:scale-0",
         "transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
-        handleData.status === "active" && "bg-[#82a849]",
-        handleData.status === "rejected" && "bg-[#a86d49]",
+        handleData.status === "active" && "bg-[#67ab00]",
+        handleData.status === "rejected" && "bg-[#ab1800]",
         className,
       )}
     >
