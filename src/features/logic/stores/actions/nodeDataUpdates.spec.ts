@@ -31,21 +31,19 @@ beforeEach(() => {
 });
 
 describe("updateNode", () => {
-  it("should merge nested data and keep the rest", () => {
-    updateNode(NODE_ID, { shortcuts: { g: { name: "Changed" } } });
+  it("should merge data and keep the rest", () => {
+    updateNode(NODE_ID, { label: "Changed" });
 
-    expect(getStartData().shortcuts.g).toEqual({
-      ...defaultData.shortcuts.g,
-      name: "Changed",
-    });
-    expect(getStartData().shortcuts.d).toEqual(defaultData.shortcuts.d);
-    expect(getStartData().label).toBe(defaultData.label);
+    expect(getStartData().label).toBe("Changed");
+    expect(getStartData().shortcuts).toEqual(defaultData.shortcuts);
   });
 
   it("should replace arrays instead of merging them", () => {
-    updateNode(NODE_ID, { shortcuts: { g: { triggers: ["x"] } } });
+    const [first] = defaultData.shortcuts;
 
-    expect(getStartData().shortcuts.g.triggers).toEqual(["x"]);
+    updateNode(NODE_ID, { shortcuts: [first] });
+
+    expect(getStartData().shortcuts).toEqual([first]);
   });
 
   it("should skip the update if merged data is invalid", () => {
@@ -66,19 +64,8 @@ describe("updateNode", () => {
 });
 
 describe("removeNodeDataPath", () => {
-  it("should remove only the shortcut with passed id", () => {
-    removeNodeDataPath(NODE_ID, "shortcuts.g");
-
-    expect(getStartData().shortcuts).toEqual(
-      Object.fromEntries(
-        Object.entries(defaultData.shortcuts).filter(([id]) => id !== "g"),
-      ),
-    );
-    expect(getStartData().label).toBe(defaultData.label);
-  });
-
   it("should keep data if path does not exist", () => {
-    removeNodeDataPath(NODE_ID, "shortcuts.missing");
+    removeNodeDataPath(NODE_ID, "missing" as "label");
 
     expect(getStartData()).toEqual(defaultData);
     expect(console.error).not.toHaveBeenCalled();

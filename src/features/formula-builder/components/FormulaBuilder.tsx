@@ -5,12 +5,13 @@ import { focusFormulaBuilder } from "../utils/focusFormulaBuilder";
 import FormulaBuilderDropdown from "./dropdown/FormulaBuilderDropdown";
 import { ChangeEvent, useCallback, useRef } from "react";
 import { FormulaBuilderValue } from "./value/FormulaBuilderValue";
+import { ReferenceConfig } from "@/features/logic/constants";
 
 type Props = {
   className?: string;
   value: string;
   onChange: (value: string) => void;
-  references: string[] | undefined;
+  references: ReferenceConfig[] | undefined;
   autoFocus?: boolean;
   trigger?: string;
 };
@@ -109,7 +110,7 @@ export const FormulaBuilder = (props: Props) => {
             // setInsideRef={() => {}}
             onSelect={handleReferencePicked}
             references={references}
-            activeReference={caretReference}
+            activeMaybeReference={caretReference}
           />
         )}
       </div>

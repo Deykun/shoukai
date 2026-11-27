@@ -73,14 +73,9 @@ export const getSearchUrlFromSearchEngine = ({
   }
 
   return {
-    getSearchUrl: (passedPhrase?: string) => {
+    getSearchUrl: (passedPhrase = "") => {
       if (phrase) {
-        if (passedPhrase) {
-          // TODO: replace with fully working variable replacement
-          return getSearchUrl(phrase.replaceAll("{{phrase}}", passedPhrase));
-        }
-
-        return getSearchUrl(phrase);
+        return getSearchUrl(phrase.replaceAll("{{phrase}}", passedPhrase));
       }
 
       return getSearchUrl(passedPhrase || "");

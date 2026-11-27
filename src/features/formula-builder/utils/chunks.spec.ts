@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
+import { ReferenceConfig } from "@/features/logic/constants";
 import { getChunksFromValue } from "./chunks";
 
-const references = ["{{phrase}}", "{{reference}}", "{{a}}", "{{b}}"];
+const references: ReferenceConfig[] = [
+  { value: "{{phrase}}", label: "Phrase", type: "string" },
+  { value: "{{reference}}", label: "Reference", type: "string" },
+  { value: "{{a}}", label: "A", type: "string" },
+  { value: "{{b}}", label: "B", type: "string" },
+];
 
 describe("getChunksFromValue", () => {
   it("should return single empty text chunk for empty string", () => {
@@ -70,7 +76,12 @@ describe("getChunksFromValue", () => {
   });
 
   it("should match references exactly, including markers", () => {
-    expect(getChunksFromValue("{{phrase}}", ["phrase"])).toEqual([
+    expect(
+      getChunksFromValue("{{phrase}}", [
+        // @ts-expect-error value without markers
+        { value: "phrase", label: "Phrase", type: "string" },
+      ]),
+    ).toEqual([
       {
         type: "reference",
         reference: "{{phrase}}",

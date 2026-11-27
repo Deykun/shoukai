@@ -1,2 +1,2 @@
 export const getYandexSearchUrl = (phrase: string) =>
-  `https://yandex.com/search/?text=${encodeURI(phrase)}`;
+  `https://yandex.com/search/?text=${phrase}`;

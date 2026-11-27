@@ -31,6 +31,7 @@ export default function FlowLogic() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        deleteKeyCode="Backspace"
         onBeforeDelete={handleBeforeDelete}
         onDrop={onDrop}
         onDragOver={onDragOver}

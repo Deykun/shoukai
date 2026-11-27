@@ -45,6 +45,16 @@ const shortcutBaseSchema = z.object({
   name: z.string(),
   triggers: z.array(z.string()),
   phrase: z.string(),
+  detectionStrategy: z.discriminatedUnion("place", [
+    z.object({
+      place: z.enum(["start", "end", "both"]),
+      shouldRequireSpace: z.boolean(),
+    }),
+    z.object({
+      place: z.literal("middle"),
+      shouldRequireSpace: z.literal(true),
+    }),
+  ]),
 });
 
 export const shortcutSchema = z.discriminatedUnion(

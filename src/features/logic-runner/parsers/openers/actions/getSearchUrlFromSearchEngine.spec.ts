@@ -33,11 +33,26 @@ describe("getSearchUrlFromSearchEngine", () => {
 
   describe("engine selection", () => {
     it.each<[SearchEngineToOpen, string]>([
-      [{ type: "search-text", searchEngine: "google" }, "https://www.google.com/search?q=cat"],
-      [{ type: "search-text", searchEngine: "bing" }, "https://www.bing.com/search?q=cat"],
-      [{ type: "search-image", searchEngine: "google" }, "https://www.google.com/search?q=cat&tbm=isch"],
-      [{ type: "search-location", searchEngine: "google" }, "https://www.google.com/maps/search/cat"],
-      [{ type: "ask-chatbot", searchEngine: "chatgpt" }, "https://chatgpt.com/?q=cat"],
+      [
+        { type: "search-text", searchEngine: "google" },
+        "https://www.google.com/search?q=cat",
+      ],
+      [
+        { type: "search-text", searchEngine: "bing" },
+        "https://www.bing.com/search?q=cat",
+      ],
+      [
+        { type: "search-image", searchEngine: "google" },
+        "https://www.google.com/search?q=cat&tbm=isch",
+      ],
+      [
+        { type: "search-location", searchEngine: "google" },
+        "https://www.google.com/maps/search/cat",
+      ],
+      [
+        { type: "ask-chatbot", searchEngine: "chatgpt" },
+        "https://chatgpt.com/?q=cat",
+      ],
     ])("builds url for %o", (searchEngineToOpen, expected) => {
       expect(getUrl(searchEngineToOpen, "cat")).toBe(expected);
     });
@@ -96,25 +111,19 @@ describe("getSearchUrlFromSearchEngine", () => {
 
     it("replaces {{phrase}} with passed phrase", () => {
       expect(getUrl(google, "{{phrase}} wiki", "dog")).toBe(
-        "https://www.google.com/search?q=dog%20wiki",
+        "https://www.google.com/search?q=dog wiki",
       );
     });
 
     it("replaces all {{phrase}} occurrences", () => {
       expect(getUrl(google, "{{phrase}} vs {{phrase}}", "dog")).toBe(
-        "https://www.google.com/search?q=dog%20vs%20dog",
+        "https://www.google.com/search?q=dog vs dog",
       );
     });
 
     it("ignores passed phrase when phrase has no placeholder", () => {
       expect(getUrl(google, "cat", "dog")).toBe(
         "https://www.google.com/search?q=cat",
-      );
-    });
-
-    it("keeps placeholder when no passed phrase", () => {
-      expect(getUrl(google, "{{phrase}} wiki")).toBe(
-        `https://www.google.com/search?q=${encodeURI("{{phrase}} wiki")}`,
       );
     });
   });

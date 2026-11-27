@@ -11,6 +11,7 @@ type Props = {
   className?: string;
   size?: "small" | "normal" | "large";
   isActive?: boolean;
+  isDisabled?: boolean;
   onChange: (value: boolean) => void;
   frameIcon?: React.ElementType;
 };
@@ -19,6 +20,7 @@ const Checkbox = ({
   className,
   size,
   isActive = false,
+  isDisabled = false,
   onChange,
   frameIcon,
 }: Props) => {
@@ -29,6 +31,7 @@ const Checkbox = ({
       className={className}
       size={size}
       isActive={isActive}
+      isDisabled={isDisabled}
       onClick={() => onChange(!isActive)}
     >
       <Frame

@@ -13,11 +13,23 @@ import { setResults } from "@/features/search/stores/searchStore";
 import { getResultScoreDefault } from "./default";
 import { Tag } from "./meta";
 
-export const getDirectShortcutIfPresent = (
+export const getDirectShortcutIfPresentDeprecated = (
   searchPhrase: string,
   shortcuts: SearchDirectShortcut[],
 ) => {
-  const words = searchPhrase.split(" ");
+  const words = searchPhrase.split(" ").filter(Boolean);
+
+  if (words.length === 1) {
+    const shortcut = shortcuts.find(({ magicWord }) => magicWord === words[0]);
+    if (shortcut) {
+      return {
+        phrase: "",
+        shortcut,
+      };
+    }
+
+    return undefined;
+  }
 
   if (words.length < 2) {
     return undefined;

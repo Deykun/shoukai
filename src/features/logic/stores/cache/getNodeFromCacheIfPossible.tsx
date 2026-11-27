@@ -1,4 +1,4 @@
-import { ShoukaiNode } from "../../components/flow/nodes/type/types";
+import { ShoukaiNode } from "../../nodes/type/types";
 import { DiagramStore } from "../useDiagramStore";
 
 type Params = { nodeId: string; store: DiagramStore };

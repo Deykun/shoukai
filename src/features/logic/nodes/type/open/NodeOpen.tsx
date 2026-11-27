@@ -11,7 +11,7 @@ type Props = NodeProps<TypeNode>;
 export function NodeOpen({ id, type, selected, data }: Props) {
   return (
     <NodePanel nodeId={id} isSelected={selected}>
-      <NodeHandle type="target" position={Position.Left} />
+      <NodeHandle nodeId={id} handleId="target" type="target" position={Position.Left} />
       <NodeHeader
         id={id}
         isSelected={selected}

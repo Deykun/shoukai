@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { ShoukaiQuery, SearchResult } from "@/types";
-import { directShortcuts } from "@/constants";
 
 import {
   getRecipesForPhrase,
-  getDirectShortcutIfPresent,
   performSearch,
   indexResults,
 } from "@/features/search/utils/actions";
@@ -16,6 +14,7 @@ import useSearchSettingsStore, {
   selectUserRecipes,
 } from "@/features/search/stores/searchSettingsStore";
 import { openInNewTab } from "@/utils/url";
+import { getTemporaryStartExecute } from "@/features/logic-runner/parsers/shortcuts/actions/getTemporaryStartExecute";
 
 declare global {
   interface Window {
@@ -54,13 +53,11 @@ export default function useSearch() {
     ...state.meta.input,
     ...state.meta.results,
   ]);
-  const directShortcut = getDirectShortcutIfPresent(
-    searchPhrase,
-    directShortcuts,
-  );
+  const { hasShortcutActive, urlToOpen } =
+    getTemporaryStartExecute(searchPhrase);
   const [searchConfig, setSearchConfig] = useState({
     phrase: searchPhrase || "",
-    recipes: directShortcut
+    recipes: hasShortcutActive
       ? []
       : getRecipesForPhrase(searchPhrase, recipes, tags),
   });
@@ -68,10 +65,8 @@ export default function useSearch() {
   useEffect(() => {
     setResults([]);
 
-    if (directShortcut) {
-      location.href = directShortcut.shortcut.getSearchUrl(
-        directShortcut.phrase,
-      );
+    if (hasShortcutActive) {
+      location.href = encodeURI(urlToOpen);
 
       return;
     }
@@ -81,7 +76,7 @@ export default function useSearch() {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setSearchConfig({
           phrase: searchPhrase,
-          recipes: directShortcut
+          recipes: hasShortcutActive
             ? []
             : getRecipesForPhrase(searchPhrase, recipes, tags),
         });

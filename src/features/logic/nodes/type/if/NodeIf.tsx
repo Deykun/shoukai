@@ -13,7 +13,7 @@ export function NodeIf({ id, type, selected, data }: Props) {
   return (
     <NodePanel nodeId={id} isSelected={selected}>
       <NodeOptions isSelected={selected} onEdit={() => console.log("edit")} />
-      <NodeHandle type="target" position={Position.Left} />
+      <NodeHandle nodeId={id} handleId="target" type="target" position={Position.Left} />
       <NodeHeader
         id={id}
         isSelected={selected}
@@ -23,7 +23,8 @@ export function NodeIf({ id, type, selected, data }: Props) {
       <NodeIfContent id={id} data={data} />
       <NodeHandlesWrapper>
         <NodeHandle
-          id="success"
+          nodeId={id}
+          handleId="success"
           variant="horizontal"
           type="source"
           position={Position.Right}
@@ -31,7 +32,8 @@ export function NodeIf({ id, type, selected, data }: Props) {
           True
         </NodeHandle>
         <NodeHandle
-          id="error"
+          nodeId={id}
+          handleId="error"
           variant="horizontal"
           type="source"
           position={Position.Right}

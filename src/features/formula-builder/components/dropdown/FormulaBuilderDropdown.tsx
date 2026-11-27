@@ -1,19 +1,20 @@
 import ButtonText from "@/components/UI/ButtonText";
+import { MaybeReference, ReferenceConfig } from "@/features/logic/constants";
 import { cn } from "@/utils/tailwind";
 import { memo } from "react";
 
 type Props = {
   insideRef: (element: HTMLElement | null) => void;
   onSelect: (reference: string) => void;
-  references: string[];
-  activeReference?: string;
+  references: ReferenceConfig[];
+  activeMaybeReference?: MaybeReference;
 };
 
 const FormulaBuilderDropdown = ({
   insideRef,
   onSelect,
   references,
-  activeReference,
+  activeMaybeReference,
 }: Props) => {
   return (
     <div
@@ -34,14 +35,16 @@ const FormulaBuilderDropdown = ({
       )}
     >
       {references.length === 0 && "No variables to pick"}
-      {references.map((option) => (
+      {references.map(({ label, value }) => (
         <ButtonText
           className="w-full"
-          key={option}
-          onClick={() => onSelect(option)}
-          isActive={option === activeReference}
+          key={value}
+          onClick={() => onSelect(value)}
+          isActive={value === activeMaybeReference}
         >
-          <span>{option}</span>
+          <span>
+            {label} <small>{value}</small>
+          </span>
         </ButtonText>
       ))}
     </div>

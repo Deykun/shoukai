@@ -1,8 +1,11 @@
+import { NodeHandleStatus } from "@/features/logic-debbuger/componetns/nodes/NodeHandleStatus";
 import { cn } from "@/utils/tailwind";
 import { Handle, HandleProps } from "@xyflow/react";
 import { PropsWithChildren } from "react";
 
 type Props = {
+  nodeId: string;
+  handleId: string;
   variant?: "default" | "horizontal";
   className?: string;
   top?: number;
@@ -10,23 +13,34 @@ type Props = {
   right?: number;
   onClick?: () => void;
   isDisabled?: boolean;
-} & HandleProps;
+} & Omit<HandleProps, "id">;
 
 export const NodeHandle = (props: PropsWithChildren<Props>) => {
   const Tag = props.onClick ? "button" : "div";
-  const { variant = "default", className, children } = props;
+  const {
+    nodeId,
+    handleId,
+    variant = "default",
+    className,
+    children,
+    onClick,
+    isDisabled,
+    ...handleProps
+  } = props;
 
   if (variant === "horizontal") {
     return (
       <Tag
+        data-node-id={nodeId}
+        data-handle-id={handleId}
         className={cn(
           "group",
           "relative z-1 flex",
           "p-1 pr-3 -mr-1",
           "tracking-wider",
         )}
-        onClick={props.onClick}
-        type={props.onClick ? "button" : undefined}
+        onClick={onClick}
+        type={onClick ? "button" : undefined}
       >
         <span
           className={cn(
@@ -42,11 +56,16 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
           variant="default"
           className="left-auto -right-0 top-1/2"
         />
+        <NodeHandleStatus
+          className={cn("absolute top-1/2 -translate-y-1/2 left-full", "ml-2")}
+          nodeId={nodeId}
+          handleId={handleId}
+        />
       </Tag>
     );
   }
 
-  if (props.isDisabled) {
+  if (isDisabled) {
     return null;
   }
 
@@ -56,8 +75,8 @@ export const NodeHandle = (props: PropsWithChildren<Props>) => {
         width: 12,
         height: 12,
       }}
-      {...props}
-      children={null}
+      {...handleProps}
+      id={handleId}
       className={cn(
         "z-5",
         "bg-white rounded-[8px] tracking-wider",
