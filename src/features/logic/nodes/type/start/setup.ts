@@ -53,7 +53,7 @@ export const defaultData: TypeNode["data"] = {
       id: "?",
       name: "ChatGPT",
       triggers: ["?"],
-      phrase: "{{phrase}}",
+      phrase: "{{phrase}}?",
       detectionStrategy: { place: "end", shouldRequireSpace: false },
       type: "ask-chatbot",
       searchEngine: "chatgpt",
