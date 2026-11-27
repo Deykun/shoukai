@@ -14,7 +14,8 @@
     "build-us": "tsx user-scripts/shoukai/build.ts",
     "dev-us": "nodemon --watch user-scripts/shoukai --exec npm run build-us",
     "dev-us-server": "tsx user-scripts/shoukai/dev-script.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "husky"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.52.1",
@@ -31,6 +32,8 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^9.39.5",
     "@types/express": "^5.0.0",
     "@types/get-pixels": "^3.3.4",
@@ -53,6 +56,7 @@
     "fs-extra": "^11.2.0",
     "get-pixels": "^3.3.3",
     "globals": "^17.12.0",
+    "husky": "^9.1.7",
     "join-images": "^1.1.5",
     "nearest-color": "^0.4.4",
     "nodemon": "^3.1.4",
