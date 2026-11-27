@@ -11,13 +11,13 @@ export const getTemporaryStartExecute = (phrase: string) => {
   if (startNode) {
     runnerContextStart(phrase);
 
-    const x = executeNode({
+    const result = executeNode({
       runType: "real",
       nodeId: startNode.id,
       data: startNode.data,
     });
 
-    console.log(x);
+    return result;
   }
 
   return {

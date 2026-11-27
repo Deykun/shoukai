@@ -22,22 +22,32 @@ export type DiagramStore = {
   };
 };
 
+const emptyStore: DiagramStore = {
+  nodes: [],
+  edges: [],
+  cache: {
+    nodesIndexById: {},
+  },
+};
+
 export const useDiagramStore = create<DiagramStore>()(
   persist(
     devtools(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (_get, _set) => ({
-        nodes: [],
-        edges: [],
-        cache: {
-          nodesIndexById: {},
-        },
+        ...emptyStore,
       }),
       { name: "DiagramStore" },
     ),
     { name: "DiagramStore" },
   ),
 );
+
+export const resetDiagramStore = () => {
+  useDiagramStore.setState({
+    ...emptyStore,
+  });
+};
 
 export const onNodesChange = (changes: NodeChange<ShoukaiNode>[]) => {
   useDiagramStore.setState((state) => ({
