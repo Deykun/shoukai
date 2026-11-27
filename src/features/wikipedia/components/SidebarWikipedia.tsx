@@ -80,7 +80,7 @@ const SidebarWikipedia = () => {
           <h3 className="text-[18px] font-[600]">
             <a
               href={wikipediaUrl}
-              className="text-black leading-6"
+              className="text-black leading-6 break-words"
               title="Wikipedia"
               target="_blank"
               rel="noreferrer noopener"
