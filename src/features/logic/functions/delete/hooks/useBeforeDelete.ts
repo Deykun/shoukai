@@ -10,10 +10,12 @@ export default function useBeforeDelete() {
         return false;
       }
 
-      return openConfirm({
-        title: `Remove`,
-        content: `Do you want to remove (${nodes.length} nodes and ${edges.length} edges)?`,
-      });
+      // openConfirm({
+      // title: `Remove`,
+      // content: `Do you want to remove (${nodes.length} nodes and ${edges.length} edges)?`,
+      // });
+
+      return true;
     },
     [],
   );

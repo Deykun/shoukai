@@ -88,6 +88,7 @@ export function NodeStart({ id, type, selected, data }: Props) {
                 name: "New shortcut",
                 phrase: "{{phrase}}",
                 triggers: ["new"],
+                detectionStrategy: { place: "both", shouldRequireSpace: true },
               } satisfies ShoukaiShortcut,
             ],
           });

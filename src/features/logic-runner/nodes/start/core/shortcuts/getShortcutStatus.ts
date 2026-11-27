@@ -12,36 +12,70 @@ type Response =
       isActive: false;
     };
 
+const getPhraseWithoutTrigger = (
+  searchPhrase: string,
+  shortcut: ShoukaiShortcut,
+): string | undefined => {
+  const { place, shouldRequireSpace } = shortcut.detectionStrategy;
+  const words = searchPhrase.trim().split(/\s+/);
+  const phrase = words.join(" ");
+  // Longest first, so "google" wins over "g" when space is not required
+  const triggers = shortcut.triggers
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+
+  if (place === "middle") {
+    const triggerIndex = words.findIndex(
+      (word, index) =>
+        index > 0 && index < words.length - 1 && triggers.includes(word),
+    );
+
+    return triggerIndex === -1
+      ? undefined
+      : words.filter((_, index) => index !== triggerIndex).join(" ");
+  }
+
+  const space = shouldRequireSpace ? " " : "";
+
+  if (place !== "end") {
+    const trigger = triggers.find((trigger) =>
+      phrase.startsWith(`${trigger}${space}`),
+    );
+    const phraseToUse = trigger && phrase.slice(trigger.length).trim();
+
+    if (phraseToUse) {
+      return phraseToUse;
+    }
+  }
+
+  if (place !== "start") {
+    const trigger = triggers.find((trigger) =>
+      phrase.endsWith(`${space}${trigger}`),
+    );
+    const phraseToUse = trigger && phrase.slice(0, -trigger.length).trim();
+
+    if (phraseToUse) {
+      return phraseToUse;
+    }
+  }
+
+  return undefined;
+};
+
 export const getShortcutStatus = (
   searchPhrase: string,
   shortcut: ShoukaiShortcut,
 ): Response => {
-  const words = searchPhrase.trim().split(/\s+/);
+  const phraseToUse = getPhraseWithoutTrigger(searchPhrase, shortcut);
 
-  if (words.length > 1) {
-    const firstWord = words[0];
-    const lastWord = words[words.length - 1];
-
-    let phraseWords: string[] | undefined;
-    if (shortcut.triggers.includes(firstWord)) {
-      phraseWords = words.slice(1);
-    } else if (shortcut.triggers.includes(lastWord)) {
-      phraseWords = words.slice(0, -1);
-    }
-
-    if (phraseWords) {
-      const { getSearchUrl } = getSearchUrlFromSearchEngine({
-        searchEngineToOpen: shortcut,
-        phrase: shortcut.phrase,
-      });
-
-      return {
-        isActive: true,
-        phraseToUse: phraseWords.join(" "),
-        getSearchUrl,
-      };
-    }
+  if (!phraseToUse) {
+    return { isActive: false };
   }
 
-  return { isActive: false };
+  const { getSearchUrl } = getSearchUrlFromSearchEngine({
+    searchEngineToOpen: shortcut,
+    phrase: shortcut.phrase,
+  });
+
+  return { isActive: true, phraseToUse, getSearchUrl };
 };

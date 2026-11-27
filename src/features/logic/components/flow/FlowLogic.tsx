@@ -13,6 +13,7 @@ import SidebarFlow from "../sidebar/SidebarFlow";
 import useBeforeDelete from "../../functions/delete/hooks/useBeforeDelete";
 
 import "./FlowLogic.scss";
+import { Confirm } from "@/features/confirm/components/Confirm";
 
 export default function FlowLogic() {
   const edges = useDiagramStore((store) => store.edges);
@@ -31,6 +32,7 @@ export default function FlowLogic() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        deleteKeyCode="Backspace"
         onBeforeDelete={handleBeforeDelete}
         onDrop={onDrop}
         onDragOver={onDragOver}

@@ -10,6 +10,7 @@ import { NO_BREAK_SPACE } from "@/utils/text";
 import { getUnique } from "@/utils/array";
 import { FormulaBuilder } from "@/features/formula-builder/components/FormulaBuilder";
 import { FlowSelectSearchToOpen } from "../../components/controls/FlowSelectSearchToOpen/FlowSelectSearchToOpen";
+import { FlowSelectShortcutStrategy } from "../../components/controls/FlowSelectShortcutStrategy/FlowSelectShortcutStrategy";
 import IconSearchType from "@/components/Icons/IconSearchType";
 import { cn } from "@/utils/tailwind";
 import IconErase from "@/components/Icons/IconErase";
@@ -78,13 +79,19 @@ export const NodeHandleShortcut = ({
               onChange={(next) => {
                 onChange({
                   triggers: getUnique(
-                    next
-                      .split(" ")
-                      .flatMap((nextPart) => nextPart.split(",")),
+                    next.split(" ").flatMap((nextPart) => nextPart.split(",")),
                   ),
                 });
               }}
               references={VARIABLE_REFERENCES.EMPTY}
+            />
+          </Field>
+          <Field label="Detection">
+            <FlowSelectShortcutStrategy
+              value={shortcut.detectionStrategy}
+              onChange={(detectionStrategy) => {
+                onChange({ detectionStrategy });
+              }}
             />
           </Field>
           <Field label="Open">

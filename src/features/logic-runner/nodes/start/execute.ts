@@ -6,7 +6,7 @@ import {
 } from "../../stores/useRunnerContextStore";
 import { ShoukaiShortcut } from "@/features/logic/nodes/type/schema";
 import { getShortcutStatus } from "./core/shortcuts/getShortcutStatus";
-import { getStringWithoutReferences } from "../../stores/actions/getStringWithoutReferences";
+import { resolveReferences } from "../../stores/actions/resolveReferences";
 
 type Params = {
   runType: RunType;
@@ -35,13 +35,13 @@ export const executeNode = ({ nodeId, data }: Params) => {
 
       hasShortcutActive = true;
 
-      const livePhrase = getStringWithoutReferences(shortcutStatus.phraseToUse);
+      const livePhrase = resolveReferences(shortcutStatus.phraseToUse);
       console.log("shortcut.phrase", shortcut.phrase);
       console.log("shortcutStatus.phraseToUse", shortcutStatus.phraseToUse);
       console.log("livePhrase", livePhrase);
       console.log(
         "s",
-        getStringWithoutReferences(
+        resolveReferences(
           shortcutStatus.getSearchUrl(shortcutStatus.phraseToUse),
         ),
       );

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import { noop } from "lodash";
+import { devtools } from "zustand/middleware";
 
 export const CONFIRM_STATE = {
   IDLE: "idle",
@@ -25,9 +26,15 @@ const emptyConfirmStore: ConfirmStoreState = {
   content: "",
 };
 
-const useConfirmStore = create<ConfirmStoreState>(() => ({
-  ...emptyConfirmStore,
-}));
+const useConfirmStore = create<ConfirmStoreState>()(
+  devtools(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (_get, _set) => ({
+      ...emptyConfirmStore,
+    }),
+    { name: "ConfirmStoreState" },
+  ),
+);
 
 export const openConfirm = ({
   title,

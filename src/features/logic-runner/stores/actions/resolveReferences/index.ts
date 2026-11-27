@@ -3,7 +3,7 @@ import { getReferenceWithoutBrackets } from "@/features/formula-builder/utils/re
 import { useRunnerContextStore } from "../../useRunnerContextStore";
 import { isKeyOf } from "@/utils/object";
 
-export const getStringWithoutReferences = (template: string): string => {
+export const resolveReferences = (template: string): string => {
   const references = getReferencesInString(template);
   if (references.length === 0) {
     return template;
@@ -25,6 +25,12 @@ export const getStringWithoutReferences = (template: string): string => {
 
         if (modifiers.includes("uppercase")) {
           valueToUse = valueToUse.toUpperCase();
+        }
+
+        if (modifiers.includes("onlyNumber")) {
+          // First number in text, "126,21" -> "126.21"
+          const [firstNumber = ""] = valueToUse.match(/\d+(?:[.,]\d+)?/) ?? [];
+          valueToUse = firstNumber.replace(",", ".");
         }
 
         response = response.replaceAll(reference, valueToUse);
