@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getReferencesInString } from "../../../../../formula-builder/utils/references/getReferencesInString";
+import { getReferencesInString } from "./getReferencesInString";
 
 describe("getReferencesInString", () => {
   it("lists references in order", () => {

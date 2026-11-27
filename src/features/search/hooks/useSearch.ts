@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { ShoukaiQuery, SearchResult } from "@/types";
-import { directShortcuts } from "@/constants";
 
 import {
   getRecipesForPhrase,
-  getDirectShortcutIfPresentDeprecated,
   performSearch,
   indexResults,
 } from "@/features/search/utils/actions";

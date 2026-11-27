@@ -1,4 +1,4 @@
-import { openConfirm } from "@/features/confirm/stores/useConfirmStore";
+// import { openConfirm } from "@/features/confirm/stores/useConfirmStore";
 import { ShoukaiNode } from "@/features/logic/nodes/type/types";
 import { Edge, OnBeforeDelete } from "@xyflow/react";
 import { useCallback } from "react";

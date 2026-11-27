@@ -42,5 +42,5 @@ export const resolveReferences = (template: string): string => {
 
   // getReferenceWithoutBrackets();
 
-  return response;
+  return response.trim();
 };

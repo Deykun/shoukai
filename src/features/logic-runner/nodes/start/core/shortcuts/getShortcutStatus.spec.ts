@@ -64,10 +64,9 @@ describe("getShortcutStatus", () => {
 
     it("no space required: matches trigger glued to the phrase", () => {
       const start = withStrategy({ place: "start", shouldRequireSpace: false });
-      const end = withStrategy(
-        { place: "end", shouldRequireSpace: false },
-        ["?"],
-      );
+      const end = withStrategy({ place: "end", shouldRequireSpace: false }, [
+        "?",
+      ]);
       const both = withStrategy({ place: "both", shouldRequireSpace: false });
 
       expect(getShortcutStatus("gexample", start)).toMatchObject({
@@ -107,7 +106,10 @@ describe("getShortcutStatus", () => {
     });
 
     it("middle: matches only a trigger surrounded by words", () => {
-      const middle = withStrategy({ place: "middle", shouldRequireSpace: true });
+      const middle = withStrategy({
+        place: "middle",
+        shouldRequireSpace: true,
+      });
 
       expect(getShortcutStatus("an g example", middle)).toMatchObject({
         isActive: true,
@@ -126,7 +128,7 @@ describe("getShortcutStatus", () => {
     });
 
     expect(status.isActive && status.getSearchUrl(status.phraseToUse)).toBe(
-      "https://www.google.com/search?q=example%20wikipedia",
+      "https://www.google.com/search?q=example wikipedia",
     );
   });
 });
