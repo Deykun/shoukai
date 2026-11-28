@@ -29,14 +29,16 @@ const NodeIcon = ({ className, type, isSelected = false }: Props) => {
   const Icon = ICON_BY_TYPE[type as ShoukaiNodeType] || ICON_BY_TYPE.default;
 
   return (
-    <Icon
+    // circle on wrapper: radius on a padded svg clips the glyph itself
+    <span
       className={cn(
-        "size-4",
+        "flex items-center justify-center",
+        "size-8",
         "flex-shrink-0",
-        "text-primary-contrast",
-        "rounded-md",
-        "bg-[#f5f9ef] p-1",
-        "bg-[linear-gradient(to_bottom,#d1dc80_0%,#f5f9ef_100%)]",
+        "text-white",
+        "rounded-full",
+        "bg-primary-contrast",
+        "bg-[linear-gradient(to_bottom,#518601_0%,#005b46_100%)]",
         "bg-[length:100%_300%]",
         "bg-[position:0_100%]",
         "bg-no-repeat",
@@ -48,7 +50,9 @@ const NodeIcon = ({ className, type, isSelected = false }: Props) => {
 
         className,
       )}
-    />
+    >
+      <Icon className="size-4" />
+    </span>
   );
 };
 

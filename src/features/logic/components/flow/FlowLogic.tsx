@@ -23,8 +23,9 @@ export default function FlowLogic() {
   const handleBeforeDelete = useBeforeDelete();
 
   return (
-    <div className={cn("w-full h-[100dvh] bg-white")}>
+    <div className={cn("w-full h-[100dvh] bg-white p-2")}>
       <ReactFlow
+        className="border-[#f5f9ef] border rounded-lg"
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}

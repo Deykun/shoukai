@@ -4,6 +4,8 @@ import { PropsWithChildren } from "react";
 import { nodeSharedDataSchema } from "../type/schema";
 import { FlowSelect } from "../../components/controls/FlowSelect/FlowSelect";
 import { ShoukaiNodeType } from "../type/types";
+import ButtonIcon from "@/components/UI/ButtonIcon";
+import IconAdjustAlt from "@/components/Icons/IconAdjustAlt";
 
 type Props = {
   id: string | undefined;
@@ -20,8 +22,17 @@ const NodeHeader = ({
   isSelected = false,
 }: PropsWithChildren<Props>) => {
   return (
-    <header className={cn("flex items-center gap-1.5", "px-1")}>
-      <div className="w-full">
+    <header
+      className={cn(
+        "flex items-center gap-1.5",
+        "p-1",
+        // = full pill for one line, keeps sane corners when label wraps
+        "rounded-[20px]",
+        "bg-[#e8eedd]",
+      )}
+    >
+      <NodeIcon type={type} isSelected={isSelected} />
+      <div className="min-w-0 flex-1">
         <h2 className="text-primary-contrast">
           {id ? (
             <FlowSelect
@@ -33,12 +44,16 @@ const NodeHeader = ({
               schema={nodeSharedDataSchema}
             />
           ) : (
-            label
+            <span className="block pl-1 pr-3">{label}</span>
           )}
         </h2>
         {children}
       </div>
-      <NodeIcon type={type} className="size-8 -mt-8" isSelected={isSelected} />
+      {id && (
+        <ButtonIcon className="!rounded-full">
+          <IconAdjustAlt />
+        </ButtonIcon>
+      )}
     </header>
   );
 };

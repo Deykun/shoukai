@@ -24,7 +24,8 @@ const NodePanel = ({
         "min-w-[140px] max-w-[280px] relative",
         "p-1",
         "flex flex-col gap-2",
-        "bg-[#f5f9ef] rounded-md",
+        // header radius 20 + p-1 + border 2 = concentric corners
+        "bg-[#f5f9ef] rounded-[26px]",
         "duration-500",
         "group",
         "border-[2px] border-[#f5f9ef]",
